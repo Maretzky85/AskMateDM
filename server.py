@@ -14,37 +14,37 @@ def new_question():
     return render_template('new_question.html')
 
 @app.route("/question/<question_id>" method = [GET, POST])
-def main(question_id): 
+def question(question_id): 
 
     return render_template('question.html')
 
 @app.route("/question/<question_id>/edit" method = [GET, POST])
-def main(question_id): 
+def edit_question(question_id): 
 
     return render_template('question.html')
 
 @app.route("/question/<question_id/delete>" method = [GET, POST])
-def main(question_id): 
+def delete_question(question_id): 
 
     return render_template('question.html')
 
 @app.route("/question/<question_id>/new-answer" method = [GET, POST])
-def main(question_id): 
+def add_answer(question_id): 
 
     return render_template('question.html')
 
 @app.route("/answer/<answer_id/delete>" method = [GET, POST])
-def main(question_id): 
+def delete_answer(question_id): 
 
     return render_template('list.html')
 
 @app.route("/question/<question_id>/vote-up")
-def main(question_id): 
+def vote_up(question_id): 
 
     return render_template('question.html')
 
 @app.route("/question/<question_id>/vote-down")
-def main(question_id): 
+def vote_down(question_id): 
 
     return render_template('question.html')
 
@@ -52,9 +52,6 @@ def main(question_id):
 
 
 
-
-
-/question/<question_id>/vote-up and vote-down
 
 if __name__ == '__main__':
     app.run (debug=True)
