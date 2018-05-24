@@ -1,13 +1,14 @@
 from flask import Flask, render_template
-
+import logic
 
 app = Flask(__name__)
 
 @app.route("/")
 @app.route("/list")
 def main():
-    questions = question
-    return render_template('list.html', questions=questions)
+    questions = logic.get_all_data("q")
+    answers = logic.get_all_data("a")
+    return render_template('list.html', questions=questions, answers=answers)
 
 @app.route("/new_question", methods = ['GET', 'POST'])
 def new_question(): 

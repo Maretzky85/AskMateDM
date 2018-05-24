@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="content">
+    <p>Here will be content</p>
+    {% for question in questions %}
+        <h1>{{ question[" title"] }}</h1>
+       <p>{{ question[" message"] }}</p>
+       <div>
+            {% for answer in answers %}
+                {% if answer["question_id"] == question["id"] %}
+                    <p>----->{{ answer["message"] }}</p>
+                {% endif %}
+            {% endfor %}
+       </div>
+       <hr>
+    {% endfor %}
+</div>
+{% endblock %}
