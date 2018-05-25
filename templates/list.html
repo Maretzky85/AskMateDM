@@ -1,6 +1,11 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+<div class="new_question">
+    <form action="{{ url_for('post_new_question') }}">
+        <button type="submit">Post a new question</button>
+    </form>
+</div>
 <div class="content">
     {% for question in questions %}
         <h2>Q - {{ question[" title"] }}</h2>

@@ -12,20 +12,32 @@ def import_data_from_file(filename):
             data = []
             for row in reader:
                 data.append(row)
+        csvfile.close()
         return data
     except FileNotFoundError:
-        return None
+        print("File not found")
+        return {"message": "File not found"}
+    except OSError:
+        print("OS Error")
+        return {"message": "OS Error"}
 
 
 def import_header(filename):
-    ''' 
+    '''
     Opens file and import header for csv dictwriter
     '''
-    with open(filename) as datafile:
-        lines = []
-        for data in datafile:
-            lines.append(data)
-    return lines[0].strip("\n").split(",")
+    try:
+        with open(filename) as datafile:
+            lines = []
+            for data in datafile:
+                lines.append(data)
+        return lines[0].strip("\n").split(",")
+    except FileNotFoundError:
+        print("File not found")
+        return {"message": "File not found"}
+    except OSError:
+        print("OS Error")
+        return {"message": "OS Error"}
 
 
 def export_data_to_file(filename, data):
@@ -36,8 +48,15 @@ def export_data_to_file(filename, data):
     data - list of dicts
     '''
     fieldnames = import_header(filename)
-    with open(filename, 'w', newline='') as csvfile:
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        writer.writeheader()
-        for line in data:
-            writer.writerow(line)
+    try:
+        with open(filename, 'w', newline='') as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writeheader()
+            for line in data:
+                writer.writerow(line)
+    except FileNotFoundError:
+        print("File not found")
+        return {"message": "File not found"}
+    except OSError:
+        print("OS Error")
+        return {"message": "OS Error"}

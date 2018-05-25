@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
 import logic
 
 app = Flask(__name__)
@@ -12,9 +12,16 @@ def main():
     return render_template('list.html', questions=questions, answers=answers)
 
 
-@app.route("/new_question", methods=['GET', 'POST'])
+@app.route("/new_question", methods=['GET'])
 def new_question():
     return render_template('new_question.html')
+
+
+@app.route("/new_question", methods=['POST'])
+def post_new_question():
+    form = request.form
+    print(form)
+    return redirect("/")
 
 
 @app.route("/question/<question_id>", methods=['GET', 'POST'])
