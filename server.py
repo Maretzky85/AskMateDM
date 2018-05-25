@@ -20,7 +20,7 @@ def new_question():
 @app.route("/new_question", methods=['POST'])
 def post_new_question():
     form = request.form
-    print(form)
+    logic.post_new_question(form)
     return redirect("/")
 
 
