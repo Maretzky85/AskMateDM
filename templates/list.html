@@ -9,11 +9,17 @@
 <div class="content">
     {% for question in questions %}
         <h2>Q - {{ question[" title"] }}</h2>
+        <form action="/question/{{question['id']}}/delete">
+            <button type="submit">Delete question</button>
+        </form>
        <p><h3>&nbsp &nbsp &nbsp &nbsp {{ question[" message"] }}</h3></p>
        <div>
             {% for answer in answers %}
                 {% if answer["question_id"] == question["id"] %}
                     <p><b>A</b>----->{{ answer["message"] }}</p>
+                    <form action="/answer/{{answer['id']}}/delete">
+                        <button type="submit">Delete answer</button>
+                    </form>
                 {% endif %}
             {% endfor %}
        </div>

@@ -38,8 +38,8 @@ def edit_question(question_id):
 
 @app.route("/question/<question_id>/delete", methods=['GET', 'POST'])
 def delete_question(question_id):
-
-    return render_template('question.html')
+    logic.delete_by_id("q", question_id)
+    return redirect('/')
 
 
 @app.route("/question/<question_id>/new-answer", methods=['GET', 'POST'])
@@ -49,9 +49,9 @@ def add_answer(question_id):
 
 
 @app.route("/answer/<answer_id>/delete", methods=['GET', 'POST'])
-def delete_answer(question_id):
-
-    return render_template('list.html')
+def delete_answer(answer_id):
+    logic.delete_by_id("a", answer_id)
+    return redirect('/')
 
 
 @app.route("/question/<question_id>/vote-up")
