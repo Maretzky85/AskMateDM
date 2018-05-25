@@ -2,14 +2,13 @@
 
 {% block content %}
 <div class="content">
-    <p>Here will be content</p>
     {% for question in questions %}
-        <h1>{{ question[" title"] }}</h1>
-       <p>{{ question[" message"] }}</p>
+        <h2>Q - {{ question[" title"] }}</h2>
+       <p><h3>&nbsp &nbsp &nbsp &nbsp {{ question[" message"] }}</h3></p>
        <div>
             {% for answer in answers %}
                 {% if answer["question_id"] == question["id"] %}
-                    <p>----->{{ answer["message"] }}</p>
+                    <p><b>A</b>----->{{ answer["message"] }}</p>
                 {% endif %}
             {% endfor %}
        </div>
