@@ -9,6 +9,16 @@ def get_all_data(qa="q"):
         data = data_manager.import_data_from_file("sample_data/answer.csv")
     return data
 
+def find_by_id(qa, _id):
+    if qa == "q":
+        data = data_manager.import_data_from_file("sample_data/question.csv")
+    if qa == "a":
+        data = data_manager.import_data_from_file("sample_data/answer.csv")
+    for item in data:
+        if item ["id"]==_id:
+            return item
+
+
 
 def make_new_id(filename):
     data = data_manager.import_data_from_file(filename)
