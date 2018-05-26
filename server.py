@@ -42,10 +42,17 @@ def delete_question(question_id):
     return redirect('/')
 
 
-@app.route("/question/<question_id>/new-answer", methods=['GET', 'POST'])
+@app.route("/question/<question_id>/new-answer", methods=['GET'])
 def add_answer(question_id):
+    id_number = question_id
+    return render_template('new_answer.html', question_id=id_number)
 
-    return render_template('question.html')
+
+@app.route("/question/<question_id>/new-answer", methods=['POST'])
+def save_answer(question_id):
+    form = request.form
+    logic.post_new_answer(question_id, form)
+    return redirect("/")
 
 
 @app.route("/answer/<answer_id>/delete", methods=['GET', 'POST'])

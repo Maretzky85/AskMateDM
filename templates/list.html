@@ -9,6 +9,9 @@
 <div class="content">
     {% for question in questions %}
         <h2>Q - {{ question[" title"] }}</h2>
+        <form action="/question/{{question['id']}}/new-answer">
+            <button type="submit">Answer question</button>
+        </form>
         <form action="/question/{{question['id']}}/delete">
             <button type="submit">Delete question</button>
         </form>
