@@ -45,7 +45,8 @@ def delete_question(question_id):
 @app.route("/question/<question_id>/new-answer", methods=['GET'])
 def add_answer(question_id):
     id_number = question_id
-    return render_template('new_answer.html', question_id=id_number)
+    question = (logic.find_by_id("q", id_number)[" title"]+"\n"+logic.find_by_id("q", id_number)[" message"])
+    return render_template('new_answer.html', question_id=id_number, question=question)
 
 
 @app.route("/question/<question_id>/new-answer", methods=['POST'])
