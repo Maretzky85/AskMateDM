@@ -8,7 +8,7 @@
 </div>
 <div class="content">
     {% for question in questions %}
-        <h2>Q - {{ question[" title"] }}</h2>
+        <h2><a href="/question/{{question['id']}}"> Q - {{ question[" title"] }}</h2></a>
         <form action="/question/{{question['id']}}/new-answer">
             <button type="submit">Answer question</button>
         </form>

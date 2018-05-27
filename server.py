@@ -8,8 +8,7 @@ app = Flask(__name__)
 @app.route("/list")
 def main():
     questions = logic.get_all_data("q")
-    answers = logic.get_all_data("a")
-    return render_template('list.html', questions=questions, answers=answers)
+    return render_template('list.html', questions=questions)
 
 
 @app.route("/new_question", methods=['GET'])
@@ -26,8 +25,9 @@ def post_new_question():
 
 @app.route("/question/<question_id>", methods=['GET', 'POST'])
 def question(question_id):
-
-    return render_template('question.html')
+    questions = [logic.find_by_id("q", question_id)]
+    answers = logic.get_all_data("a")
+    return render_template('list.html', questions=questions, answers=answers)
 
 
 @app.route("/question/<question_id>/edit", methods=['GET', 'POST'])
