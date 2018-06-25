@@ -4,9 +4,9 @@ from time import time
 
 def get_all_data(qa="q"):
     if qa == "q":
-        data = data_manager.import_data_from_file("sample_data/question.csv")
+        data = data_manager.import_data_from_db("q")
     if qa == "a":
-        data = data_manager.import_data_from_file("sample_data/answer.csv")
+        data = data_manager.import_data_from_db("a")
     return data
 
 

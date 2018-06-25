@@ -1,4 +1,5 @@
 import csv
+import connection_handler
 
 
 def import_data_from_file(filename):
@@ -20,6 +21,22 @@ def import_data_from_file(filename):
     except OSError:
         print("OS Error")
         return {"message": "OS Error"}
+
+
+@connection_handler.connection_handler
+def import_data_from_db(cursor, qa):
+    if qa == "q":
+        cursor.execute("""
+                        SELECT * from question
+                        """)
+        data = cursor.fetchall()
+        return data
+    if qa == "a":
+        cursor.execute("""
+                        SELECT * from answer
+                        """)
+        data = cursor.fetchall()
+        return data
 
 
 def import_header(filename):

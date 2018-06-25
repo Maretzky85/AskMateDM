@@ -8,14 +8,14 @@
 </div>
 <div class="content">
     {% for question in questions %}
-        <h2><a href="/question/{{question['id']}}"> Q - {{ question[" title"] }}</h2></a>
+        <h2><a href="/question/{{question['id']}}"> Q - {{ question["title"] }}</h2></a>
         <form action="/question/{{question['id']}}/new-answer">
             <button type="submit">Answer question</button>
         </form>
         <form action="/question/{{question['id']}}/delete">
             <button type="submit">Delete question</button>
         </form>
-       <p><h3>&nbsp &nbsp &nbsp &nbsp {{ question[" message"] }}</h3></p>
+       <p><h3>&nbsp &nbsp &nbsp &nbsp {{ question["message"] }}</h3></p>
        <div>
             {% for answer in answers %}
                 {% if answer["question_id"] == question["id"] %}
