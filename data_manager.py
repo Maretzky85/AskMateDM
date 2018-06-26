@@ -77,3 +77,42 @@ def export_data_to_file(filename, data):
     except OSError:
         print("OS Error")
         return {"message": "OS Error"}
+
+
+@connection_handler.connection_handler
+def export_data_to_db(cursor, qa, data):
+
+    if qa == "q":
+        cursor.execute("""
+                        INSERT into QUESTION (submission_time, view_number, vote_number, title,image, message)
+                        VALUES (%(submission_time)s, %(view_number)s,%(vote_number)s,%(title)s,%(image)s, %(message)s)
+                        """, {"submission_time": data["submission_time"],
+                        "view_number": data["view_number"],
+                        "vote_number": data["vote_number"],
+                        "title": data["title"],
+                        "image": data["image"],
+                        "message": data["message"]})
+    if qa == "a":
+        cursor.execute("""
+                        INSERT into ANSWER (submission_time, vote_number, question_id,image, message)
+                        VALUES (%(submission_time)s, %(vote_number)s,%(question_id)s,%(image)s, %(message)s)
+                        """, {"submission_time": data["submission_time"],
+                        "vote_number": data["vote_number"],
+                        "question_id": data["question_id"],
+                        "image": data["image"],
+                        "message": data["message"]})
+        return None
+
+
+@connection_handler.connection_handler
+def delete_by_id(cursor, qa, id_):
+    if qa == "q":
+        cursor.execute("""
+                        DELETE from QUESTION
+                        WHERE id = %(id_)s
+                        """, {"id_": id_})
+    if qa == "a":
+        cursor.execute("""
+                        DELETE from ANSWER
+                        WHERE id = %(id_)s
+                        """, {"id_": id_})
