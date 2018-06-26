@@ -10,8 +10,9 @@
         <form action="/question/{{question['id']}}/delete">
             <button type="submit">Delete question</button>
         </form>
-       <p><h3>{{ question["message"] }}</h3></p>
-       <div class="answer">
+        <a href="/question/{{question['id']}}/edit"><button>Edit</button></a>
+        <p><h3>{{ question["message"] }}</h3></p>
+        <div class="answer">
             {% for answer in answers %}
                 {% if answer["question_id"] == question["id"] %}
                     <p><b>A</b>----->{{ answer["message"] }}</p>
