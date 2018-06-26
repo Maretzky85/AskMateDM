@@ -5,11 +5,15 @@ app = Flask(__name__)
 
 
 @app.route("/")
-@app.route("/list")
+
 def main():
-    questions = logic.get_all_data("q")
+    questions = logic.get_all_data("q")[:5]
     return render_template('list.html', questions=questions)
 
+@app.route("/list")
+def show_all():
+    questions = logic.get_all_data("q")
+    return render_template('list.html', questions=questions)
 
 @app.route("/new_question", methods=['GET'])
 def new_question():
@@ -19,6 +23,8 @@ def new_question():
 @app.route("/new_question", methods=['POST'])
 def post_new_question():
     form = request.form
+    if len(form["message"]) == 0 or len(form["title"]) == 0:
+        return new_question()
     logic.post_new_question(form)
     return redirect("/")
 
@@ -50,20 +56,22 @@ def delete_question(question_id):
 
 
 @app.route("/question/<question_id>/new-answer", methods=['GET'])
-def add_answer(question_id):
+def add_answer(question_id, warning=""):
     id_number = question_id
     question = (logic.find_by_id("q", id_number)["title"]+"\n"+logic.find_by_id("q", id_number)["message"])
-    return render_template('new_answer.html', question_id=id_number, question=question)
+    return render_template('new_answer.html', question_id=id_number, question=question, warning=warning)
 
 
 @app.route("/question/<question_id>/new-answer", methods=['POST'])
 def save_answer(question_id):
     form = request.form
+    if len(form["message"]) == 0 or len(form["title"]) == 0:
+        return add_answer(question_id, "Title and message must be at least 10 signs")
     logic.post_new_answer(question_id, form)
     return redirect("/")
 
 
-@app.route("/answer/<answer_id>/delete", methods=['GET', 'POST'])
+@app.route("/answer/<answer_id>/delete", methods=['GET'])
 def delete_answer(answer_id):
     logic.delete_by_id("a", answer_id)
     return redirect('/')

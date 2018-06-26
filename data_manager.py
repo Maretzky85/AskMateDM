@@ -2,38 +2,19 @@ import csv
 import connection_handler
 
 
-def import_data_from_file(filename):
-    '''
-    Opens file defined in filename
-    Returns list of dicts
-    '''
-    try:
-        with open(filename, newline='') as csvfile:
-            reader = csv.DictReader(csvfile)
-            data = []
-            for row in reader:
-                data.append(row)
-        csvfile.close()
-        return data
-    except FileNotFoundError:
-        print("File not found")
-        return {"message": "File not found"}
-    except OSError:
-        print("OS Error")
-        return {"message": "OS Error"}
-
-
 @connection_handler.connection_handler
 def import_data_from_db(cursor, qa):
     if qa == "q":
         cursor.execute("""
                         SELECT * from question
+                        ORDER BY submission_time desc
                         """)
         data = cursor.fetchall()
         return data
     if qa == "a":
         cursor.execute("""
                         SELECT * from answer
+                        ORDER BY submission_time desc
                         """)
         data = cursor.fetchall()
         return data
