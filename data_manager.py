@@ -108,15 +108,21 @@ def export_data_to_db(cursor, qa, data):
 def delete_by_id(cursor, qa, id_):
     if qa == "q":
         cursor.execute("""
+                        DELETE from COMMENT
+                        WHERE question_id = %(id_)s;
+                        DELETE from ANSWER
+                        WHERE question_id = %(id_)s;
                         DELETE from QUESTION
                         WHERE id = %(id_)s
                         """, {"id_": id_})
     if qa == "a":
         cursor.execute("""
+                        DELETE from COMMENT
+                        WHERE answer = %(id_)s;
                         DELETE from ANSWER
                         WHERE id = %(id_)s
                         """, {"id_": id_})
-
+        
 
 @connection_handler.connection_handler
 def update_by_id(cursor, qa, id_, data):
