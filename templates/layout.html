@@ -3,12 +3,14 @@
 <head>
     <meta charset="utf-8" />
     <title>AskMateForum</title>
-    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script> -->
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='main.css') }}" />
+    <!-- <script src="main.js"></script> -->
 </head>
 <body>
-    <div><h2>AskMate forum project by Daria and Marek</h2><hr><hr></div>
-    {% block content %}
-    {% endblock %}
+    <div class="header"><h2><a href="{{ url_for('post_new_question') }}">Ask</a>Mate forum project by BDSM</h2></div>
+        <div id="question-block">
+        {% block content %}
+        {% endblock %}
+        </div>
 </body>
 </html>
