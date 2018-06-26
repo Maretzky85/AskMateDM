@@ -2,8 +2,11 @@
 
 {% block content %}
 <div class="content">
-    <form action="{{ url_for('post_new_question') }}" method="POST">
-    
+    {% if id_ %}
+    <form action="/question/{{id_}}/edit" method="POST">
+    {% else %}
+    <form action="{{ url_for('new_question') }}" method="POST">
+    {% endif %}
         <p>Question title</p>
         <textarea id="title" name="title"rows="1" cols="80">{{ title }}</textarea>
         <p>Question</p>

@@ -69,16 +69,10 @@ def delete_by_id(qa, id_):
         data_manager.delete_by_id("q", id_)
     if qa == "a":
         data_manager.delete_by_id("a", id_)
-    #if qa == "q":
-    #    data = data_manager.import_data_from_file("sample_data/question.csv")
-    #if qa == "a":
-    #    data = data_manager.import_data_from_file("sample_data/answer.csv")
-    #id_index_number = None
-    #for counter, entry in enumerate(data):
-    #    if str(entry['id']) == str(id):
-    #        id_index_number = counter
-    #del data[id_index_number]
-    #if qa == "q":
-    #    data_manager.export_data_to_file("sample_data/question.csv", data)
-    #if qa == "a":
-    #    data_manager.export_data_to_file("sample_data/answer.csv", data)
+
+
+def update_by_id(qa, id_, data):
+    if qa == "q":
+        data_manager.update_by_id("q", id_, data)
+    if qa == "a":
+        data_manager.update_by_id("a", id_, data)

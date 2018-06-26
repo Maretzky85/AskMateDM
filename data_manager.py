@@ -116,3 +116,19 @@ def delete_by_id(cursor, qa, id_):
                         DELETE from ANSWER
                         WHERE id = %(id_)s
                         """, {"id_": id_})
+
+
+@connection_handler.connection_handler
+def update_by_id(cursor, qa, id_, data):
+    if qa == "q":
+        cursor.execute("""
+                        UPDATE QUESTION
+                        SET title = %(title)s, message = %(message)s
+                        WHERE id = %(id_)s
+                        """, {"title": data["title"], "message": data["message"], "id_": id_})
+    if qa == "a":
+        cursor.execute("""
+                        UPDATE ANSWER
+                        SET title = %(title)s, message = %(message)s
+                        WHERE id = %(id_)s
+                        """, {"title": data["title"], "message": data["message"], "id_": id_})

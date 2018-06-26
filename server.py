@@ -30,10 +30,17 @@ def question(question_id):
     return render_template('list.html', questions=questions, answers=answers)
 
 
-@app.route("/question/<question_id>/edit", methods=['GET', 'POST'])
+@app.route("/question/<question_id>/edit", methods=['GET'])
 def edit_question(question_id):
+    question = logic.find_by_id("q", question_id)
+    return render_template('new_question.html', title=question["title"], message=question["message"], id_=question_id)
 
-    return render_template('question.html')
+
+@app.route("/question/<question_id>/edit", methods=['POST'])
+def save_edited_question(question_id):
+    form = request.form
+    logic.update_by_id("q", question_id, form)
+    return redirect("/")
 
 
 @app.route("/question/<question_id>/delete", methods=['GET', 'POST'])
