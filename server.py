@@ -5,7 +5,6 @@ app = Flask(__name__)
 
 
 @app.route("/")
-
 def main():
     questions = logic.get_all_data("q")[:5]
     return render_template('list.html', questions=questions)
