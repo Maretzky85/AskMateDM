@@ -2,19 +2,38 @@ import csv
 import connection_handler
 
 
+def import_data_from_file(filename):
+    '''
+    Opens file defined in filename
+    Returns list of dicts
+    '''
+    try:
+        with open(filename, newline='') as csvfile:
+            reader = csv.DictReader(csvfile)
+            data = []
+            for row in reader:
+                data.append(row)
+        csvfile.close()
+        return data
+    except FileNotFoundError:
+        print("File not found")
+        return {"message": "File not found"}
+    except OSError:
+        print("OS Error")
+        return {"message": "OS Error"}
+
+
 @connection_handler.connection_handler
 def import_data_from_db(cursor, qa):
     if qa == "q":
         cursor.execute("""
                         SELECT * from question
-                        ORDER BY submission_time desc
                         """)
         data = cursor.fetchall()
         return data
     if qa == "a":
         cursor.execute("""
                         SELECT * from answer
-                        ORDER BY submission_time desc
                         """)
         data = cursor.fetchall()
         return data
@@ -119,3 +138,18 @@ def update_by_id(cursor, qa, id_, data):
                         SET title = %(title)s, message = %(message)s
                         WHERE id = %(id_)s
                         """, {"title": data["title"], "message": data["message"], "id_": id_})
+
+
+@connection_handler.connection_handler
+def search_by_input(cursor, search_phrase ):
+    cursor.execute("""SELECT DISTINCT submission_time,
+                                    view_number,
+                                    vote_number,
+                                    title,
+                                    image,
+                                    message
+                    FROM question
+                    JOIN answer ON (question_id = question_id)
+                    WHERE title, message = %(search_phrase)s
+                    """, {"search_phrase":search_phrase})
+                                 

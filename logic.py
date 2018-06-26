@@ -76,3 +76,7 @@ def update_by_id(qa, id_, data):
         data_manager.update_by_id("q", id_, data)
     if qa == "a":
         data_manager.update_by_id("a", id_, data)
+
+def get_results(search_phrase):
+    result = data_manager.search_by_input(search_phrase)
+    return result
