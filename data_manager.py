@@ -118,11 +118,11 @@ def delete_by_id(cursor, qa, id_):
     if qa == "a":
         cursor.execute("""
                         DELETE from COMMENT
-                        WHERE answer = %(id_)s;
+                        WHERE answer_id = %(id_)s;
                         DELETE from ANSWER
                         WHERE id = %(id_)s
                         """, {"id_": id_})
-        
+
 
 @connection_handler.connection_handler
 def update_by_id(cursor, qa, id_, data):
