@@ -71,7 +71,7 @@ def add_answer(question_id, warning=""):
 @app.route("/question/<question_id>/new-answer", methods=['POST'])
 def save_answer(question_id):
     form = request.form
-    if len(form["message"]) == 0 or len(form["title"]) == 0:
+    if len(form["message"]) == 0:
         return add_answer(question_id, "Title and message must be at least 10 signs")
     logic.post_new_answer(question_id, form)
     return redirect("/")
