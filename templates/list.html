@@ -1,6 +1,16 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+<head>
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='list.css') }}" />
+        <form role="search">
+            <div class="search-control">
+                <input type="search" id="site-search" name="q"
+                placeholder="Search...">
+                <button>Search</button>
+            </div>    
+        </form>
+</head>
 <div class="content">
     {% for question in questions %}
         <h2><a href="/question/{{question['id']}}"> Q - {{ question["title"] }}</h2></a>

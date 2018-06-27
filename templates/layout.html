@@ -3,11 +3,11 @@
 <head>
     <meta charset="utf-8" />
     <title>AskMateForum</title>
-    <link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='main.css') }}" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='layout.css') }}" />
     <!-- <script src="main.js"></script> -->
 </head>
 <body>
-    <div class="header"><h2><a href="{{ url_for('post_new_question') }}">Ask</a>Mate forum project by BDSM</h2></div>
+    <div class="header"><h1><a href="{{ url_for('post_new_question') }}">Ask</a>Mate forum project by BDSM</h1></div>
         <div id="question-block">
         {% block content %}
         {% endblock %}

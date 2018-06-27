@@ -18,10 +18,10 @@ def show_all():
 def new_question():
     return render_template('new_question.html')
 
-@app.route("/search?q=<search_phrase>", methods=["GET"])
+@app.route("/list", methods=["GET"])
 def search_questions(search_phrase):
-    result = logic.get_results(search_phrase)
-    return result
+    form = request.form
+    return render_template ('search_questions.html', search_phrase=search_phrase, form=form)
 
 
 @app.route("/new_question", methods=['POST'])
