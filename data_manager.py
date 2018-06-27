@@ -92,11 +92,7 @@ def search_by_input(cursor, search_phrase):
                     FROM question
                     JOIN answer ON (question_id = question_id)
                     WHERE title, message = %(search_phrase)s
-<<<<<<< HEAD
                     """, {"search_phrase":search_phrase})
-                                 
-=======
-                    """, {"search_phrase": search_phrase})
 
 
 @connection_handler.connection_handler
@@ -113,4 +109,3 @@ def vote_edit(cursor, qa, id_, value):
                         SET vote_number = vote_number + %(value)s
                         WHERE id = %(id)s;
                         """, {"value": value, "id": id_})
->>>>>>> 6adddd43b557ce5f2b35bc0b299978583ff95408

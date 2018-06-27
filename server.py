@@ -20,12 +20,7 @@ def show_all():
 def new_question():
     return render_template('new_question.html')
 
-<<<<<<< HEAD
-@app.route("/list", methods=["GET"])
-=======
-
 @app.route("/search?q=<search_phrase>", methods=["GET"])
->>>>>>> 6adddd43b557ce5f2b35bc0b299978583ff95408
 def search_questions(search_phrase):
     form = request.form
     return render_template ('search_questions.html', search_phrase=search_phrase, form=form)
