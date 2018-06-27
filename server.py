@@ -20,6 +20,7 @@ def show_all():
 def new_question():
     return render_template('new_question.html')
 
+
 @app.route("/search?q=<search_phrase>", methods=["GET"])
 def search_questions(search_phrase):
     form = request.form
@@ -39,7 +40,7 @@ def post_new_question():
 def question(question_id):
     questions = [logic.find_by_id("q", question_id)]
     answers = logic.get_all_data("a")
-    return render_template('list.html', questions=questions, answers=answers)
+    return render_template('list.html', questions=questions, answers=answers, question_id=question_id)
 
 
 @app.route("/question/<question_id>/edit", methods=['GET'])
@@ -74,13 +75,14 @@ def save_answer(question_id):
     if len(form["message"]) == 0:
         return add_answer(question_id, "Title and message must be at least 10 signs")
     logic.post_new_answer(question_id, form)
-    return redirect("/")
+    return question(question_id)
 
 
 @app.route("/answer/<answer_id>/delete", methods=['GET'])
 def delete_answer(answer_id):
+    question_id = logic.find_by_id("a", answer_id)["question_id"]
     logic.delete_by_id("a", answer_id)
-    return redirect('/')
+    return question(question_id)
 
 
 @app.route("/answer/<answer_id>/vote-up")
