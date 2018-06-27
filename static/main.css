@@ -1,0 +1,68 @@
+body {
+    font-family: arial, helvetica, sans-serif;
+    font-size: 14px;
+    background-color: black;
+    color: white;
+    margin: 50px;
+    padding: 0;
+
+}
+
+a {
+    color: darkred;
+    text-decoration: none;
+}
+
+a:hover {
+    color: pink;
+}
+
+h2 {
+    text-align: center;
+    font-size:30px;
+}
+
+button {
+    position: relative;
+}
+
+h3 {
+    text-align: justify;
+    font-size: 20px;
+    line-height:30px;
+}
+
+.header {
+    font-size: 30px;
+    font-style: italic;
+    font-weight: 300;
+    text-align: center;
+    text-shadow: 3px 3px red;
+    color: black;
+    background-color: black;
+}
+
+.content {
+    background-color: rgb(31, 31, 31);
+    margin-right: 120px;
+    margin-left: 120px;
+    margin-top: 10px;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.answer {
+    background-color: rgb(50, 50, 50);
+    margin-left: 120px;
+    border-radius: 20px ;
+    padding: 20px;
+    margin: 10px
+}
+
+.buttons {
+    display: inline;
+}
+
+.vote {
+    display: inline;
+}
