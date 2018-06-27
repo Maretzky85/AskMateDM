@@ -9,14 +9,17 @@ def main():
     questions = logic.get_all_data("q")[:5]
     return render_template('list.html', questions=questions)
 
+
 @app.route("/list")
 def show_all():
     questions = logic.get_all_data("q")
     return render_template('list.html', questions=questions)
 
+
 @app.route("/new_question", methods=['GET'])
 def new_question():
     return render_template('new_question.html')
+
 
 @app.route("/search?q=<search_phrase>", methods=["GET"])
 def search_questions(search_phrase):
@@ -81,16 +84,30 @@ def delete_answer(answer_id):
     return redirect('/')
 
 
+@app.route("/answer/<answer_id>/vote-up")
+def answer_vote_up(answer_id):
+    logic.manage_vote("a", answer_id, 1)
+    question_id = logic.find_by_id("a", answer_id)["question_id"]
+    return question(question_id)
+
+
+@app.route("/answer/<answer_id>/vote-down")
+def answer_vote_down(answer_id):
+    logic.manage_vote("a", answer_id, -1)
+    question_id = logic.find_by_id("a", answer_id)["question_id"]
+    return question(question_id)
+
+
 @app.route("/question/<question_id>/vote-up")
 def vote_up(question_id):
-
-    return render_template('question.html')
+    logic.manage_vote("q", question_id, 1)
+    return question(question_id)
 
 
 @app.route("/question/<question_id>/vote-down")
 def vote_down(question_id):
-
-    return render_template('question.html')
+    logic.manage_vote("q", question_id, -1)
+    return question(question_id)
 
 
 if __name__ == '__main__':

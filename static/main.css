@@ -33,3 +33,7 @@ a:hover {
     background-color: rgb(196, 255, 232);
     padding-left: 50px;
 }
+
+.buttons {
+    display: inline;
+}

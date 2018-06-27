@@ -4,21 +4,48 @@
 <div class="content">
     {% for question in questions %}
         <h2><a href="/question/{{question['id']}}"> Q - {{ question["title"] }}</h2></a>
-        <form action="/question/{{question['id']}}/new-answer">
-            <button type="submit">Answer question</button>
-        </form>
-        <form action="/question/{{question['id']}}/delete">
-            <button type="submit">Delete question</button>
-        </form>
+        <div class="buttons">
+            <p  class="buttons">{{ question["vote_number"] }}</p>
+            
+            <form class="buttons" action="/question/{{question['id']}}/vote-up">
+                <button type="submit">Vote Up</button>
+            </form>
+            
+            <form class="buttons" action="/question/{{question['id']}}/vote-down">
+                <button type="submit">Vote Down</button>
+            </form>
+            
+            <form class="buttons" action="/question/{{question['id']}}/new-answer">
+                <button type="submit">Answer question</button>
+            </form>
+            
+            <form class="buttons" action="/question/{{question['id']}}/delete">
+                <button type="submit">Delete question</button>
+            </form>
+        </div>
         <a href="/question/{{question['id']}}/edit"><button>Edit</button></a>
         <p><h3>{{ question["message"] }}</h3></p>
         <div class="answer">
             {% for answer in answers %}
                 {% if answer["question_id"] == question["id"] %}
                     <p><b>A</b>----->{{ answer["message"] }}</p>
-                    <form action="/answer/{{answer['id']}}/delete">
-                        <button type="submit">Delete answer</button>
-                    </form>
+                    <div class="buttons">
+
+                        <p>{{ answer["vote_number"]}}</p>
+
+                        <form class="buttons" action="/answer/{{answer['id']}}/vote-up">
+                            <button type="submit">Vote Up</button>
+                        </form>
+
+                        <form class="buttons" action="/answer/{{answer['id']}}/vote-down">
+                            <button type="submit">Vote Down</button>
+                        </form>
+
+                        <form class="buttons" action="/answer/{{answer['id']}}/delete">
+                            <button type="submit">Delete answer</button>
+                        </form>
+                        
+                    </div>
                 {% endif %}
             {% endfor %}
        </div>
