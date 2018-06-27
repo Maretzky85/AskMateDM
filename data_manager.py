@@ -2,81 +2,22 @@ import csv
 import connection_handler
 
 
-def import_data_from_file(filename):
-    '''
-    Opens file defined in filename
-    Returns list of dicts
-    '''
-    try:
-        with open(filename, newline='') as csvfile:
-            reader = csv.DictReader(csvfile)
-            data = []
-            for row in reader:
-                data.append(row)
-        csvfile.close()
-        return data
-    except FileNotFoundError:
-        print("File not found")
-        return {"message": "File not found"}
-    except OSError:
-        print("OS Error")
-        return {"message": "OS Error"}
-
-
 @connection_handler.connection_handler
 def import_data_from_db(cursor, qa):
     if qa == "q":
         cursor.execute("""
                         SELECT * from question
+                        ORDER BY submission_time desc
                         """)
         data = cursor.fetchall()
         return data
     if qa == "a":
         cursor.execute("""
                         SELECT * from answer
+                        ORDER BY submission_time desc
                         """)
         data = cursor.fetchall()
         return data
-
-
-def import_header(filename):
-    '''
-    Opens file and import header for csv dictwriter
-    '''
-    try:
-        with open(filename) as datafile:
-            lines = []
-            for data in datafile:
-                lines.append(data)
-        return lines[0].strip("\n").split(",")
-    except FileNotFoundError:
-        print("File not found")
-        return {"message": "File not found"}
-    except OSError:
-        print("OS Error")
-        return {"message": "OS Error"}
-
-
-def export_data_to_file(filename, data):
-    '''
-    Opens file to write, and writes data as csv file
-    Args:
-    filename - patch and filename
-    data - list of dicts
-    '''
-    fieldnames = import_header(filename)
-    try:
-        with open(filename, 'w', newline='') as csvfile:
-            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-            writer.writeheader()
-            for line in data:
-                writer.writerow(line)
-    except FileNotFoundError:
-        print("File not found")
-        return {"message": "File not found"}
-    except OSError:
-        print("OS Error")
-        return {"message": "OS Error"}
 
 
 @connection_handler.connection_handler
@@ -141,7 +82,7 @@ def update_by_id(cursor, qa, id_, data):
 
 
 @connection_handler.connection_handler
-def search_by_input(cursor, search_phrase ):
+def search_by_input(cursor, search_phrase):
     cursor.execute("""SELECT DISTINCT submission_time,
                                     view_number,
                                     vote_number,
@@ -151,5 +92,25 @@ def search_by_input(cursor, search_phrase ):
                     FROM question
                     JOIN answer ON (question_id = question_id)
                     WHERE title, message = %(search_phrase)s
+<<<<<<< HEAD
                     """, {"search_phrase":search_phrase})
                                  
+=======
+                    """, {"search_phrase": search_phrase})
+
+
+@connection_handler.connection_handler
+def vote_edit(cursor, qa, id_, value):
+    if qa == "q":
+        cursor.execute("""
+                        UPDATE question
+                        SET vote_number = vote_number + %(value)s
+                        WHERE id = %(id)s;
+                        """, {"qa": qa, "value": value, "id": id_})
+    if qa == "a":
+        cursor.execute("""
+                        UPDATE answer
+                        SET vote_number = vote_number + %(value)s
+                        WHERE id = %(id)s;
+                        """, {"value": value, "id": id_})
+>>>>>>> 6adddd43b557ce5f2b35bc0b299978583ff95408

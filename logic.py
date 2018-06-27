@@ -77,6 +77,11 @@ def update_by_id(qa, id_, data):
     if qa == "a":
         data_manager.update_by_id("a", id_, data)
 
+
 def get_results(search_phrase):
     result = data_manager.search_by_input(search_phrase)
     return result
+
+
+def manage_vote(qa, id_, value):
+        data_manager.vote_edit(qa, id_, value)
