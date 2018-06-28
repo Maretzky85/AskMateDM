@@ -47,7 +47,7 @@
                         <a href="/question/{{question['id']}}/edit"><button>Edit</button></a>
                     </div>
                 {% else %}
-                        <p>Answers: {{ question["answer_number"] }}</p>
+                    <p>Answers: {{ question["answer_number"] }}</p>
                 {% endif %}
                     
 
@@ -56,18 +56,22 @@
                 
                     {% if answer["question_id"] == question["id"] %}
                     <div class="answer">
-                        <div class="vote">
+                        
+                        <div class="message-box">
+                            <div class="vote">
                                 <a href="/answer/{{answer['id']}}/vote-up"><img src="{{ url_for('static', filename='1arrow_up.png') }}"></a>
-                                
+                                    
                                     {{ answer["vote_number"] }}
-                                
+                                    
                                 <a href="/answer/{{answer['id']}}/vote-down"><img src="{{ url_for('static', filename='1arrow_down.png') }}"></a>
+                            </div>
+                        <h4>{{ answer["message"] }}</h4>
                         </div>
-                        {{ answer["message"] }}
+
                         <div class="buttons">
                             <form class="buttons" action="/answer/{{answer['id']}}/delete">
                                 <button type="submit">Delete answer</button>
-                            </form>    
+                            </form>  
                         </div>
                     </div>
                     {% endif %}
