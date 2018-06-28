@@ -51,8 +51,10 @@
                     Viewed: {{ question["view_number"] }} times</p>
                 {% endif %}
                 
+                {% if question["tag"] %}
                 {% if question["tag"]!=None %}
                 Tag: {{ question["tag"] }}
+                {% endif %}
                 {% endif %}
                     
 

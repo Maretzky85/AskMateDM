@@ -23,12 +23,9 @@ def new_question():
 
 @app.route("/search", methods=["GET", "POST"])
 def search_questions():
-    print("DUPA!!!!")
     search_phrase = request.form.get('search_phrase')
-    print(search_phrase)
     result = logic.get_all_ids_with_phrase(search_phrase)
-    print (result)
-    return render_template ('search_questions.html', result=result, search_phrase=search_phrase)
+    return render_template ('list.html', questions=result, search_phrase=search_phrase)
 
 
 @app.route("/new_question", methods=['POST'])

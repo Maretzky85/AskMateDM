@@ -20,9 +20,6 @@ def import_data_from_db(cursor, qa):
                         ORDER BY question.submission_time desc
                         """)
         data = cursor.fetchall()
-        for entry in data:
-            for key, val in entry.items():
-                print("key: {}, val: {}".format(key, val))
         return data
     if qa == "a":
         cursor.execute("""
@@ -96,7 +93,6 @@ def update_by_id(cursor, qa, id_, data):
 
 @connection_handler.connection_handler
 def search_by_input(cursor, search_phrase):
-    print ("hura!!!!", search_phrase)
     cursor.execute("""SELECT DISTINCT question.id,
                                      question.submission_time,
                                      question.view_number,
