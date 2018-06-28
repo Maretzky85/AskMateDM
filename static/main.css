@@ -63,14 +63,15 @@ h3 {
 
 .buttons {
     display: inline;
+    margin: auto;
 }
 div.buttons > a {
     margin: 10px;
 }
 .vote {
     display: grid;
-    height: 100px;
-    margin: 30px 10px 20px 0 ;
+    height: 90px;
+    margin: auto 10px auto 0 ;
     text-align: center;
 }
 
@@ -81,4 +82,9 @@ div.buttons > a {
 p {
     color: rgb(177, 177, 177);
     font-size: 10px;
+}
+
+.center {
+    margin: auto;
+    width: 50%;
 }
