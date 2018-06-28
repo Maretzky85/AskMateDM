@@ -10,68 +10,68 @@
         </form>
 
     {% for question in questions %}
-    <div class="content">
-        <h2><a href="/question/{{question['id']}}"> {{ question["title"] }}</h2></a>
-        {% if question_id %}
 
-            <p><h3>{{ question["message"]}}...</h3></p>
-
-        {% else %}
-
-            <p><h3>{{ question["message"][:300] }}...</h3></p>
-
-        {% endif %}
-
+        <div class="content">
+            <a href="/question/{{question['id']}}"><h2> {{ question["title"] }}</h2></a>
+            <div class="message-box">
                 <div class="vote">
-                    <a href="/question/{{question['id']}}/vote-up"><img src="{{ url_for('static', filename='1arrow_up.png') }}"></a>
-                    
-                    <p  class="buttons">Votes: {{ question["vote_number"] }}</p>
-                    
-                    <a href="/question/{{question['id']}}/vote-down"><img src="{{ url_for('static', filename='1arrow_down.png') }}"></a>
+                        <a href="/question/{{question['id']}}/vote-up"><img src="{{ url_for('static', filename='1arrow_up.png') }}"></a>
+                        
+                            {{ question["vote_number"] }}
+                        
+                        <a href="/question/{{question['id']}}/vote-down"><img src="{{ url_for('static', filename='1arrow_down.png') }}"></a>
                 </div>
-                
+            
                 {% if question_id %}
-                <div class="buttons">
-                <form class="buttons" action="/question/{{question['id']}}/new-answer">
-                    <button type="submit">Answer question</button>
-                </form>
-                
-                <form class="buttons" action="/question/{{question['id']}}/delete">
-                    <button type="submit">Delete question</button>
-                </form>
-                <a href="/question/{{question['id']}}/edit"><button>Edit</button></a>
+
+                    <h3>{{ question["message"]}}...</h3>
+
                 {% else %}
-                Answers: {{ question["answer_number"] }}
-                {% endif %}
+
+                    <h3>{{ question["message"][:300] }}...</h3>
+
+            {% endif %}
             </div>
 
-        
-            {% for answer in answers %}
-            
-                {% if answer["question_id"] == question["id"] %}
-                <div class="answer">
-                    <p>{{ answer["message"] }}</p>
+                    
+                {% if question_id %}
                     <div class="buttons">
+                        <a href="/question/{{question['id']}}/new-answer"><img src="{{ url_for('static', filename='answer.png') }}"></a>
 
-                        <p>Votes: {{ answer["vote_number"]}}</p>
-
-                        <form class="buttons" action="/answer/{{answer['id']}}/vote-up">
-                            <button type="submit">Vote Up</button>
-                        </form>
-
-                        <form class="buttons" action="/answer/{{answer['id']}}/vote-down">
-                            <button type="submit">Vote Down</button>
-                        </form>
-
-                        <form class="buttons" action="/answer/{{answer['id']}}/delete">
-                            <button type="submit">Delete answer</button>
-                        </form>    
+                        <a href="/question/{{question['id']}}/delete"><img src="{{ url_for('static', filename='Trash.png') }}"></a>
+                        
+                        <a href="/question/{{question['id']}}/edit"><img src="{{ url_for('static', filename='edit.png') }}"></a>
                     </div>
-                </div>
+                {% else %}
+                    <p>Answers: {{ question["answer_number"] }}</p>
                 {% endif %}
-              
-            {% endfor %}
-       
-    </div>
+                    
+
+            
+                {% for answer in answers %}
+                
+                    {% if answer["question_id"] == question["id"] %}
+                    <div class="answer">
+
+                        <div class="message-box">
+                            <div class="vote">
+                                <a href="/answer/{{answer['id']}}/vote-up"><img src="{{ url_for('static', filename='1arrow_up.png') }}"></a>
+                                    
+                                    {{ answer["vote_number"] }}
+                                    
+                                <a href="/answer/{{answer['id']}}/vote-down"><img src="{{ url_for('static', filename='1arrow_down.png') }}"></a>
+                            </div>
+                        <h4>{{ answer["message"] }}</h4>
+                        </div>
+
+                        <div class="buttons">
+                            <a href="/answer/{{answer['id']}}/delete"><img src="{{ url_for('static', filename='Trash.png') }}"></a>
+                        </div>
+                    </div>
+                    {% endif %}
+                
+                {% endfor %}
+        
+        </div>
     {% endfor %}
 {% endblock %}
