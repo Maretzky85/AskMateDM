@@ -112,9 +112,16 @@ def vote_down(question_id):
     logic.manage_vote("q", question_id, -1)
     return question(question_id)
 
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
+
+
+@app.route("/sorted/?condition=submission_time")
+def sorted_condition(submission_time):
+    questions = logic.order_by(submission_time)
+    return render_template('list.html', questions=questions)
 
 
 if __name__ == '__main__':
