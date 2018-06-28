@@ -64,5 +64,12 @@ h3 {
 }
 
 .vote {
-    display: inline;
+    display: grid;
+    height: 100px;
+    margin: 30px 10px 20px 0 ;
+    text-align: center;
+}
+
+.message-box {
+    display: inline-flex
 }
