@@ -120,3 +120,13 @@ def count_answer(cursor, q_id):
                     """, {"q_id": q_id})
     data = cursor.fetchall()
     return data
+
+
+@connection_handler.connection_handler
+def count_views(cursor, question_id):
+    cursor.execute("""
+                UPDATE question
+                SET view_number = view_number +1
+                WHERE id= %(q_id)s
+                ;
+                """, {"q_id": question_id})
