@@ -22,11 +22,6 @@ def find_by_id(qa, _id):
             return item
 
 
-def make_new_id(filename):
-    data = data_manager.import_data_from_file(filename)
-    return int(data[-1]["id"]) + 1
-
-
 def post_new_question(form):
     '''
     saves new question to file
@@ -92,3 +87,7 @@ def manage_vote(qa, id_, value):
 def number_of_answers(question_id):
     number = data_manager.count_answer(question_id)
     return number[0]["count"]
+
+def count_views(question_id):
+    data_manager.count_views(question_id)
+    return None

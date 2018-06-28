@@ -77,3 +77,8 @@ div.buttons > a {
 .message-box {
     display: inline-flex
 }
+
+p {
+    color: rgb(177, 177, 177);
+    font-size: 10px;
+}

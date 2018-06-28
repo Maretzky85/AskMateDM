@@ -38,6 +38,7 @@ def post_new_question():
 
 @app.route("/question/<question_id>", methods=['GET', 'POST'])
 def question(question_id):
+    logic.count_views(question_id)
     questions = [logic.find_by_id("q", question_id)]
     answers = logic.get_all_data("a")
     return render_template('list.html', questions=questions, answers=answers, question_id=question_id)
