@@ -109,3 +109,24 @@ def vote_edit(cursor, qa, id_, value):
                         SET vote_number = vote_number + %(value)s
                         WHERE id = %(id)s;
                         """, {"value": value, "id": id_})
+
+
+@connection_handler.connection_handler
+def sort_by_condition(cursor, condition):
+    cursor.execute("""
+                    SELECT * FROM question
+                    ORDER BY %(condition)s ;
+                    """, {"condition": condition})
+    data = cursor.fetchall()
+    return data
+
+
+@connection_handler.connection_handler
+def count_answer(cursor, q_id):
+    cursor.execute("""
+                    SELECT COUNT (id) FROM answer
+                    WHERE question_id= %(q_id)s
+                    ;
+                    """, {"q_id": q_id})
+    data = cursor.fetchall()
+    return data

@@ -71,7 +71,7 @@ def add_answer(question_id, warning=""):
 @app.route("/question/<question_id>/new-answer", methods=['POST'])
 def save_answer(question_id):
     form = request.form
-    if len(form["message"]) == 0 or len(form["title"]) == 0:
+    if len(form["message"]) == 0:
         return add_answer(question_id, "Title and message must be at least 10 signs")
     logic.post_new_answer(question_id, form)
     return redirect("/")
@@ -107,6 +107,13 @@ def vote_up(question_id):
 def vote_down(question_id):
     logic.manage_vote("q", question_id, -1)
     return question(question_id)
+
+@app.route("/sorted/?condition=submission_time")
+def sorted_condition(submission_time):
+    questions = logic.order_by(submission_time)
+    return render_template('list.html', questions=questions)
+
+
 
 
 if __name__ == '__main__':

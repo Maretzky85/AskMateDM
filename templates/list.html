@@ -1,17 +1,31 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<head>
+
     <link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='list.css') }}" />
         <form role="search">
             <div class="search-control">
                 <input type="search" id="site-search" name="q"
                 placeholder="Search...">
-                <button>Search</button>
-            </div>    
+                <button>Search</button> <br>
+                
+            </div> 
         </form>
-</head>
+        <form method="GET" action="/sorted/{{condition}}">
+            <div>
+                <label for="condition">Order by:</label>
+                <select name= "condition">
+                        <option selected value="submission_time">submission time</option>
+                        <option value="vote_number">votes</option>
+                        <option value="view_number">views</option> 
+                      </select>
+                      <button type="submit">GO</button>
+                    </form>
+            </div>   
+       
+
 <div class="content">
+
     {% for question in questions %}
         <h2><a href="/question/{{question['id']}}"> Q - {{ question["title"] }}</h2></a>
         <div class="buttons">
