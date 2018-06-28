@@ -56,19 +56,15 @@
                 
                     {% if answer["question_id"] == question["id"] %}
                     <div class="answer">
-                        <p>{{ answer["message"] }}</p>
+                        <div class="vote">
+                                <a href="/answer/{{answer['id']}}/vote-up"><img src="{{ url_for('static', filename='1arrow_up.png') }}"></a>
+                                
+                                    {{ answer["vote_number"] }}
+                                
+                                <a href="/answer/{{answer['id']}}/vote-down"><img src="{{ url_for('static', filename='1arrow_down.png') }}"></a>
+                        </div>
+                        {{ answer["message"] }}
                         <div class="buttons">
-
-                            <p>Votes: {{ answer["vote_number"]}}</p>
-
-                            <form class="buttons" action="/answer/{{answer['id']}}/vote-up">
-                                <button type="submit">Vote Up</button>
-                            </form>
-
-                            <form class="buttons" action="/answer/{{answer['id']}}/vote-down">
-                                <button type="submit">Vote Down</button>
-                            </form>
-
                             <form class="buttons" action="/answer/{{answer['id']}}/delete">
                                 <button type="submit">Delete answer</button>
                             </form>    
