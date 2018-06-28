@@ -1,14 +1,14 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-        <form role="search">
-            <div class="search-control">
-                <input type="search" id="site-search" name="q"
-                placeholder="Search...">
-                <button>Search</button>
-            </div>    
-        </form>
 
+    <form action="{{url_for('search_questions')}}" method="POST">
+        <div>
+            <input type="text" name="search_phrase" placeholder="Search...">
+            <input type="submit" value="Submit">
+            <span class="validity"></span>
+        </div>    
+    </form>
     {% for question in questions %}
 
         <div class="content">

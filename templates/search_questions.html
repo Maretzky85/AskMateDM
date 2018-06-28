@@ -2,8 +2,10 @@
 
 {% block content %}
 <body>
-    <p>Results</p>
-    <p>{{ form }}</p>
+    <form action="/search" method="GET">
+        <p>Results for {{search_phrase}}</p>
+        <p>{{result}}</p>
+    </form>
 </body>
 
 {% endblock %}
