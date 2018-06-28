@@ -36,15 +36,11 @@
                     
                 {% if question_id %}
                     <div class="buttons">
-                        <form class="buttons" action="/question/{{question['id']}}/new-answer">
-                            <button type="submit">Answer question</button>
-                        </form>
+                        <a href="/question/{{question['id']}}/new-answer"><img src="{{ url_for('static', filename='answer.png') }}"></a>
 
-                        <form class="buttons" action="/question/{{question['id']}}/delete">
-                            <button type="submit">Delete question</button>
-                        </form>
-
-                        <a href="/question/{{question['id']}}/edit"><button>Edit</button></a>
+                        <a href="/question/{{question['id']}}/delete"><img src="{{ url_for('static', filename='Trash.png') }}"></a>
+                        
+                        <a href="/question/{{question['id']}}/edit"><img src="{{ url_for('static', filename='edit.png') }}"></a>
                     </div>
                 {% else %}
                     <p>Answers: {{ question["answer_number"] }}</p>
@@ -56,7 +52,7 @@
                 
                     {% if answer["question_id"] == question["id"] %}
                     <div class="answer">
-                        
+
                         <div class="message-box">
                             <div class="vote">
                                 <a href="/answer/{{answer['id']}}/vote-up"><img src="{{ url_for('static', filename='1arrow_up.png') }}"></a>
@@ -69,9 +65,7 @@
                         </div>
 
                         <div class="buttons">
-                            <form class="buttons" action="/answer/{{answer['id']}}/delete">
-                                <button type="submit">Delete answer</button>
-                            </form>  
+                            <a href="/answer/{{answer['id']}}/delete"><img src="{{ url_for('static', filename='Trash.png') }}"></a>
                         </div>
                     </div>
                     {% endif %}
