@@ -1,8 +1,6 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<head>
-    <link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='list.css') }}" />
         <form role="search">
             <div class="search-control">
                 <input type="search" id="site-search" name="q"
@@ -10,38 +8,52 @@
                 <button>Search</button>
             </div>    
         </form>
-</head>
-<div class="content">
+
     {% for question in questions %}
-        <h2><a href="/question/{{question['id']}}"> Q - {{ question["title"] }}</h2></a>
-        <div class="buttons">
-            <p  class="buttons">{{ question["vote_number"] }}</p>
-            
-            <form class="buttons" action="/question/{{question['id']}}/vote-up">
-                <button type="submit">Vote Up</button>
-            </form>
-            
-            <form class="buttons" action="/question/{{question['id']}}/vote-down">
-                <button type="submit">Vote Down</button>
-            </form>
-            
-            <form class="buttons" action="/question/{{question['id']}}/new-answer">
-                <button type="submit">Answer question</button>
-            </form>
-            
-            <form class="buttons" action="/question/{{question['id']}}/delete">
-                <button type="submit">Delete question</button>
-            </form>
-        </div>
-        <a href="/question/{{question['id']}}/edit"><button>Edit</button></a>
-        <p><h3>{{ question["message"] }}</h3></p>
-        <div class="answer">
+    <div class="content">
+        <h2><a href="/question/{{question['id']}}"> {{ question["title"] }}</h2></a>
+        {% if question_id %}
+
+            <p><h3>{{ question["message"]}}...</h3></p>
+
+        {% else %}
+
+            <p><h3>{{ question["message"][:300] }}...</h3></p>
+
+        {% endif %}
+
+                <div class="vote">
+                    <a href="/question/{{question['id']}}/vote-up"><img src="{{ url_for('static', filename='1arrow_up.png') }}"></a>
+                    
+                    <p  class="buttons">Votes: {{ question["vote_number"] }}</p>
+                    
+                    <a href="/question/{{question['id']}}/vote-down"><img src="{{ url_for('static', filename='1arrow_down.png') }}"></a>
+                </div>
+                
+                {% if question_id %}
+                <div class="buttons">
+                <form class="buttons" action="/question/{{question['id']}}/new-answer">
+                    <button type="submit">Answer question</button>
+                </form>
+                
+                <form class="buttons" action="/question/{{question['id']}}/delete">
+                    <button type="submit">Delete question</button>
+                </form>
+                <a href="/question/{{question['id']}}/edit"><button>Edit</button></a>
+                {% else %}
+                Answers: {{ question["answer_number"] }}
+                {% endif %}
+            </div>
+
+        
             {% for answer in answers %}
+            
                 {% if answer["question_id"] == question["id"] %}
-                    <p><b>A</b>----->{{ answer["message"] }}</p>
+                <div class="answer">
+                    <p>{{ answer["message"] }}</p>
                     <div class="buttons">
 
-                        <p>{{ answer["vote_number"]}}</p>
+                        <p>Votes: {{ answer["vote_number"]}}</p>
 
                         <form class="buttons" action="/answer/{{answer['id']}}/vote-up">
                             <button type="submit">Vote Up</button>
@@ -53,13 +65,13 @@
 
                         <form class="buttons" action="/answer/{{answer['id']}}/delete">
                             <button type="submit">Delete answer</button>
-                        </form>
-                        
+                        </form>    
                     </div>
+                </div>
                 {% endif %}
+              
             {% endfor %}
-       </div>
-       <hr>
+       
+    </div>
     {% endfor %}
-</div>
 {% endblock %}

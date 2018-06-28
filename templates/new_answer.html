@@ -2,11 +2,9 @@
 
 {% block content %}
 <h2>{{warning}}</h2>
-<head>
-    <link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='new_answer.css') }}" />
-</head>
-<p>Question</p>
+<div class="content">
 <p>{{ question }}</p>
+</div>
 <div class="content">
     <form action="/question/{{ question_id }}/new-answer" method="POST">
         <p>Answer</p>
