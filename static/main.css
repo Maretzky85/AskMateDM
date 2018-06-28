@@ -1,5 +1,5 @@
 body {
-    font-family: arial, helvetica, sans-serif;
+    font-family: verdana, arial, helvetica, sans-serif;
     font-size: 14px;
     background-color: black;
     color: white;
@@ -19,7 +19,7 @@ a:hover {
 
 h2 {
     text-align: center;
-    font-size:30px;
+    font-size:20px;
 }
 
 button {
@@ -28,8 +28,7 @@ button {
 
 h3 {
     text-align: justify;
-    font-size: 20px;
-    line-height:30px;
+    font-size: 15px;;
 }
 
 .header {
@@ -49,6 +48,7 @@ h3 {
     margin-top: 10px;
     border-radius: 20px;
     padding: 20px;
+    display: grid;
 }
 
 .answer {
@@ -56,13 +56,43 @@ h3 {
     margin-left: 120px;
     border-radius: 20px ;
     padding: 20px;
-    margin: 10px
+    margin: 10px;
+    display: grid;
+}
+
+.answer_buttons {
+    display: inline;
+    margin: 10px;
+    position: absolute;
+    right: 200px;
 }
 
 .buttons {
     display: inline;
+    margin: 10px;
+    position: absolute;
+}
+div.buttons > a {
+    margin: 10px;
+
+}
+.vote {
+    display: grid;
+    height: 90px;
+    margin: auto 10px auto 0 ;
+    text-align: center;
 }
 
-.vote {
-    display: inline;
+.message-box {
+    display: inline-flex
+}
+
+p {
+    color: rgb(177, 177, 177);
+    font-size: 10px;
+}
+
+.center {
+    margin: auto;
+    width: 50%;
 }
