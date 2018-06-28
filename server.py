@@ -21,10 +21,11 @@ def new_question():
     return render_template('new_question.html')
 
 
-@app.route("/search?q=<search_phrase>", methods=["GET"])
-def search_questions(search_phrase):
-    form = request.form
-    return render_template ('search_questions.html', search_phrase=search_phrase, form=form)
+@app.route("/search", methods=["GET", "POST"])
+def search_questions():
+    search_phrase = request.form.get('search_phrase')
+    result = logic.get_all_ids_with_phrase(search_phrase)
+    return render_template ('list.html', questions=result, search_phrase=search_phrase)
 
 
 @app.route("/new_question", methods=['POST'])
