@@ -1,5 +1,5 @@
 body {
-    font-family: arial, helvetica, sans-serif;
+    font-family: verdana, arial, helvetica, sans-serif;
     font-size: 14px;
     background-color: black;
     color: white;
@@ -19,7 +19,7 @@ a:hover {
 
 h2 {
     text-align: center;
-    font-size:30px;
+    font-size:20px;
 }
 
 button {
@@ -28,8 +28,7 @@ button {
 
 h3 {
     text-align: justify;
-    font-size: 20px;
-    line-height:30px;
+    font-size: 15px;;
 }
 
 .header {
@@ -61,12 +60,21 @@ h3 {
     display: grid;
 }
 
+.answer_buttons {
+    display: inline;
+    margin: 10px;
+    position: absolute;
+    right: 200px;
+}
+
 .buttons {
     display: inline;
-    margin: auto;
+    margin: 10px;
+    position: absolute;
 }
 div.buttons > a {
     margin: 10px;
+
 }
 .vote {
     display: grid;
