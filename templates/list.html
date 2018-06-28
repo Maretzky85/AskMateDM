@@ -51,6 +51,10 @@
                     Submited: {{question["submission_time"] }} <br>
                     Viewed: {{ question["view_number"] }} times</p>
                 {% endif %}
+                
+                {% if question["tag"]!=None %}
+                Tag: {{ question["tag"] }}
+                {% endif %}
                     
 
             
