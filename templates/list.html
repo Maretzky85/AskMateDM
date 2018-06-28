@@ -12,7 +12,19 @@
     {% for question in questions %}
 
         <div class="content">
+            
+                {% if question_id %}
+                <div class="buttons">
+                    <a href="/question/{{question['id']}}/new-answer"><img width=40px height=25px src="{{ url_for('static', filename='answer.png') }}"></a>
+    
+                    <a href="/question/{{question['id']}}/delete"><img width=25px height=25px src="{{ url_for('static', filename='Trash.png') }}"></a>
+                    
+                    <a href="/question/{{question['id']}}/edit"><img width=25px height=25px src="{{ url_for('static', filename='edit.png') }}"></a>
+                </div>
+                {% endif %}
+            
             <a href="/question/{{question['id']}}"><h2> {{ question["title"] }}</h2></a>
+                        
             <div class="message-box">
                 <div class="vote">
                         <a href="/question/{{question['id']}}/vote-up"><img src="{{ url_for('static', filename='1arrow_up.png') }}"></a>
@@ -34,15 +46,7 @@
             </div>
 
                     
-                {% if question_id %}
-                    <div class="buttons">
-                        <a href="/question/{{question['id']}}/new-answer"><img src="{{ url_for('static', filename='answer.png') }}"></a>
-
-                        <a href="/question/{{question['id']}}/delete"><img src="{{ url_for('static', filename='Trash.png') }}"></a>
-                        
-                        <a href="/question/{{question['id']}}/edit"><img src="{{ url_for('static', filename='edit.png') }}"></a>
-                    </div>
-                {% else %}
+                {% if not question_id %}
                     <p>Answers: {{ question["answer_number"] }} <br>
                     Submited: {{question["submission_time"] }} <br>
                     Viewed: {{ question["view_number"] }} times</p>
@@ -66,8 +70,8 @@
                         <h4>{{ answer["message"] }}</h4>
                         </div>
 
-                        <div class="buttons">
-                            <a href="/answer/{{answer['id']}}/delete"><img src="{{ url_for('static', filename='Trash.png') }}"></a>
+                        <div class="answer_buttons">
+                            <a href="/answer/{{answer['id']}}/delete"><img width="25px" height="25px" src="{{ url_for('static', filename='Trash.png') }}"></a>
                         </div>
                     </div>
                     {% endif %}
