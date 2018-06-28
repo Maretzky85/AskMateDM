@@ -128,7 +128,7 @@ def vote_edit(cursor, qa, id_, value):
 def sort_by_condition(cursor, condition):
     cursor.execute("""
                     SELECT * FROM question
-                    ORDER BY %(condition)s ;
+                    ORDER BY %(condition)s
                     """, {"condition": condition})
     data = cursor.fetchall()
     return data
@@ -139,7 +139,6 @@ def count_answer(cursor, q_id):
     cursor.execute("""
                     SELECT COUNT (id) FROM answer
                     WHERE question_id= %(q_id)s
-                    ;
                     """, {"q_id": q_id})
     data = cursor.fetchall()
     return data
