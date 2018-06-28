@@ -108,8 +108,9 @@ def vote_down(question_id):
     logic.manage_vote("q", question_id, -1)
     return question(question_id)
 
-@app.route("/sorted/?condition=<condition>")
-def sorted_condition(condition):
+@app.route("/sorted/")
+def sorted_condition():
+    condition = request.args.get('condition')
     questions = logic.order_by(condition)
     return render_template('list.html', questions=questions)
 
