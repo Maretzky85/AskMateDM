@@ -78,18 +78,10 @@ def update_by_id(qa, id_, data):
         data_manager.update_by_id("a", id_, data)
 
 
-<<<<<<< Updated upstream
-=======
 def get_all_ids_with_phrase(search_phrase):
     data = data_manager.search_by_input(search_phrase)
     return data
 
 
->>>>>>> Stashed changes
 def manage_vote(qa, id_, value):
     data_manager.vote_edit(qa, id_, value)
-
-
-def get_all_ids_with_phrase(search_phrase):
-    data = data_manager.search_by_input(search_phrase)
-    return data
