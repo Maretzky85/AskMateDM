@@ -111,6 +111,10 @@ def vote_down(question_id):
     logic.manage_vote("q", question_id, -1)
     return question(question_id)
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
 
 if __name__ == '__main__':
     app.run(debug=True)
