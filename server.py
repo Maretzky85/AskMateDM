@@ -118,9 +118,9 @@ def page_not_found(e):
     return render_template('404.html'), 404
 
 
-@app.route("/sorted/?condition=submission_time")
-def sorted_condition(submission_time):
-    questions = logic.order_by(submission_time)
+@app.route("/sorted/?condition=<condition>")
+def sorted_condition(condition):
+    questions = logic.order_by(condition)
     return render_template('list.html', questions=questions)
 
 
