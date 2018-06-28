@@ -9,7 +9,7 @@
     <form action="/question/{{ question_id }}/new-answer" method="POST">
         <p>Answer</p>
         <textarea  minlength='10' id="message" name="message"rows="8" cols="80">{{ message }}</textarea>
-        <p><button type="submit">Submit</button></p>
+        <p><button type="submit"><img src="{{ url_for('static', filename='submit.png') }}"></button></p>
     </form>
 </div>
 {% endblock %}

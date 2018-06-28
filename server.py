@@ -38,6 +38,7 @@ def post_new_question():
 
 @app.route("/question/<question_id>", methods=['GET', 'POST'])
 def question(question_id):
+    logic.count_views(question_id)
     questions = [logic.find_by_id("q", question_id)]
     answers = logic.get_all_data("a")
     return render_template('list.html', questions=questions, answers=answers, question_id=question_id)
@@ -109,6 +110,10 @@ def vote_up(question_id):
 def vote_down(question_id):
     logic.manage_vote("q", question_id, -1)
     return question(question_id)
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 
 if __name__ == '__main__':

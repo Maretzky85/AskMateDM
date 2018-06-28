@@ -6,10 +6,23 @@ import connection_handler
 def import_data_from_db(cursor, qa):
     if qa == "q":
         cursor.execute("""
-                        SELECT * from question
-                        ORDER BY submission_time desc
+                        SELECT question.id,
+                                question.submission_time,
+                                question.view_number,
+                                question.vote_number,
+                                question.title,
+                                question.message,
+                                question.image,
+                                tag.name AS tag
+                        FROM question
+                        LEFT JOIN question_tag ON id=question_id
+                        LEFT JOIN tag ON question_tag.tag_id=tag.id
+                        ORDER BY question.submission_time desc
                         """)
         data = cursor.fetchall()
+        for entry in data:
+            for key, val in entry.items():
+                print("key: {}, val: {}".format(key, val))
         return data
     if qa == "a":
         cursor.execute("""
@@ -120,3 +133,13 @@ def count_answer(cursor, q_id):
                     """, {"q_id": q_id})
     data = cursor.fetchall()
     return data
+
+
+@connection_handler.connection_handler
+def count_views(cursor, question_id):
+    cursor.execute("""
+                UPDATE question
+                SET view_number = view_number +1
+                WHERE id= %(q_id)s
+                ;
+                """, {"q_id": question_id})
