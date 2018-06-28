@@ -20,9 +20,6 @@ def import_data_from_db(cursor, qa):
                         ORDER BY question.submission_time desc
                         """)
         data = cursor.fetchall()
-        for entry in data:
-            for key, val in entry.items():
-                print("key: {}, val: {}".format(key, val))
         return data
     if qa == "a":
         cursor.execute("""
