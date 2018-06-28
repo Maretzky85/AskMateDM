@@ -32,6 +32,9 @@
             <form class="buttons" action="/question/{{question['id']}}/delete">
                 <button type="submit">Delete question</button>
             </form>
+            <form class="buttons" action="/question/{{question['id']}}/new-comment">
+                <button type="submit">add comment</button>
+            </form>
         </div>
         <a href="/question/{{question['id']}}/edit"><button>Edit</button></a>
         <p><h3>{{ question["message"] }}</h3></p>

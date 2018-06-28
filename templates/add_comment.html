@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<h2>{{warning}}</h2>
+<head>
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='new_answer.css') }}" />
+</head>
+<p>Add comment</p>
+<p>{{ question }}</p>
+<div class="content">
+    <form action="/question/{{ question_id }}/new-comment" method='POST'>
+        <p>COMMENT</p>
+        <textarea  minlength='10' id="message" name="message"rows="8" cols="80">{{ message }}</textarea>
+        <p><button type="submit">Submit</button></p>
+    </form>
+</div>
+{% endblock %}

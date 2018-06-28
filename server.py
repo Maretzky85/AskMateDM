@@ -75,7 +75,16 @@ def save_answer(question_id):
         return add_answer(question_id, "Title and message must be at least 10 signs")
     logic.post_new_answer(question_id, form)
     return redirect("/")
-
+@app.route("/question/<question_id>/new-comment", methods=['GET', 'POST'])
+def add_comment(question_id, warning=""):
+    if request.method == 'GET':
+        id_number = question_id
+        question = (logic.find_by_id("q", id_number)["title"]+"\n"+logic.find_by_id("q", id_number)["message"])
+        return render_template("add_comment.html", question_id=id_number, question=question, warning=warning)
+    elif request.method == 'POST':
+        form = request.form
+        if len(form) != 0:
+            return render_template("add_comment.html", question_id=question_id)
 
 @app.route("/answer/<answer_id>/delete", methods=['GET'])
 def delete_answer(answer_id):
