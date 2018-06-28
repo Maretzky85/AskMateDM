@@ -3,12 +3,11 @@
 {% block content %}
 <div class="content">
     <form action="{{url_for('search_questions')}}" method="POST">
-        <div>
             <input type="text" name="search_phrase" placeholder="Search...">
             <input type="submit" value="Submit">
-            <span class="validity"></span>
-        </div>    
+            <span class="validity"></span>    
     </form>
+</div>
     {% for question in questions %}
         <h2><a href="/question/{{question['id']}}"> Q - {{ question["title"] }}</h2></a>
         <div class="buttons">

@@ -27,6 +27,7 @@ def search_questions():
     search_phrase = request.form.get('search_phrase')
     print(search_phrase)
     result = logic.get_all_ids_with_phrase(search_phrase)
+    print (result)
     return render_template ('search_questions.html', result=result, search_phrase=search_phrase)
 
 
