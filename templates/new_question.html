@@ -1,9 +1,6 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<head>
-    <link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='new_question.css') }}" />
-</head>
 <div class="content">
     {% if id_ %}
     <form action="/question/{{id_}}/edit" method="POST">

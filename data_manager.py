@@ -83,17 +83,14 @@ def update_by_id(cursor, qa, id_, data):
 
 @connection_handler.connection_handler
 def search_by_input(cursor, search_phrase):
-    cursor.execute("""SELECT DISTINCT submission_time,
-                                    view_number,
-                                    vote_number,
-                                    title,
-                                    image,
-                                    message
-                    FROM question
-                    JOIN answer ON (question_id = question_id)
-                    WHERE title, message = %(search_phrase)s
-                    """, {"search_phrase":search_phrase})
-
+    print ("hura!!!!", search_phrase)
+    cursor.execute("""SELECT DISTINCT question.id, question.submission_time, question.view_number, question.vote_number, question.title, question.message, question.image
+                     FROM question
+                    JOIN answer ON(question.id = answer.question_id)
+                    WHERE question.title LIKE "%{}%"
+                    OR answer.message LIKE "%{}%" """.format(search_phrase,search_phrase))
+    data = cursor.fetchall()
+    return data
 
 @connection_handler.connection_handler
 def vote_edit(cursor, qa, id_, value):
