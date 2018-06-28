@@ -118,8 +118,9 @@ def page_not_found(e):
     return render_template('404.html'), 404
 
 
-@app.route("/sorted/?condition=<condition>")
-def sorted_condition(condition):
+@app.route("/sorted/")
+def sorted_condition():
+    condition = request.args.get('condition')
     questions = logic.order_by(condition)
     return render_template('list.html', questions=questions)
 
