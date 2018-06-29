@@ -93,6 +93,7 @@ def get_all_ids_with_phrase(search_phrase):
     data = data_manager.search_by_input(search_phrase)
     return data
 
-def order_by(condition):
-    data = data_manager.sort_by_condition(condition)
+
+def order_by(condition, order):
+    data = data_manager.sort_by_condition(condition, order)
     return data
