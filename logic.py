@@ -94,6 +94,15 @@ def get_all_ids_with_phrase(search_phrase):
     return data
 
 
+def manage_vote(qa, id_, value):
+        data_manager.vote_edit(qa, id_, value)
+
+
+def number_of_answers(question_id):
+    number = data_manager.count_answer(question_id)
+    return number[0]["count"]
+
+
 def order_by(condition, order):
     data = data_manager.sort_by_condition(condition, order)
     return data

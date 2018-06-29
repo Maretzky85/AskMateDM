@@ -112,6 +112,15 @@ def vote_down(question_id):
     logic.manage_vote("q", question_id, -1)
     return question(question_id)
 
+@app.route("/sorted/")
+def sorted_condition():
+    condition = request.args.get('condition')
+    order = request.args.get('order')
+    questions = logic.order_by(condition, order)
+    return render_template('list.html', questions=questions)
+
+
+
 
 @app.errorhandler(404)
 def page_not_found(e):
