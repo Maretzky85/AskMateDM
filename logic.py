@@ -104,5 +104,5 @@ def number_of_answers(question_id):
 
 
 def order_by(condition, order):
-    data = data_manager.sort_by_condition(condition, order)
+    data = data_manager.import_data_from_db("q", condition, order)
     return data
