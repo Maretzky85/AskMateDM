@@ -112,11 +112,93 @@ def vote_edit(cursor, qa, id_, value):
 
 
 @connection_handler.connection_handler
-def sort_by_condition(cursor, condition):
-    cursor.execute("""
-                    SELECT * FROM question
-                    ORDER BY %(condition)s
-                    """, {"condition": condition})
+def sort_by_condition(cursor, condition, order):
+    if order == 'desc':
+        if condition == 'submission_time':
+            cursor.execute("""
+                    SELECT question.id,
+                                question.submission_time,
+                                question.view_number,
+                                question.vote_number,
+                                question.title,
+                                question.message,
+                                question.image,
+                                tag.name AS tag
+                        FROM question
+                        LEFT JOIN question_tag ON id=question_id
+                        LEFT JOIN tag ON question_tag.tag_id=tag.id
+                        ORDER BY question.submission_time DESC""")
+        if condition == 'vote_number':
+            cursor.execute("""
+                    SELECT question.id,
+                                question.submission_time,
+                                question.view_number,
+                                question.vote_number,
+                                question.title,
+                                question.message,
+                                question.image,
+                                tag.name AS tag
+                        FROM question
+                        LEFT JOIN question_tag ON id=question_id
+                        LEFT JOIN tag ON question_tag.tag_id=tag.id
+                        ORDER BY question.vote_number DESC""")
+        if condition == 'view_number':
+            cursor.execute("""
+                    SELECT question.id,
+                                question.submission_time,
+                                question.view_number,
+                                question.vote_number,
+                                question.title,
+                                question.message,
+                                question.image,
+                                tag.name AS tag
+                        FROM question
+                        LEFT JOIN question_tag ON id=question_id
+                        LEFT JOIN tag ON question_tag.tag_id=tag.id
+                        ORDER BY question.view_number DESC""")
+    if order == 'asc':
+        if condition == 'submission_time':
+            cursor.execute("""
+                    SELECT question.id,
+                                question.submission_time,
+                                question.view_number,
+                                question.vote_number,
+                                question.title,
+                                question.message,
+                                question.image,
+                                tag.name AS tag
+                        FROM question
+                        LEFT JOIN question_tag ON id=question_id
+                        LEFT JOIN tag ON question_tag.tag_id=tag.id
+                        ORDER BY question.submission_time""")
+        if condition == 'vote_number':
+            cursor.execute("""
+                    SELECT question.id,
+                                question.submission_time,
+                                question.view_number,
+                                question.vote_number,
+                                question.title,
+                                question.message,
+                                question.image,
+                                tag.name AS tag
+                        FROM question
+                        LEFT JOIN question_tag ON id=question_id
+                        LEFT JOIN tag ON question_tag.tag_id=tag.id
+                        ORDER BY question.vote_number""")
+        if condition == 'view_number':
+            cursor.execute("""
+                    SELECT question.id,
+                                question.submission_time,
+                                question.view_number,
+                                question.vote_number,
+                                question.title,
+                                question.message,
+                                question.image,
+                                tag.name AS tag
+                        FROM question
+                        LEFT JOIN question_tag ON id=question_id
+                        LEFT JOIN tag ON question_tag.tag_id=tag.id
+                        ORDER BY question.view_number""")     
     data = cursor.fetchall()
     return data
 

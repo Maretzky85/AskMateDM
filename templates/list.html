@@ -12,12 +12,16 @@
             </div> 
         </form>
         <div>
-            <form method="GET" action="/sorted/{{condition}}">
+            <form method="GET" action="/sorted/">
                 <label for="condition">Order by:</label>
                     <select name="condition">
                         <option selected value="submission_time">submission time</option>
                         <option value="vote_number">votes</option>
                         <option value="view_number">views</option> 
+                    </select>
+                    <select name= "order">
+                        <option selected value="desc">descending</option>
+                        <option value="asc">ascending</option>
                     </select>
                     <button type="submit">GO</button>
             </form>

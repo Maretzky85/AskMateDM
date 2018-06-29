@@ -91,6 +91,6 @@ def number_of_answers(question_id):
     number = data_manager.count_answer(question_id)
     return number[0]["count"]
 
-def order_by(condition):
-    data = data_manager.sort_by_condition(condition)
+def order_by(condition, order):
+    data = data_manager.sort_by_condition(condition, order)
     return data
