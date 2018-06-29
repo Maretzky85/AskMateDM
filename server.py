@@ -120,8 +120,6 @@ def sorted_condition():
     return render_template('list.html', questions=questions)
 
 
-
-
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
