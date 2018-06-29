@@ -80,6 +80,20 @@ def save_answer(question_id):
     return question(question_id)
 
 
+@app.route("/answer/<answer_id>/edit", methods=['GET'])
+def edit_answer(answer_id):
+    answer = logic.find_by_id("a", answer_id)
+    print(answer)
+    return render_template("new_answer.html", answer=answer)
+
+
+@app.route("/answer/<answer_id>/edit", methods=['POST'])
+def save_edited_answer(answer_id):
+    form = request.form
+    logic.update_by_id("a", answer_id, form)
+    return question(question_id)
+
+
 @app.route("/answer/<answer_id>/delete", methods=['GET'])
 def delete_answer(answer_id):
     question_id = logic.find_by_id("a", answer_id)["question_id"]

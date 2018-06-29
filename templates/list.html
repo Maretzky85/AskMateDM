@@ -46,14 +46,19 @@
 
                     
                 {% if not question_id %}
+
                     <p>Answers: {{ question["answer_number"] }} <br>
                     Submited: {{question["submission_time"] }} <br>
                     Viewed: {{ question["view_number"] }} times</p>
+
                 {% endif %}
                 
+
                 {% if question["tag"] %}
                 {% if question["tag"]!=None %}
+
                 Tag: {{ question["tag"] }}
+
                 {% endif %}
                 {% endif %}
                     
@@ -76,6 +81,7 @@
                         </div>
 
                         <div class="answer_buttons">
+                            <a href="/answer/{{answer['id']}}/edit"><img width="25px" height="25px" src="{{ url_for('static', filename='edit.png') }}"></a>
                             <a href="/answer/{{answer['id']}}/delete"><img width="25px" height="25px" src="{{ url_for('static', filename='Trash.png') }}"></a>
                         </div>
                     </div>
