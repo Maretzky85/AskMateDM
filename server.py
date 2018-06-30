@@ -25,7 +25,7 @@ def new_question():
 def search_questions():
     search_phrase = request.form.get('search_phrase')
     result = logic.get_all_ids_with_phrase(search_phrase)
-    return render_template ('list.html', questions=result, search_phrase=search_phrase)
+    return render_template('list.html', questions=result, search_phrase=search_phrase)
 
 
 @app.route("/new_question", methods=['POST'])
@@ -111,6 +111,7 @@ def vote_up(question_id):
 def vote_down(question_id):
     logic.manage_vote("q", question_id, -1)
     return question(question_id)
+
 
 @app.route("/sorted/")
 def sorted_condition():

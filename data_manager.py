@@ -1,9 +1,10 @@
 import csv
 import connection_handler
+from psycopg2.extensions import AsIs
 
 
 @connection_handler.connection_handler
-def import_data_from_db(cursor, qa):
+def import_data_from_db(cursor, qa, condition="submission_time", order="desc"):
     if qa == "q":
         cursor.execute("""
                         SELECT question.id,
@@ -17,8 +18,8 @@ def import_data_from_db(cursor, qa):
                         FROM question
                         LEFT JOIN question_tag ON id=question_id
                         LEFT JOIN tag ON question_tag.tag_id=tag.id
-                        ORDER BY question.submission_time desc
-                        """)
+                        ORDER BY question.%(condition)s %(order)s""",
+                         {"condition": AsIs(condition), "order": AsIs(order)})
         data = cursor.fetchall()
         return data
     if qa == "a":
@@ -122,98 +123,6 @@ def vote_edit(cursor, qa, id_, value):
                         SET vote_number = vote_number + %(value)s
                         WHERE id = %(id)s;
                         """, {"value": value, "id": id_})
-
-
-@connection_handler.connection_handler
-def sort_by_condition(cursor, condition, order):
-    if order == 'desc':
-        if condition == 'submission_time':
-            cursor.execute("""
-                    SELECT question.id,
-                                question.submission_time,
-                                question.view_number,
-                                question.vote_number,
-                                question.title,
-                                question.message,
-                                question.image,
-                                tag.name AS tag
-                        FROM question
-                        LEFT JOIN question_tag ON id=question_id
-                        LEFT JOIN tag ON question_tag.tag_id=tag.id
-                        ORDER BY question.submission_time DESC""")
-        if condition == 'vote_number':
-            cursor.execute("""
-                    SELECT question.id,
-                                question.submission_time,
-                                question.view_number,
-                                question.vote_number,
-                                question.title,
-                                question.message,
-                                question.image,
-                                tag.name AS tag
-                        FROM question
-                        LEFT JOIN question_tag ON id=question_id
-                        LEFT JOIN tag ON question_tag.tag_id=tag.id
-                        ORDER BY question.vote_number DESC""")
-        if condition == 'view_number':
-            cursor.execute("""
-                    SELECT question.id,
-                                question.submission_time,
-                                question.view_number,
-                                question.vote_number,
-                                question.title,
-                                question.message,
-                                question.image,
-                                tag.name AS tag
-                        FROM question
-                        LEFT JOIN question_tag ON id=question_id
-                        LEFT JOIN tag ON question_tag.tag_id=tag.id
-                        ORDER BY question.view_number DESC""")
-    if order == 'asc':
-        if condition == 'submission_time':
-            cursor.execute("""
-                    SELECT question.id,
-                                question.submission_time,
-                                question.view_number,
-                                question.vote_number,
-                                question.title,
-                                question.message,
-                                question.image,
-                                tag.name AS tag
-                        FROM question
-                        LEFT JOIN question_tag ON id=question_id
-                        LEFT JOIN tag ON question_tag.tag_id=tag.id
-                        ORDER BY question.submission_time""")
-        if condition == 'vote_number':
-            cursor.execute("""
-                    SELECT question.id,
-                                question.submission_time,
-                                question.view_number,
-                                question.vote_number,
-                                question.title,
-                                question.message,
-                                question.image,
-                                tag.name AS tag
-                        FROM question
-                        LEFT JOIN question_tag ON id=question_id
-                        LEFT JOIN tag ON question_tag.tag_id=tag.id
-                        ORDER BY question.vote_number""")
-        if condition == 'view_number':
-            cursor.execute("""
-                    SELECT question.id,
-                                question.submission_time,
-                                question.view_number,
-                                question.vote_number,
-                                question.title,
-                                question.message,
-                                question.image,
-                                tag.name AS tag
-                        FROM question
-                        LEFT JOIN question_tag ON id=question_id
-                        LEFT JOIN tag ON question_tag.tag_id=tag.id
-                        ORDER BY question.view_number""")     
-    data = cursor.fetchall()
-    return data
 
 
 @connection_handler.connection_handler
