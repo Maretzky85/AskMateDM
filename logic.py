@@ -13,34 +13,11 @@ def get_all_data(qa="q", limit=None):
     if qa == "q":
         data = data_manager.import_data_from_db("q", limit)
         data = message_splitter(data)
-        for question in data:
-            question["answer_number"] = number_of_answers(question["id"])
+        data = gen_answer_count(data)
     if qa == "a":
         data = data_manager.import_data_from_db("a", limit)
         data = message_splitter(data)
     return data
-
-
-def find_by_id(qa, _id):
-    '''
-        Args: 
-        qa - str - "q" or "a", q for question, a for answer
-        "q" - get all questions from database
-        "a" - get all answers from database
-        _id - int - id of question or answer
-        returns dict
-    '''
-    if qa == "q":
-        data = data_manager.import_data_from_db("q")
-        data = message_splitter(data)
-        for question in data:
-            question["answer_number"] = number_of_answers(question["id"])
-    if qa == "a":
-        data = data_manager.import_data_from_db("a")
-        data = message_splitter(data)
-    for item in data:
-        if item["id"] == int(_id):
-            return item
 
 
 def post_new_question(form):
@@ -105,6 +82,28 @@ def update_by_id(qa, id_, data):
         data_manager.update_by_id("a", id_, data)
 
 
+def find_by_id(qa, _id):
+    '''
+        Args: 
+        qa - str - "q" or "a", q for question, a for answer
+        "q" - get all questions from database
+        "a" - get all answers from database
+        _id - int - id of question or answer
+        returns dict
+    '''
+    if qa == "q":
+        data = data_manager.import_data_from_db("q")
+        data = message_splitter(data)
+        for question in data:
+            question["answer_number"] = number_of_answers(question["id"])
+    if qa == "a":
+        data = data_manager.import_data_from_db("a")
+        data = message_splitter(data)
+    for item in data:
+        if item["id"] == int(_id):
+            return item
+
+
 def manage_vote(qa, id_, value):
     data_manager.vote_edit(qa, id_, value)
     return None
@@ -123,15 +122,13 @@ def count_views(question_id):
 def get_all_ids_with_phrase(search_phrase):
     data = data_manager.search_by_input(search_phrase)
     data = message_splitter(data)
-    for question in data:
-        question["answer_number"] = number_of_answers(question["id"])
+    data = gen_answer_count(data)
     return data
 
 
 def order_by(condition, order):
     data = data_manager.import_data_from_db("q","all", condition, order)
-    for question in data:
-        question["answer_number"] = number_of_answers(question["id"])
+    data = gen_answer_count(data)
     data = message_splitter(data)
     return data
 
@@ -139,4 +136,10 @@ def order_by(condition, order):
 def message_splitter(data):
     for message in data:
         message["message"] = message["message"].replace('\r',"").split('\n')
+    return data
+
+
+def gen_answer_count(data):
+    for question in data:
+        question["answer_number"] = number_of_answers(question["id"])
     return data

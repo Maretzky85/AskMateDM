@@ -20,14 +20,6 @@ def show_all():
 def new_question():
     return render_template('new_question.html', title="", message=[""])
 
-
-@app.route("/search", methods=["GET", "POST"])
-def search_questions():
-    search_phrase = request.form.get('search_phrase')
-    result = logic.get_all_ids_with_phrase(search_phrase)
-    return render_template('list.html', questions=result, search_phrase=search_phrase)
-
-
 @app.route("/new_question", methods=['POST'])
 def post_new_question():
     form = request.form
@@ -38,7 +30,7 @@ def post_new_question():
     return redirect("/")
 
 
-@app.route("/question/<question_id>", methods=['GET', 'POST'])
+@app.route("/question/<question_id>", methods=['GET'])
 def question(question_id):
     logic.count_views(question_id)
     questions = [logic.find_by_id("q", question_id)]
@@ -59,7 +51,7 @@ def save_edited_question(question_id):
     return redirect("/")
 
 
-@app.route("/question/<question_id>/delete", methods=['GET', 'POST'])
+@app.route("/question/<question_id>/delete", methods=['GET'])
 def delete_question(question_id):
     logic.delete_by_id("q", question_id)
     return redirect('/')
@@ -78,6 +70,18 @@ def save_answer(question_id):
     if len(form["message"]) == 0:
         return add_answer(question_id, "Title and message must be at least 10 signs")
     logic.post_new_answer(question_id, form)
+    return question(question_id)
+
+
+@app.route("/question/<question_id>/vote-up")
+def vote_up(question_id):
+    logic.manage_vote("q", question_id, 1)
+    return question(question_id)
+
+
+@app.route("/question/<question_id>/vote-down")
+def vote_down(question_id):
+    logic.manage_vote("q", question_id, -1)
     return question(question_id)
 
 
@@ -102,16 +106,11 @@ def answer_vote_down(answer_id):
     return question(question_id)
 
 
-@app.route("/question/<question_id>/vote-up")
-def vote_up(question_id):
-    logic.manage_vote("q", question_id, 1)
-    return question(question_id)
-
-
-@app.route("/question/<question_id>/vote-down")
-def vote_down(question_id):
-    logic.manage_vote("q", question_id, -1)
-    return question(question_id)
+@app.route("/search", methods=["GET"])
+def search_questions():
+    search_phrase = request.form.get('search_phrase')
+    result = logic.get_all_ids_with_phrase(search_phrase)
+    return render_template('list.html', questions=result, search_phrase=search_phrase)
 
 
 @app.route("/sorted/")
