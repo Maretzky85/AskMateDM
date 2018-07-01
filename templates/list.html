@@ -51,12 +51,18 @@
                 </div>
             
                 {% if question_id %}
-
-                    <h3>{{ question["message"]}}</h3>
-
+                    <h3>
+                        {% for line in question["message"] %}
+                            {{ line }}<br>
+                        {% endfor %}
+                    </h3>
                 {% else %}
 
-                    <h3>{{ question["message"][:300] }}...</h3>
+                <h3>
+                    {% for line in question["message"][:8] %}
+                        {{ line }}<br>
+                    {% endfor %}
+                </h3>
 
             {% endif %}
             </div>
@@ -89,7 +95,11 @@
                                     
                                 <a href="/answer/{{answer['id']}}/vote-down"><img src="{{ url_for('static', filename='1arrow_down.png') }}"></a>
                             </div>
-                        <h4>{{ answer["message"] }}</h4>
+                        <h4>
+                            {% for line in answer["message"] %}
+                                {{ line }}<br>
+                            {% endfor %}
+                        </h4>
                         </div>
 
                         <div class="answer_buttons">

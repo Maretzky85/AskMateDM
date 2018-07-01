@@ -5,18 +5,24 @@ import datetime
 def get_all_data(qa="q"):
     if qa == "q":
         data = data_manager.import_data_from_db("q")
+        data = message_splitter(data)
         for question in data:
             question["answer_number"] = number_of_answers(question["id"])
     if qa == "a":
         data = data_manager.import_data_from_db("a")
+        data = message_splitter(data)
     return data
 
 
 def find_by_id(qa, _id):
     if qa == "q":
         data = data_manager.import_data_from_db("q")
+        data = message_splitter(data)
+        for question in data:
+            question["answer_number"] = number_of_answers(question["id"])
     if qa == "a":
         data = data_manager.import_data_from_db("a")
+        data = message_splitter(data)
     for item in data:
         if item["id"] == int(_id):
             return item
@@ -96,15 +102,12 @@ def get_all_ids_with_phrase(search_phrase):
     return data
 
 
-def manage_vote(qa, id_, value):
-        data_manager.vote_edit(qa, id_, value)
-
-
-def number_of_answers(question_id):
-    number = data_manager.count_answer(question_id)
-    return number[0]["count"]
-
-
 def order_by(condition, order):
     data = data_manager.import_data_from_db("q", condition, order)
+    return data
+
+
+def message_splitter(data):
+    for message in data:
+        message["message"] = message["message"].replace('\r',"").split('\n')
     return data

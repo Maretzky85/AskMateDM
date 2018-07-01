@@ -3,15 +3,28 @@
 {% block content %}
 <div class="content">
     {% if id_ %}
-    <form action="/question/{{id_}}/edit" method="POST">
+        <form action="/question/{{id_}}/edit" method="POST">
     {% else %}
-    <form action="{{ url_for('new_question') }}" method="POST">
+        <form action="{{ url_for('new_question') }}" method="POST">
     {% endif %}
-        <p>Question title</p>
-        <textarea minlength='5' id="title" name="title" rows="1" cols="80">{{ title }}</textarea>
-        <p>Question</p>
-        <textarea minlength='10' id="message" name="message" rows="8" cols="80">{{ message }}</textarea>
-        <p><button type="submit"><img src="{{ url_for('static', filename='submit.png') }}"></button></p>
+
+    <p>
+        Question title
+    </p>
+        <textarea minlength='5' id="title" name="title" rows="1" cols="80">
+            {{ title }}
+        </textarea>
+    <p>
+        Question
+    </p>
+        <textarea minlength='10' id="message" name="message" rows="8" cols="80">
+            {% for line in message %}
+            {{ line }}
+            {% endfor %}
+        </textarea>
+    <p>
+        <button type="submit"><img src="{{ url_for('static', filename='submit.png') }}"></button>
+    </p>
 
     </form>
 </div>
