@@ -63,11 +63,17 @@
             {% endif %}
             </div>
 
-                    
+            <div class="question-footer">
                 {% if not question_id %}
-                    <p>Answers: {{ question["answer_number"] }} <br>
-                    Submited: {{question["submission_time"] }} <br>
-                    Viewed: {{ question["view_number"] }} times</p>
+                    <p>
+                        Answers: {{ question["answer_number"] }}
+                    </p>
+                    <p>
+                        Submited: {{question["submission_time"] }}
+                    </p>
+                    <p>
+                        Viewed: {{ question["view_number"] }} times
+                    </p>
                 {% endif %}
                 
                 {% if question["tag"] %}
@@ -75,7 +81,7 @@
                 Tag: {{ question["tag"] }}
                 {% endif %}
                 {% endif %}
-                    
+            </div>   
 
                 {% for answer in answers %}
                 

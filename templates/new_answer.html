@@ -9,9 +9,9 @@
         {{ question["title"] }}
     </p>
     <p>
-        {% for line in question["message"]%}
-            {{ line }}<br>
-        {% endfor %}
+        {%- for line in question["message"] -%}
+            {{- line -}}<br>
+        {%- endfor -%}
     </p>
 </div>
 <div class="content">
@@ -20,7 +20,7 @@
             Answer
         </p>
         <textarea  minlength='10' id="message" name="message"rows="8" cols="80">
-            {{ message }}
+            {{- message -}}
         </textarea>
         <p>
             <button type="submit">

@@ -18,7 +18,7 @@ def show_all():
 
 @app.route("/new_question", methods=['GET'])
 def new_question():
-    return render_template('new_question.html')
+    return render_template('new_question.html', title="", message=[""])
 
 
 @app.route("/search", methods=["GET", "POST"])
@@ -31,7 +31,7 @@ def search_questions():
 @app.route("/new_question", methods=['POST'])
 def post_new_question():
     form = request.form
-    if len(form["message"]) == 0 or len(form["title"]) == 0:
+    if len(form["message"]) < 10 or len(form["title"]) < 5:
         return new_question()
     logic.post_new_question(form)
     return redirect("/")

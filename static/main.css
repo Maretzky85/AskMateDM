@@ -109,3 +109,8 @@ p {
     display:flex;
     justify-content: space-evenly;
 }
+
+.question-footer {
+    display: flex;
+    justify-content: space-evenly
+}
