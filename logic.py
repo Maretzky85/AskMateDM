@@ -25,7 +25,7 @@ def find_by_id(qa, _id):
         data = message_splitter(data)
     for item in data:
         if item["id"] == int(_id):
-            return item
+            return [item]
 
 
 def post_new_question(form):
@@ -42,6 +42,7 @@ def post_new_question(form):
         new_post[key] = entry
     new_post["image"] = None
     new_post["submission_time"] = str(datetime.datetime.now())[:-7]
+    new_post["message"] = new_post["message"].replace("\r", "")
     data_manager.export_data_to_db("q", new_post)
 
 

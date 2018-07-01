@@ -12,18 +12,21 @@
         Question title
     </p>
         <textarea minlength='5' id="title" name="title" rows="1" cols="80">
-            {{- title -}}
+            {%- for title in question -%}
+            {{- title["title"] -}}
+            {%- endfor -%}
         </textarea>
     <p>
         Question
     </p>
         <textarea minlength='10' id="message" name="message" rows="8" cols="80">
                 {%- if id_ -%}
-                {%- for line in message -%}
+                {%- for message in question -%}
+                {%- for line in message["message"] -%}
                 {{- line }}
-{% endfor -%}
+{% endfor -%}{%- endfor -%}
                 {%- else -%}
-                
+
                 {%- endif -%}
 
         </textarea>
