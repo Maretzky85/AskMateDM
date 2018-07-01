@@ -19,12 +19,18 @@
     </p>
 </div>
 <div class="content">
-    <form action="/question/{{ question_id }}/new-answer" method="POST">
+        {% if answer_id %}
+        <form action="/answer/{{answer_id}}/edit" method="POST">
+    {% else %}
+        <form action="/question/{{ question_id }}/new-answer" method="POST">
+    {% endif %}
         <p>
             Answer
         </p>
         <textarea  minlength='10' id="message" name="message"rows="8" cols="80">
-            {{- message -}}
+                {%- for line in answer["message"] -%}
+                {{- line }}
+{% endfor -%}
         </textarea>
         <p>
             <button type="submit">

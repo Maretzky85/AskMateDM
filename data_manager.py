@@ -4,7 +4,7 @@ from psycopg2.extensions import AsIs
 
 
 @connection_handler.connection_handler
-def import_data_from_db(cursor, qa,limit="ALL", condition="submission_time", order="desc"):
+def import_data_from_db(cursor, qa, limit="ALL", condition="submission_time", order="desc"):
     if qa == "q":
         cursor.execute("""
                         SELECT question.id,
@@ -88,9 +88,9 @@ def update_by_id(cursor, qa, id_, data):
     if qa == "a":
         cursor.execute("""
                         UPDATE ANSWER
-                        SET title = %(title)s, message = %(message)s
+                        SET message = %(message)s
                         WHERE id = %(id_)s
-                        """, {"title": data["title"], "message": data["message"], "id_": id_})
+                        """, {"message": data["message"], "id_": id_})
 
 
 @connection_handler.connection_handler

@@ -92,6 +92,21 @@ def delete_answer(answer_id):
     return question(question_id)
 
 
+@app.route("/answer/<answer_id>/edit", methods=['GET'])
+def edit_answer(answer_id):
+    question = [logic.find_by_id("q",logic.find_by_id("a", answer_id)["question_id"])]
+    answer = logic.find_by_id("a", answer_id)
+    return render_template("new_answer.html", question = question, answer = answer, answer_id=answer_id)
+
+
+@app.route("/answer/<answer_id>/edit", methods=['POST'])
+def save_edited_answer(answer_id):
+    question_id = logic.find_by_id("a", answer_id)["question_id"]
+    form = request.form
+    logic.update_by_id("a", answer_id, form)
+    return question(question_id)
+
+
 @app.route("/answer/<answer_id>/vote-up")
 def answer_vote_up(answer_id):
     logic.manage_vote("a", answer_id, 1)
