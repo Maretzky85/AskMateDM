@@ -2,7 +2,7 @@ import data_manager
 import datetime
 
 
-def get_all_data(qa="q"):
+def get_all_data(qa="q", limit=None):
     '''
         Args:
         qa - str - "q" or "a", q for question, a for answer
@@ -11,12 +11,12 @@ def get_all_data(qa="q"):
         returns list of dicts
     '''
     if qa == "q":
-        data = data_manager.import_data_from_db("q")
+        data = data_manager.import_data_from_db("q", limit)
         data = message_splitter(data)
         for question in data:
             question["answer_number"] = number_of_answers(question["id"])
     if qa == "a":
-        data = data_manager.import_data_from_db("a")
+        data = data_manager.import_data_from_db("a", limit)
         data = message_splitter(data)
     return data
 
@@ -28,7 +28,7 @@ def find_by_id(qa, _id):
         "q" - get all questions from database
         "a" - get all answers from database
         _id - int - id of question or answer
-        returns list of dict (compatibility)
+        returns dict
     '''
     if qa == "q":
         data = data_manager.import_data_from_db("q")
@@ -40,7 +40,7 @@ def find_by_id(qa, _id):
         data = message_splitter(data)
     for item in data:
         if item["id"] == int(_id):
-            return [item]
+            return item
 
 
 def post_new_question(form):
@@ -129,7 +129,10 @@ def get_all_ids_with_phrase(search_phrase):
 
 
 def order_by(condition, order):
-    data = data_manager.import_data_from_db("q", condition, order)
+    data = data_manager.import_data_from_db("q","all", condition, order)
+    for question in data:
+        question["answer_number"] = number_of_answers(question["id"])
+    data = message_splitter(data)
     return data
 
 

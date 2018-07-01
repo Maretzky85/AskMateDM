@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def main():
-    questions = logic.get_all_data("q")[:5]
+    questions = logic.get_all_data("q", 5)
     return render_template('list.html', questions=questions)
 
 
@@ -41,14 +41,14 @@ def post_new_question():
 @app.route("/question/<question_id>", methods=['GET', 'POST'])
 def question(question_id):
     logic.count_views(question_id)
-    questions = logic.find_by_id("q", question_id)
+    questions = [logic.find_by_id("q", question_id)]
     answers = logic.get_all_data("a")
     return render_template('list.html', questions=questions, answers=answers, question_id=question_id)
 
 
 @app.route("/question/<question_id>/edit", methods=['GET'])
 def edit_question(question_id):
-    question = logic.find_by_id("q", question_id)
+    question = [logic.find_by_id("q", question_id)]
     return render_template('new_question.html',question=question, id_=question_id)
 
 
@@ -68,7 +68,7 @@ def delete_question(question_id):
 @app.route("/question/<question_id>/new-answer", methods=['GET'])
 def add_answer(question_id, warning=""):
     id_number = question_id
-    question = logic.find_by_id("q", id_number)
+    question = [logic.find_by_id("q", id_number)]
     return render_template('new_answer.html', question_id=id_number, question=question, warning=warning)
 
 

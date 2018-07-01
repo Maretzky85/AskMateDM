@@ -6,12 +6,16 @@
 </h2>
 <div class="content">
     <p>
-        {{ question["title"] }}
+            {%- for title in question -%}
+            {{- title["title"] -}}
+            {%- endfor -%}
     </p>
     <p>
-        {%- for line in question["message"] -%}
-            {{- line -}}<br>
-        {%- endfor -%}
+            {% for message in question %}
+            {% for line in message["message"] %}
+            {{ line }}<br>
+            {% endfor %}
+            {% endfor %}
     </p>
 </div>
 <div class="content">

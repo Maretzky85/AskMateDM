@@ -4,7 +4,7 @@ from psycopg2.extensions import AsIs
 
 
 @connection_handler.connection_handler
-def import_data_from_db(cursor, qa, condition="submission_time", order="desc"):
+def import_data_from_db(cursor, qa,limit="ALL", condition="submission_time", order="desc"):
     if qa == "q":
         cursor.execute("""
                         SELECT question.id,
@@ -18,8 +18,9 @@ def import_data_from_db(cursor, qa, condition="submission_time", order="desc"):
                         FROM question
                         LEFT JOIN question_tag ON id=question_id
                         LEFT JOIN tag ON question_tag.tag_id=tag.id
-                        ORDER BY question.%(condition)s %(order)s""",
-                         {"condition": AsIs(condition), "order": AsIs(order)})
+                        ORDER BY question.%(condition)s %(order)s
+                        LIMIT %(limit)s""",
+                         {"condition": AsIs(condition), "order": AsIs(order), "limit": AsIs(limit)})
         data = cursor.fetchall()
         return data
     if qa == "a":

@@ -54,13 +54,13 @@
                     </h3>
                 {% else %}
 
-                <h3>
-                    {% for line in question["message"][:8] %}
-                        {{ line }}<br>
-                    {% endfor %}
-                </h3>
+                    <h3>
+                        {% for line in question["message"][:3] %}
+                            {{ line }}<br>
+                        {% endfor %}
+                    </h3>
 
-            {% endif %}
+                {% endif %}
             </div>
 
             <div class="question-footer">
