@@ -104,3 +104,8 @@ p {
     margin: auto;
     width: 50%;
 }
+
+.options-bar {
+    display:flex;
+    justify-content: space-evenly;
+}

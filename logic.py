@@ -97,6 +97,7 @@ def count_views(question_id):
 
 def get_all_ids_with_phrase(search_phrase):
     data = data_manager.search_by_input(search_phrase)
+    data = message_splitter(data)
     for question in data:
         question["answer_number"] = number_of_answers(question["id"])
     return data
