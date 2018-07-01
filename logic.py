@@ -7,6 +7,8 @@ def get_all_data(qa="q"):
         data = data_manager.import_data_from_db("q")
     if qa == "a":
         data = data_manager.import_data_from_db("a")
+    if qa == "c":
+        data = data_manager.import_data_from_db("c")
     return data
 
 
@@ -57,6 +59,25 @@ def post_new_answer(question_id, form):
     new_post["question_id"] = question_id
     data_manager.export_data_to_db("a", new_post)
 
+
+def post_new_comment(question_id, form):
+    '''
+    saves new comment to file
+    Args:
+        form - list of dicts
+    '''
+    print('HURAAAAA', question_id, "milion proc",  form)
+    
+    new_comment = {}
+    for key, entry in form.items():
+        print("key:", key)
+        print("entry:", entry)
+        new_comment[key] = entry
+    new_comment['question_id'] = question_id
+    new_comment['answer_id'] = None
+    new_comment['submission_time'] = str(datetime.datetime.now())[:-7]
+    new_comment['edited_count'] = None
+    data_manager.export_data_to_db("c", new_comment)
 
 def delete_by_id(qa, id_):
     '''

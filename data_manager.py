@@ -18,6 +18,13 @@ def import_data_from_db(cursor, qa):
                         """)
         data = cursor.fetchall()
         return data
+    if qa == "c":
+        cursor.execute("""
+                    SELECT * from comment
+                    ORDER BY submission_time desc
+                    """)
+        data = cursor.fetchall()
+    return data   
 
 
 @connection_handler.connection_handler
@@ -43,6 +50,18 @@ def export_data_to_db(cursor, qa, data):
                         "image": data["image"],
                         "message": data["message"]})
         return None
+
+    if qa == "c":
+        cursor.execute("""
+                        INSERT into COMMENT (submission_time, question_id, answer_id, message, edited_count)
+                        VALUES (%(submission_time)s, %(question_id)s,%(answer_id)s, %(message)s, %(edited_count)s)
+                        """, {"submission_time": data["submission_time"],
+                        "question_id": data["question_id"],
+                        "answer_id": data["answer_id"],
+                        "message": data["message"],
+                        "edited_count": data["edited_count"]})
+        return None
+
 
 
 @connection_handler.connection_handler

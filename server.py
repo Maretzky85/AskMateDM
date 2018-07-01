@@ -39,6 +39,7 @@ def post_new_question():
 def question(question_id):
     questions = [logic.find_by_id("q", question_id)]
     answers = logic.get_all_data("a")
+    comments = logic.get_all_data("c")
     return render_template('list.html', questions=questions, answers=answers)
 
 
@@ -71,20 +72,23 @@ def add_answer(question_id, warning=""):
 @app.route("/question/<question_id>/new-answer", methods=['POST'])
 def save_answer(question_id):
     form = request.form
-    if len(form["message"]) == 0 or len(form["title"]) == 0:
+    if len(form["message"]) == 0:
         return add_answer(question_id, "Title and message must be at least 10 signs")
     logic.post_new_answer(question_id, form)
     return redirect("/")
-@app.route("/question/<question_id>/new-comment", methods=['GET', 'POST'])
+
+
+@app.route("/question/<question_id>/new-comment", methods=['GET'])
+def comment_page(question_id, warning=""):
+    id_number = question_id
+    question = (logic.find_by_id("q", id_number)["title"]+"\n"+logic.find_by_id("q", id_number)["message"])
+    return render_template("add_comment.html", question_id=id_number, question=question, warning=warning)
+    
+@app.route("/question/<question_id>/new-comment", methods=['POST'])    
 def add_comment(question_id, warning=""):
-    if request.method == 'GET':
-        id_number = question_id
-        question = (logic.find_by_id("q", id_number)["title"]+"\n"+logic.find_by_id("q", id_number)["message"])
-        return render_template("add_comment.html", question_id=id_number, question=question, warning=warning)
-    elif request.method == 'POST':
-        form = request.form
-        if len(form) != 0:
-            return render_template("add_comment.html", question_id=question_id)
+    form = request.form
+    logic.post_new_comment(question_id, form)
+    return render_template("add_comment.html", question_id=question_id, form=form)
 
 @app.route("/answer/<answer_id>/delete", methods=['GET'])
 def delete_answer(answer_id):
@@ -119,4 +123,5 @@ def vote_down(question_id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,
+    port=5001)
