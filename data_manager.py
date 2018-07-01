@@ -131,7 +131,7 @@ def count_answer(cursor, q_id):
                     SELECT COUNT (id) FROM answer
                     WHERE question_id= %(q_id)s
                     """, {"q_id": q_id})
-    data = cursor.fetchall()
+    data = cursor.fetchone()
     return data
 
 

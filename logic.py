@@ -3,6 +3,13 @@ import datetime
 
 
 def get_all_data(qa="q"):
+    '''
+        Args:
+        qa - str - "q" or "a", q for question, a for answer
+        "q" - get all questions from database
+        "a" - get all answers from database
+        returns list of dicts
+    '''
     if qa == "q":
         data = data_manager.import_data_from_db("q")
         data = message_splitter(data)
@@ -15,6 +22,14 @@ def get_all_data(qa="q"):
 
 
 def find_by_id(qa, _id):
+    '''
+        Args: 
+        qa - str - "q" or "a", q for question, a for answer
+        "q" - get all questions from database
+        "a" - get all answers from database
+        _id - int - id of question or answer
+        returns list of dict (compatibility)
+    '''
     if qa == "q":
         data = data_manager.import_data_from_db("q")
         data = message_splitter(data)
@@ -30,9 +45,9 @@ def find_by_id(qa, _id):
 
 def post_new_question(form):
     '''
-    saves new question to file
+    saves new question to database
     Args:
-        form - list of dicts
+        form - dict
     '''
     header = ["view_number", "vote_number", "image"]
     new_post = {}
@@ -48,9 +63,10 @@ def post_new_question(form):
 
 def post_new_answer(question_id, form):
     '''
-    saves new answer to file
+    saves new answer to database
     Args:
-        form - list of dicts
+        question_id - int - ID number for question answered
+        form - dict
     '''
     new_post = {}
     for key, entry in form.items():
@@ -66,7 +82,7 @@ def delete_by_id(qa, id_):
     '''
     Deletes post by id
     Args:
-        qa - str q or a, q for question, a for answer
+        qa - str - "q" or "a" , q for question, a for answer
         id - str or int - id of element to delete
     '''
     if qa == "q":
@@ -76,6 +92,13 @@ def delete_by_id(qa, id_):
 
 
 def update_by_id(qa, id_, data):
+    '''
+    Update entry identified by ID number by data
+    Args:
+        qa - str - "q" or "a", q for question, a for answer
+        id_ - ID number for question or answer
+        data - dict containing ["title"] and ["message"]
+    '''
     if qa == "q":
         data_manager.update_by_id("q", id_, data)
     if qa == "a":
@@ -84,11 +107,12 @@ def update_by_id(qa, id_, data):
 
 def manage_vote(qa, id_, value):
     data_manager.vote_edit(qa, id_, value)
+    return None
 
 
 def number_of_answers(question_id):
     number = data_manager.count_answer(question_id)
-    return number[0]["count"]
+    return number["count"]
 
 
 def count_views(question_id):
