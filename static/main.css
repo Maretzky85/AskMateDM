@@ -114,3 +114,13 @@ p {
     display: flex;
     justify-content: space-evenly
 }
+
+.comment {
+    background-color: #707070;
+    font-size: 9px;
+    display: flex;
+    border-radius: 10px;
+    padding: 5px;
+    justify-content: right;
+    margin-left: auto;
+}

@@ -25,7 +25,6 @@ def post_new_question():
     form = request.form
     if len(form["message"]) < 10 or len(form["title"]) < 5:
         return new_question()
-    print(repr(form["message"]))
     logic.post_new_question(form)
     return redirect("/")
 
@@ -35,7 +34,8 @@ def question(question_id):
     logic.count_views(question_id)
     questions = [logic.find_by_id("q", question_id)]
     answers = logic.get_all_data("a")
-    return render_template('list.html', questions=questions, answers=answers, question_id=question_id)
+    comments = logic.get_all_comments()
+    return render_template('list.html', questions=questions, answers=answers, comments=comments, question_id=question_id)
 
 
 @app.route("/question/<question_id>/edit", methods=['GET'])

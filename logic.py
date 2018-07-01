@@ -17,6 +17,14 @@ def get_all_data(qa="q", limit=None):
     if qa == "a":
         data = data_manager.import_data_from_db("a", limit)
         data = message_splitter(data)
+    if qa == "c":
+        data = data_manager.import_comments_from_db()
+        data = message_splitter(data)
+    return data
+
+
+def get_all_comments():
+    data = data_manager.import_comments_from_db()
     return data
 
 

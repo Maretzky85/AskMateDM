@@ -33,6 +33,16 @@ def import_data_from_db(cursor, qa, limit="ALL", condition="submission_time", or
 
 
 @connection_handler.connection_handler
+def import_comments_from_db(cursor):
+    cursor.execute("""
+                    SELECT * from comment
+                    ORDER BY submission_time desc
+                    """)
+    data = cursor.fetchall()
+    return data
+
+
+@connection_handler.connection_handler
 def export_data_to_db(cursor, qa, data):
 
     if qa == "q":

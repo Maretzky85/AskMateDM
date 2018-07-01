@@ -62,7 +62,14 @@
 
                 {% endif %}
             </div>
-
+            {% for comment in comments %}
+            {% if comment["question_id"] == question["id"] %}
+            {{question_id}}
+                <div class="comment">
+                    {{ comment["message"] }}
+                </div>
+            {% endif %}
+            {% endfor %}
             <div class="question-footer">
                 {% if not question_id %}
                     <p>
@@ -75,7 +82,7 @@
                         Viewed: {{ question["view_number"] }} times
                     </p>
                 {% endif %}
-                
+
                 {% if question["tag"] %}
                 {% if question["tag"]!=None %}
                 Tag: {{ question["tag"] }}
@@ -87,6 +94,10 @@
                 
                     {% if answer["question_id"] == question["id"] %}
                     <div class="answer">
+                        <div class="answer_buttons">
+                                <a href="/answer/{{answer['id']}}/edit"><img width="25px" height="25px" src="{{ url_for('static', filename='edit.png') }}"></a>
+                                <a href="/answer/{{answer['id']}}/delete"><img width="25px" height="25px" src="{{ url_for('static', filename='Trash.png') }}"></a>
+                            </div>
 
                         <div class="message-box">
                             <div class="vote">
@@ -102,11 +113,13 @@
                             {% endfor %}
                         </h4>
                         </div>
-
-                        <div class="answer_buttons">
-                            <a href="/answer/{{answer['id']}}/edit"><img width="25px" height="25px" src="{{ url_for('static', filename='edit.png') }}"></a>
-                            <a href="/answer/{{answer['id']}}/delete"><img width="25px" height="25px" src="{{ url_for('static', filename='Trash.png') }}"></a>
-                        </div>
+                            {% for comment in comments %}
+                                {% if comment["answer_id"] == answer["id"] %}
+                                    <div class="comment">
+                                        {{ comment["message"] }}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
                     </div>
                     {% endif %}
                 
