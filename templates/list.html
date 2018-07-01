@@ -64,7 +64,6 @@
             </div>
             {% for comment in comments %}
             {% if comment["question_id"] == question["id"] %}
-            {{question_id}}
                 <div class="comment">
                     {{ comment["message"] }}
                 </div>
