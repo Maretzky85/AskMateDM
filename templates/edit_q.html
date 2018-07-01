@@ -1,16 +1,34 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<p>Question</p>
-<p>{{ question }}</p>
+<p>
+    Question
+</p>
+<p>
+    {{ question }}
+</p>
 <div class="content">
     <form action="/question/{{ question_id }}/edit" method="POST">
-        <p>Edit your question</p>
-        <p>Question title</p>
-        <textarea id=" title" name=" title"rows="1" cols="80" placeholder= {{title}}>{{ title }} </textarea>
-        <p>Question</p>
-        <textarea id=" message" name=" message"rows="8" cols="80" placeholder = {{message}} >{{ message }} </textarea>
-        <p><button type="submit">Submit</button></p>
+        <p>
+            Edit your question
+        </p>
+        <p>
+            Question title
+        </p>
+        <textarea id=" title" name=" title"rows="1" cols="80" placeholder= {{title}}>
+            {{ title }}
+        </textarea>
+        <p>
+            Question
+        </p>
+        <textarea id=" message" name=" message"rows="8" cols="80" placeholder = {{message}}>
+            {{ message }}
+        </textarea>
+        <p>
+            <button type="submit">
+                Submit
+            </button>
+        </p>
     </form>
 </div>
 {% endblock %}
