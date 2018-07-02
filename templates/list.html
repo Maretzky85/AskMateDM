@@ -19,12 +19,13 @@
                 <input type="text" name="search_phrase" placeholder="Search...">
         </form>
     </div>   
-       
-
+    <div class="warning-box">
+    <h1>{{ warning }}</h1>
+    </div>
     {% for question in questions %}
 
         <div class="content">
-            
+
                 {% if question_id %}
                 <div class="buttons">
                     <a href="/question/{{question['id']}}/new-answer"><img width=40px height=25px src="{{ url_for('static', filename='answer.png') }}"></a>

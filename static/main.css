@@ -124,3 +124,13 @@ p {
     justify-content: right;
     margin-left: auto;
 }
+
+.warning-box {
+    display: flex;
+    margin-left: auto;
+    margin-top: inherit;
+    justify-content: center;
+    font-family: oblique;
+    font-size: 20px;
+    color: #800000;
+}

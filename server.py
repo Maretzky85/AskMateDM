@@ -48,7 +48,7 @@ def edit_question(question_id):
 def save_edited_question(question_id):
     form = request.form
     logic.update_by_id("q", question_id, form)
-    return redirect("/")
+    return question(question_id)
 
 
 @app.route("/question/<question_id>/delete", methods=['GET'])
@@ -121,11 +121,14 @@ def answer_vote_down(answer_id):
     return question(question_id)
 
 
-@app.route("/search", methods=["GET"])
+@app.route("/search", methods=['POST'])
 def search_questions():
     search_phrase = request.form.get('search_phrase')
     result = logic.get_all_ids_with_phrase(search_phrase)
-    return render_template('list.html', questions=result, search_phrase=search_phrase)
+    warning = None
+    if not result:
+        warning = "Nope, please try again."
+    return render_template('list.html', questions=result, search_phrase=search_phrase, warning=warning)
 
 
 @app.route("/sorted/")
