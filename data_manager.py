@@ -75,6 +75,8 @@ def delete_by_id(cursor, qa, id_):
                         WHERE question_id = %(id_)s;
                         DELETE from ANSWER
                         WHERE question_id = %(id_)s;
+                        DELETE from comment
+                        WHERE question_id = %(id_)s;
                         DELETE from QUESTION
                         WHERE id = %(id_)s
                         """, {"id_": id_})
