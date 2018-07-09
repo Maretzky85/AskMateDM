@@ -20,7 +20,9 @@
         </form>
     </div>   
     <div class="warning-box">
-    <h1>{{ warning }}</h1>
+        {% if warning %}
+        <h1>{{ warning }}</h1>
+        {% endif %}
     </div>
     {% for question in questions %}
 

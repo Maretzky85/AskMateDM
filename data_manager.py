@@ -115,9 +115,9 @@ def search_by_input(cursor, search_phrase):
                                      question.message,
                                      question.image
                     FROM question
-                    JOIN answer ON(question.id = answer.question_id)
-                    WHERE question.title LIKE '%{0}%'
-                    OR answer.message LIKE '%{0}%' """.format(search_phrase))
+                    FULL OUTER JOIN answer ON(question.id = answer.question_id)
+                    WHERE question.title LIKE '%{}%'
+                    OR answer.message LIKE '%{}%' """.format(search_phrase, search_phrase))
     data = cursor.fetchall()
     return data
 
