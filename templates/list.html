@@ -21,6 +21,11 @@
     </div>
     <div class="options-bar">
         <a href="{{ url_for('list_users') }}"><h2>User list</h2></a>
+    </div>   
+    <div class="register_button">
+        <form action="/register" method="GET">
+            <button type="submit">Register Here!</button>
+        </form>
     </div>
     <div class="warning-box">
         {% if warning %}
