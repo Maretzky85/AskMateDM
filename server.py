@@ -138,7 +138,7 @@ def sorted_condition():
     questions = logic.order_by(condition, order)
     return render_template('list.html', questions = questions)
 
-@app.rute("/user/<user_id>")
+@app.route("/user/<user_id>")
 def user_page(user_id):
     logic.get_user_id(user_id)
     
