@@ -171,3 +171,8 @@ def add_user(name):
     name = name
     date = str(datetime.datetime.now())       
     data_manager.add_user(name, date)
+
+
+def get_user_id(user_id):
+    user_id = data_manager.get_user_id(user_id)
+    return user_id
