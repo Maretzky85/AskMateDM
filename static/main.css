@@ -134,3 +134,11 @@ p {
     font-size: 20px;
     color: #800000;
 }
+
+.user {
+    display: flex;
+    justify-content: space-around;
+    font-family: oblique;
+    font-size: 20px;
+    color: #ffffff;
+}

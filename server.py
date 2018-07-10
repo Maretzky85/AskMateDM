@@ -144,10 +144,11 @@ def page_not_found(e):
     return render_template('404.html'), 404
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
-
 @app.route("/list_users")
 def list_users():
     data = logic.get_users()
-    return render_template('list_users', data = data)
+    return render_template('user_list.html', users = data)
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
