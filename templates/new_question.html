@@ -31,6 +31,18 @@
 
         </textarea>
     <p>
+        User
+    </p>
+        <div class="options-bar">
+            <form method="GET">
+                <label for="condition">Choose User:</label>
+                    <select name="condition">
+                        {% for user in users %}
+                            <option value={{user}}>{{user}}</option>
+                    </select>
+            </form>
+        </div>
+    <p>
         <button type="submit"><img src="{{ url_for('static', filename='submit.png') }}"></button>
     </p>
 
