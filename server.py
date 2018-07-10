@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def main():
-    questions = logic.get_all_data("q")[:5]
+    questions = logic.get_all_data("q", 5)
     return render_template('list.html', questions=questions)
 
 
@@ -18,47 +18,40 @@ def show_all():
 
 @app.route("/new_question", methods=['GET'])
 def new_question():
-    return render_template('new_question.html')
-
-
-@app.route("/search", methods=["GET", "POST"])
-def search_questions():
-    search_phrase = request.form.get('search_phrase')
-    result = logic.get_all_ids_with_phrase(search_phrase)
-    return render_template('list.html', questions=result, search_phrase=search_phrase)
-
+    return render_template('new_question.html', title="", message=[""])
 
 @app.route("/new_question", methods=['POST'])
 def post_new_question():
     form = request.form
-    if len(form["message"]) == 0 or len(form["title"]) == 0:
+    if len(form["message"]) < 10 or len(form["title"]) < 5:
         return new_question()
     logic.post_new_question(form)
     return redirect("/")
 
 
-@app.route("/question/<question_id>", methods=['GET', 'POST'])
+@app.route("/question/<question_id>", methods=['GET'])
 def question(question_id):
     logic.count_views(question_id)
     questions = [logic.find_by_id("q", question_id)]
     answers = logic.get_all_data("a")
-    return render_template('list.html', questions=questions, answers=answers, question_id=question_id)
+    comments = logic.get_all_comments()
+    return render_template('list.html', questions=questions, answers=answers, comments=comments, question_id=question_id)
 
 
 @app.route("/question/<question_id>/edit", methods=['GET'])
 def edit_question(question_id):
-    question = logic.find_by_id("q", question_id)
-    return render_template('new_question.html', title=question["title"], message=question["message"], id_=question_id)
+    question = [logic.find_by_id("q", question_id)]
+    return render_template('new_question.html',question=question, id_=question_id)
 
 
 @app.route("/question/<question_id>/edit", methods=['POST'])
 def save_edited_question(question_id):
     form = request.form
     logic.update_by_id("q", question_id, form)
-    return redirect("/")
+    return question(question_id)
 
 
-@app.route("/question/<question_id>/delete", methods=['GET', 'POST'])
+@app.route("/question/<question_id>/delete", methods=['GET'])
 def delete_question(question_id):
     logic.delete_by_id("q", question_id)
     return redirect('/')
@@ -67,7 +60,7 @@ def delete_question(question_id):
 @app.route("/question/<question_id>/new-answer", methods=['GET'])
 def add_answer(question_id, warning=""):
     id_number = question_id
-    question = (logic.find_by_id("q", id_number)["title"]+"\n"+logic.find_by_id("q", id_number)["message"])
+    question = [logic.find_by_id("q", id_number)]
     return render_template('new_answer.html', question_id=id_number, question=question, warning=warning)
 
 
@@ -80,10 +73,37 @@ def save_answer(question_id):
     return question(question_id)
 
 
+@app.route("/question/<question_id>/vote-up")
+def vote_up(question_id):
+    logic.manage_vote("q", question_id, 1)
+    return question(question_id)
+
+
+@app.route("/question/<question_id>/vote-down")
+def vote_down(question_id):
+    logic.manage_vote("q", question_id, -1)
+    return question(question_id)
+
+
 @app.route("/answer/<answer_id>/delete", methods=['GET'])
 def delete_answer(answer_id):
     question_id = logic.find_by_id("a", answer_id)["question_id"]
     logic.delete_by_id("a", answer_id)
+    return question(question_id)
+
+
+@app.route("/answer/<answer_id>/edit", methods=['GET'])
+def edit_answer(answer_id):
+    question = [logic.find_by_id("q",logic.find_by_id("a", answer_id)["question_id"])]
+    answer = logic.find_by_id("a", answer_id)
+    return render_template("new_answer.html", question = question, answer = answer, answer_id=answer_id)
+
+
+@app.route("/answer/<answer_id>/edit", methods=['POST'])
+def save_edited_answer(answer_id):
+    question_id = logic.find_by_id("a", answer_id)["question_id"]
+    form = request.form
+    logic.update_by_id("a", answer_id, form)
     return question(question_id)
 
 
@@ -101,16 +121,14 @@ def answer_vote_down(answer_id):
     return question(question_id)
 
 
-@app.route("/question/<question_id>/vote-up")
-def vote_up(question_id):
-    logic.manage_vote("q", question_id, 1)
-    return question(question_id)
-
-
-@app.route("/question/<question_id>/vote-down")
-def vote_down(question_id):
-    logic.manage_vote("q", question_id, -1)
-    return question(question_id)
+@app.route("/search", methods=['POST'])
+def search_questions():
+    search_phrase = request.form.get('search_phrase')
+    result = logic.get_all_ids_with_phrase(search_phrase)
+    warning = None
+    if not result:
+        warning = "Nope, please try again."
+    return render_template('list.html', questions=result, search_phrase=search_phrase, warning=warning)
 
 
 @app.route("/sorted/")

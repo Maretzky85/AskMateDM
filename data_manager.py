@@ -4,7 +4,7 @@ from psycopg2.extensions import AsIs
 
 
 @connection_handler.connection_handler
-def import_data_from_db(cursor, qa, condition="submission_time", order="desc"):
+def import_data_from_db(cursor, qa, limit="ALL", condition="submission_time", order="desc"):
     if qa == "q":
         cursor.execute("""
                         SELECT question.id,
@@ -18,8 +18,9 @@ def import_data_from_db(cursor, qa, condition="submission_time", order="desc"):
                         FROM question
                         LEFT JOIN question_tag ON id=question_id
                         LEFT JOIN tag ON question_tag.tag_id=tag.id
-                        ORDER BY question.%(condition)s %(order)s""",
-                         {"condition": AsIs(condition), "order": AsIs(order)})
+                        ORDER BY question.%(condition)s %(order)s
+                        LIMIT %(limit)s""",
+                         {"condition": AsIs(condition), "order": AsIs(order), "limit": AsIs(limit)})
         data = cursor.fetchall()
         return data
     if qa == "a":
@@ -29,6 +30,16 @@ def import_data_from_db(cursor, qa, condition="submission_time", order="desc"):
                         """)
         data = cursor.fetchall()
         return data
+
+
+@connection_handler.connection_handler
+def import_comments_from_db(cursor):
+    cursor.execute("""
+                    SELECT * from comment
+                    ORDER BY submission_time desc
+                    """)
+    data = cursor.fetchall()
+    return data
 
 
 @connection_handler.connection_handler
@@ -64,6 +75,8 @@ def delete_by_id(cursor, qa, id_):
                         WHERE question_id = %(id_)s;
                         DELETE from ANSWER
                         WHERE question_id = %(id_)s;
+                        DELETE from comment
+                        WHERE question_id = %(id_)s;
                         DELETE from QUESTION
                         WHERE id = %(id_)s
                         """, {"id_": id_})
@@ -87,9 +100,9 @@ def update_by_id(cursor, qa, id_, data):
     if qa == "a":
         cursor.execute("""
                         UPDATE ANSWER
-                        SET title = %(title)s, message = %(message)s
+                        SET message = %(message)s
                         WHERE id = %(id_)s
-                        """, {"title": data["title"], "message": data["message"], "id_": id_})
+                        """, {"message": data["message"], "id_": id_})
 
 
 @connection_handler.connection_handler
@@ -102,9 +115,9 @@ def search_by_input(cursor, search_phrase):
                                      question.message,
                                      question.image
                     FROM question
-                    JOIN answer ON(question.id = answer.question_id)
-                    WHERE question.title LIKE '%{0}%'
-                    OR answer.message LIKE '%{0}%' """.format(search_phrase))
+                    FULL OUTER JOIN answer ON(question.id = answer.question_id)
+                    WHERE question.title LIKE '%{}%'
+                    OR answer.message LIKE '%{}%' """.format(search_phrase, search_phrase))
     data = cursor.fetchall()
     return data
 
@@ -131,7 +144,7 @@ def count_answer(cursor, q_id):
                     SELECT COUNT (id) FROM answer
                     WHERE question_id= %(q_id)s
                     """, {"q_id": q_id})
-    data = cursor.fetchall()
+    data = cursor.fetchone()
     return data
 
 

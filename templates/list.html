@@ -1,34 +1,33 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-
-    <form action="{{url_for('search_questions')}}" method="POST">
-            <input type="text" name="search_phrase" placeholder="Search...">
-            <input type="submit" value="Submit">
-    </form>
-
-    </form>
-        <div>
-            <form method="GET" action="/sorted/">
-                <label for="condition">Order by:</label>
-                    <select name="condition">
-                        <option selected value="submission_time">submission time</option>
-                        <option value="vote_number">votes</option>
-                        <option value="view_number">views</option> 
-                    </select>
-                    <select name= "order">
-                        <option selected value="desc">descending</option>
-                        <option value="asc">ascending</option>
-                    </select>
-                    <button type="submit">GO</button>
-            </form>
-        </div>   
-       
-
+    <div class="options-bar">
+        <form method="GET" action="/sorted/">
+            <label for="condition">Order by:</label>
+                <select name="condition">
+                     <option selected value="submission_time">submission time</option>
+                    <option value="vote_number">votes</option>
+                    <option value="view_number">views</option> 
+                </select>
+                <select name= "order">
+                    <option selected value="desc">descending</option>
+                    <option value="asc">ascending</option>
+                </select>
+            <button type="submit">GO</button>
+        </form>
+        <form action="{{url_for('search_questions')}}" method="POST">
+                <input type="text" name="search_phrase" placeholder="Search...">
+        </form>
+    </div>   
+    <div class="warning-box">
+        {% if warning %}
+        <h1>{{ warning }}</h1>
+        {% endif %}
+    </div>
     {% for question in questions %}
 
         <div class="content">
-            
+
                 {% if question_id %}
                 <div class="buttons">
                     <a href="/question/{{question['id']}}/new-answer"><img width=40px height=25px src="{{ url_for('static', filename='answer.png') }}"></a>
@@ -51,35 +50,56 @@
                 </div>
             
                 {% if question_id %}
-
-                    <h3>{{ question["message"]}}</h3>
-
+                    <h3>
+                        {% for line in question["message"] %}
+                            {{ line }}<br>
+                        {% endfor %}
+                    </h3>
                 {% else %}
 
-                    <h3>{{ question["message"][:300] }}...</h3>
+                    <h3>
+                        {% for line in question["message"][:3] %}
+                            {{ line }}<br>
+                        {% endfor %}
+                    </h3>
 
-            {% endif %}
-            </div>
-
-                    
-                {% if not question_id %}
-                    <p>Answers: {{ question["answer_number"] }} <br>
-                    Submited: {{question["submission_time"] }} <br>
-                    Viewed: {{ question["view_number"] }} times</p>
                 {% endif %}
-                
+            </div>
+            {% for comment in comments %}
+            {% if comment["question_id"] == question["id"] %}
+                <div class="comment">
+                    {{ comment["message"] }}
+                </div>
+            {% endif %}
+            {% endfor %}
+            <div class="question-footer">
+                {% if not question_id %}
+                    <p>
+                        Answers: {{ question["answer_number"] }}
+                    </p>
+                    <p>
+                        Submited: {{question["submission_time"] }}
+                    </p>
+                    <p>
+                        Viewed: {{ question["view_number"] }} times
+                    </p>
+                {% endif %}
+
                 {% if question["tag"] %}
                 {% if question["tag"]!=None %}
                 Tag: {{ question["tag"] }}
                 {% endif %}
                 {% endif %}
-                    
+            </div>   
 
-            
                 {% for answer in answers %}
                 
                     {% if answer["question_id"] == question["id"] %}
                     <div class="answer">
+                        <div class="answer_buttons">
+                                <a href="/answer/{{answer['id']}}/edit"><img width="25px" height="25px" src="{{ url_for('static', filename='edit.png') }}"></a>
+                                <a href="/answer/{{answer['id']}}/delete"><img width="25px" height="25px" src="{{ url_for('static', filename='Trash.png') }}"></a>
+                            </div>
 
                         <div class="message-box">
                             <div class="vote">
@@ -89,12 +109,19 @@
                                     
                                 <a href="/answer/{{answer['id']}}/vote-down"><img src="{{ url_for('static', filename='1arrow_down.png') }}"></a>
                             </div>
-                        <h4>{{ answer["message"] }}</h4>
+                        <h4>
+                            {% for line in answer["message"] %}
+                                {{ line }}<br>
+                            {% endfor %}
+                        </h4>
                         </div>
-
-                        <div class="answer_buttons">
-                            <a href="/answer/{{answer['id']}}/delete"><img width="25px" height="25px" src="{{ url_for('static', filename='Trash.png') }}"></a>
-                        </div>
+                            {% for comment in comments %}
+                                {% if comment["answer_id"] == answer["id"] %}
+                                    <div class="comment">
+                                        {{ comment["message"] }}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
                     </div>
                     {% endif %}
                 

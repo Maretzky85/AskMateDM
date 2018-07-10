@@ -7,9 +7,19 @@
     <!-- <script src="main.js"></script> -->
 </head>
 <body>
-    <div class="header"><h1><a href="{{ url_for('post_new_question') }}">Ask</a>Mate 
-        <a href="{{ url_for('show_all') }}">forum</a> project by 
-        <a href="http://blog.bootky.pl/wp-content/uploads/2018/03/zdj-1200x700.jpg" target="_blank"> BDSM </a> </h1></div>
+    <div class="header">
+        <h1>
+            <a href="{{ url_for('post_new_question') }}">
+                Ask</a>Mate 
+            <a href="{{ url_for('show_all') }}">
+                forum
+            </a>
+            project by 
+            <a href="http://blog.bootky.pl/wp-content/uploads/2018/03/zdj-1200x700.jpg" target="_blank">
+                BDSM
+            </a>
+        </h1>
+    </div>
         {% block content %}
         {% endblock %}
 </body>

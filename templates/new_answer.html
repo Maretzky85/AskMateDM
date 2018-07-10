@@ -1,15 +1,43 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<h2>{{warning}}</h2>
+<h2>
+    {{warning}}
+</h2>
 <div class="content">
-<p>{{ question }}</p>
+    <p>
+            {%- for title in question -%}
+            {{- title["title"] -}}
+            {%- endfor -%}
+    </p>
+    <p>
+            {% for message in question %}
+            {% for line in message["message"] %}
+            {{ line }}<br>
+            {% endfor %}
+            {% endfor %}
+    </p>
 </div>
 <div class="content">
-    <form action="/question/{{ question_id }}/new-answer" method="POST">
-        <p>Answer</p>
-        <textarea  minlength='10' id="message" name="message"rows="8" cols="80">{{ message }}</textarea>
-        <p><button type="submit"><img src="{{ url_for('static', filename='submit.png') }}"></button></p>
+    {% if answer_id %}
+        <form action="/answer/{{answer_id}}/edit" method="POST">
+    {% else %}
+        <form action="/question/{{ question_id }}/new-answer" method="POST">
+    {% endif %}
+        <p>
+            Answer
+        </p>
+        <textarea  minlength='10' id="message" name="message"rows="8" cols="80">
+                {%- if answer_id -%}
+                {%- for line in answer["message"] -%}
+                {{- line }}
+{% endfor -%}{% endif -%}
+        </textarea>
+        <p>
+            <button type="submit">
+                <img src="{{ url_for('static', filename='submit.png') }}">
+            </button>
+        </p>
     </form>
 </div>
 {% endblock %}
