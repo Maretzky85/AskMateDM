@@ -160,7 +160,8 @@ def new_user():
         return render_template("register_page.html", registration_alert=registration_alert)   
     data_manager.add_user(name, date)
     return render_template("after_reg.html", name=name)
-    
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
