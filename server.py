@@ -152,8 +152,7 @@ def register_page():
 @app.route("/new_user", methods=['POST'])
 def new_user():
     nick = request.form
-    return redirect('/')
-
+    return render_template("list.html", nick=nick)
 
 @app.errorhandler(404)
 def page_not_found(e):
