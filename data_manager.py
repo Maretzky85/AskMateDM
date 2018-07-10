@@ -177,3 +177,4 @@ def add_user(cursor, name, date):
                 ;
                 """, 
                 {"name": name, "date": date,})
+
