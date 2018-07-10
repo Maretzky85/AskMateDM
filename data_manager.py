@@ -156,3 +156,11 @@ def count_views(cursor, question_id):
                 WHERE id= %(q_id)s
                 ;
                 """, {"q_id": question_id})
+
+
+@connection_handler.connection_handler
+def get_users(cursor):
+    cursor.execute("""
+                SELECT user_name, registration_date, rank 
+                FROM users;
+                """)
