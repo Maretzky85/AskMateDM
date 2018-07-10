@@ -138,6 +138,11 @@ def sorted_condition():
     questions = logic.order_by(condition, order)
     return render_template('list.html', questions=questions)
 
+@app.rute("/user/<user_id>")
+def user_page(user_id):
+    logic.get_user_id(user_id)
+    
+    return render_template("user_page.html", )
 
 @app.errorhandler(404)
 def page_not_found(e):
