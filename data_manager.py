@@ -178,3 +178,10 @@ def add_user(cursor, name, date):
                 """, 
                 {"name": name, "date": date,})
 
+def get_user_id(cursor, user_id):
+    cursor.execute("""
+                    SELECT * FROM users
+                    WHERE id = %(user_id)s
+                        """, {"user_id": user_id})
+    user_id = cursor.fetchall()
+    return user_id
