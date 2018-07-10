@@ -151,3 +151,8 @@ def gen_answer_count(data):
     for question in data:
         question["answer_number"] = number_of_answers(question["id"])
     return data
+
+
+def get_users():
+    data = data_manager.get_users()
+    return data

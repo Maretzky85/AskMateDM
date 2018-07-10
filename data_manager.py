@@ -164,3 +164,6 @@ def get_users(cursor):
                 SELECT user_name, registration_date, rank 
                 FROM users;
                 """)
+    data = cursor.fetchall()
+    return data
+    
