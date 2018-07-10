@@ -18,7 +18,10 @@
         <form action="{{url_for('search_questions')}}" method="POST">
                 <input type="text" name="search_phrase" placeholder="Search...">
         </form>
-    </div>   
+    </div>
+    <div class="options-bar">
+        <a href="{{ url_for('list_users') }}"><h2>User list</h2></a>
+    </div>
     <div class="warning-box">
         {% if warning %}
         <h1>{{ warning }}</h1>
