@@ -161,6 +161,13 @@ def new_user():
     data_manager.add_user(name, date)
     return render_template("after_reg.html", name=name)
     
+    return render_template('list.html', questions=questions)
+
+@app.route("/user/<user_id>")
+def user_page(user_id):
+    logic.get_user_id(user_id)
+    return render_template("user_page.html", )
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
