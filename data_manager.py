@@ -158,4 +158,10 @@ def count_views(cursor, question_id):
                 """, {"q_id": question_id})
 
 @connection_handler.connection_handler
-def 
+def get_user_id(cursor, user_id):
+    cursor.execute("""
+                    SELECT * FROM users
+                    WHERE id = %(user_id)s
+                        """, {"user_id": user_id})
+    user_id = cursor.fetchall()
+    return user_id

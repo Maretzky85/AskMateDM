@@ -153,5 +153,5 @@ def gen_answer_count(data):
     return data
 
 def get_user_id(user_id):
-    user_id = data_manager.
+    user_id = data_manager.get_user_id(user_id)
     return user_id
