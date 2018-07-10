@@ -69,7 +69,7 @@ def save_answer(question_id):
     form = request.form
     if len(form["message"]) == 0:
         return add_answer(question_id, "Title and message must be at least 10 signs")
-    logic.post_new_answer(question_id, form)
+    logic.post_new_answerform.request(question_id, form)
     return question(question_id)
 
 
@@ -143,6 +143,16 @@ def sorted_condition():
 def list_users():
     data = logic.get_users()
     return render_template('user_list.html', users = data)
+
+@app.route("/register", methods=["GET"])
+def register_page():
+    return render_template('register_page.html')
+
+
+@app.route("/new_user", methods=['POST'])
+def new_user():
+    nick = request.form
+    return redirect('/')
 
 
 @app.errorhandler(404)

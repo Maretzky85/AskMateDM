@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div>Hello Guest, please register your account</div>
+
+<form action="/new_user" method="POST">
+    <div>
+    <textarea name="nick" maxlength="30" rows=2 cols=30 placeholder="Type here your nickname"></textarea>
+    </div>
+    <div>
+    <button type='submit'>Register!</button>
+    </div>
+</form>
+{% endblock %}>
