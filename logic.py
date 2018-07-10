@@ -156,3 +156,20 @@ def gen_answer_count(data):
 def get_users():
     data = data_manager.get_users()
     return data
+
+
+def check_if_login_exists(login):
+    data = data_manager.get_users()
+    for item in data:
+        for key, value in item.items():
+            if value == login:
+                return 'Already exists'
+
+
+def add_user(name):
+    if check_if_login_exists(name) == None:
+        name = name
+        date= str(datetime.datetime.now())       
+        data_manager.add_user(name, date)
+    else: 
+        return 'Login already exists'
