@@ -193,3 +193,11 @@ def get_user_id(cursor, user_id):
                         """, {"user_id": user_id})
     user_id = cursor.fetchall()
     return user_id
+
+@connection_handler.connection_handler
+def get_users(cursor):
+    cursor.execute("""
+                    SELECT * FROM users
+                        """)
+    data = cursor.fetchall()
+    return data
