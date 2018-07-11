@@ -166,7 +166,17 @@ def get_users(cursor):
                 """)
     data = cursor.fetchall()
     return data
+    
 
+@connection_handler.connection_handler
+def get_question_by_user(cursor, user_id):
+    cursor.execute("""
+                SELECT *
+                FROM  question
+                WHERE user_id = %(user_id)s;
+                """,{"user_id": user_id})
+    data = cursor.fetchall()
+    return data
 
 @connection_handler.connection_handler
 def add_user(cursor, name, date):
@@ -179,10 +189,11 @@ def add_user(cursor, name, date):
                 {"name": name, "date": date,})
 
 
-def get_user_id(cursor, user_id):
+def get_answer_by_user(cursor, user_id):
     cursor.execute("""
-                    SELECT * FROM users
-                    WHERE id = %(user_id)s
-                        """, {"user_id": user_id})
-    user_id = cursor.fetchall()
-    return user_id
+                SELECT *
+                FROM  answer
+                WHERE user_id = %(user_id)s;
+                """,{"user_id": user_id})
+    data = cursor.fetchall()
+    return data
