@@ -66,7 +66,8 @@ def delete_question(question_id):
 def add_answer(question_id, warning=""):
     id_number = question_id
     question = [logic.find_by_id("q", id_number)]
-    return render_template('new_answer.html', question_id=id_number, question=question, warning=warning)
+    users = logic.get_users()
+    return render_template('new_answer.html', question_id=id_number, question=question, warning=warning, users = users)
 
 
 @app.route("/question/<question_id>/new-answer", methods=['POST'])
@@ -74,7 +75,7 @@ def save_answer(question_id):
     form = request.form
     if len(form["message"]) == 0:
         return add_answer(question_id, "Title and message must be at least 10 signs")
-    logic.post_new_answerform.request(question_id, form)
+    logic.post_new_answer(question_id, form)
     return question(question_id)
 
 
@@ -144,6 +145,15 @@ def sorted_condition():
     return render_template('list.html', questions = questions)
 
 
+@app.route("/user/<user_id>")
+def user_page(user_id):
+    user_data = logic.get_user_by_id(user_id)
+    questions = logic.get_questions_by_user_id(user_id)
+    answers = logic.get_answers_by_user_id(user_id)
+    print(answers)
+    return render_template("user_page.html", users = user_data, questions = questions, answers = answers)
+
+
 @app.route("/list_users")
 def list_users():
     data = logic.get_users()
@@ -165,13 +175,7 @@ def new_user():
         return render_template("register_page.html", registration_alert=registration_alert)   
     data_manager.add_user(name, date)
     return render_template("after_reg.html", name=name)
-    
-    return render_template('list.html', questions=questions)
 
-@app.route("/user/<user_id>")
-def user_page(user_id):
-    logic.get_user_id(user_id)
-    return render_template("user_page.html", )
 
 @app.errorhandler(404)
 def page_not_found(e):

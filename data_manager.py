@@ -40,7 +40,7 @@ def import_data_from_db(cursor, qa, limit="ALL", condition="submission_time", or
                         users.user_name AS user_name,
                         users.id AS user_id
                         FROM answer
-                        LEFT OUTER JOIN users ON user_id = user_id
+                        LEFT JOIN users ON answer.user_id = users.id
                         ORDER BY submission_time desc
                         """)
         data = cursor.fetchall()
@@ -84,7 +84,7 @@ def export_data_to_db(cursor, qa, data):
                         %(vote_number)s,
                         %(question_id)s,
                         %(image)s, 
-                        %(message)s
+                        %(message)s,
                         %(user_id)s)
                         """, {"submission_time": data["submission_time"],
                         "vote_number": data["vote_number"],
@@ -185,14 +185,6 @@ def count_views(cursor, question_id):
                 ;
                 """, {"q_id": question_id})
 
-@connection_handler.connection_handler
-def get_user_id(cursor, user_id):
-    cursor.execute("""
-                    SELECT * FROM users
-                    WHERE id = %(user_id)s
-                        """, {"user_id": user_id})
-    user_id = cursor.fetchall()
-    return user_id
 
 @connection_handler.connection_handler
 def get_users(cursor):
@@ -201,3 +193,45 @@ def get_users(cursor):
                         """)
     data = cursor.fetchall()
     return data
+    
+
+@connection_handler.connection_handler
+def get_question_by_user(cursor, user_id):
+    cursor.execute("""
+                SELECT *
+                FROM  question
+                WHERE user_id = %(user_id)s;
+                """,{"user_id": user_id})
+    data = cursor.fetchall()
+    return data
+
+@connection_handler.connection_handler
+def add_user(cursor, name, date):
+    cursor.execute("""
+                INSERT INTO users
+                (user_name, registration_date, rank)
+                VALUES (%(name)s, %(date)s, 0)
+                ;
+                """, 
+                {"name": name, "date": date,})
+
+
+@connection_handler.connection_handler
+def get_answer_by_user(cursor, user_id):
+    cursor.execute("""
+                SELECT *
+                FROM  answer
+                WHERE user_id = %(user_id)s;
+                """,{"user_id": user_id})
+    data = cursor.fetchall()
+    return data
+
+
+@connection_handler.connection_handler
+def get_user_by_id(cursor, user_id):
+    cursor.execute("""
+                    SELECT * FROM users
+                    WHERE id = %(user_id)s
+                        """, {"user_id": user_id})
+    user_id = cursor.fetchall()
+    return user_id
