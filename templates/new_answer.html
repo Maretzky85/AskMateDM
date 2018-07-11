@@ -34,11 +34,11 @@
 {% endfor -%}{% endif -%}
         </textarea>
         <div class="options-bar">
-            <form method="GET">
+            <form method="POST">
                 <label for="condition">Choose one:</label>
                     <select name="condition">
-                        {% for user in users %}
-                            <option value={{ user }}>{{ user }}</option>
+                        {% for user_id in answer %}
+                            <option value="{{ user_id }}">{{ user }}</option>
                         {% endfor %}
                     </select>
             </form>
