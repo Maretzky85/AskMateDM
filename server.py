@@ -139,15 +139,15 @@ def sorted_condition():
     return render_template('list.html', questions = questions)
 
 
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('404.html'), 404
-
-
 @app.route("/list_users")
 def list_users():
     data = logic.get_users()
     return render_template('user_list.html', users = data)
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 
 if __name__ == '__main__':

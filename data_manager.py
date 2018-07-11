@@ -161,7 +161,7 @@ def count_views(cursor, question_id):
 @connection_handler.connection_handler
 def get_users(cursor):
     cursor.execute("""
-                SELECT user_name, registration_date, rank 
+                SELECT id, user_name, registration_date, rank 
                 FROM users;
                 """)
     data = cursor.fetchall()

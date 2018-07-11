@@ -14,9 +14,9 @@
         {% for user in users %}
             <div class="user">
                 <p>
-                    <h2>Username: {{user.user_name}}</h2>
-                    <h2>Registration date: {{user.registration_date}}</h2>
-                    <h2>Rank:  {{user.rank}}</h2>
+                    <h3>Username:<a href="/user/{{user.id}}"> {{user.user_name}}</a></h3>
+                    <h3>Registration date: {{user.registration_date}}</h3>
+                    <h3>Rank:  {{user.rank}}</h3>
                 </p>
             </div>
         {% endfor %}
