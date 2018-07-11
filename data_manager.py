@@ -166,4 +166,15 @@ def get_users(cursor):
                 """)
     data = cursor.fetchall()
     return data
-    
+
+
+@connection_handler.connection_handler
+def add_user(cursor, name, date):
+    cursor.execute("""
+                INSERT INTO users
+                (user_name, registration_date, rank)
+                VALUES (%(name)s, %(date)s, 0)
+                ;
+                """, 
+                {"name": name, "date": date,})
+

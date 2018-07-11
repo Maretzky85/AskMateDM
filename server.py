@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect
-import logic
+import logic, data_manager, datetime
 
 app = Flask(__name__)
 
@@ -69,7 +69,7 @@ def save_answer(question_id):
     form = request.form
     if len(form["message"]) == 0:
         return add_answer(question_id, "Title and message must be at least 10 signs")
-    logic.post_new_answer(question_id, form)
+    logic.post_new_answerform.request(question_id, form)
     return question(question_id)
 
 
@@ -144,7 +144,23 @@ def list_users():
     data = logic.get_users()
     return render_template('user_list.html', users = data)
 
+@app.route("/register", methods=["GET"])
+def register_page():
+    return render_template('register_page.html')
 
+
+@app.route("/registered", methods=['POST'])
+def new_user():
+    login = request.form
+    name = login.get('nick')
+    registration_alert = None
+    date = str(datetime.datetime.now()) 
+    if logic.check_if_login_exists(name) == True or len(name) == 0:
+        registration_alert = "This nickname already exists. Choose another one"
+        return render_template("register_page.html", registration_alert=registration_alert)   
+    data_manager.add_user(name, date)
+    return render_template("after_reg.html", name=name)
+    
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
