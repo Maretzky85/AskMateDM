@@ -13,17 +13,22 @@ def main():
 @app.route("/list")
 def show_all():
     questions = logic.get_all_data("q")
+    #for element in questions:
+    #    print(element)
     return render_template('list.html', questions=questions)
 
 
 @app.route("/new_question", methods=['GET'])
 def new_question():
     users = logic.get_users()
-    return render_template('new_question.html', title="", message=[""], users=users)
+    print(users)
+    return render_template('new_question.html', title="", message=[""], users = users)
 
 @app.route("/new_question", methods=['POST'])
 def post_new_question():
     form = request.form
+    for key, element in form.items():
+        print("key - {}, element - {}".format(key, element))
     if len(form["message"]) < 10 or len(form["title"]) < 5:
         return new_question()
     logic.post_new_question(form)

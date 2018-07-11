@@ -30,13 +30,13 @@
                 {%- endif -%}
 
         </textarea>
-                    <select name = "user_id" id = "user_id">
-                        <option selected value="User">User</option>
-                        {% for user in users %}
-                            <option value="{{ user.id }}">{{ user.user_name }}</option>
-                        {% endfor %}
-                    </select>
-
+        <p>
+            <select name="user_id" id="user_id">
+                {% for user in users %}
+                    <option value="{{ user.id }}">{{ user.user_name }}</option>
+                {% endfor %}
+            </select>
+        </p>
     <p>
         <button type="submit"><img src="{{ url_for('static', filename='submit.png') }}"></button>
     </p>

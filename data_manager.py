@@ -20,7 +20,7 @@ def import_data_from_db(cursor, qa, limit="ALL", condition="submission_time", or
                         FROM question
                         LEFT JOIN question_tag ON id=question_id
                         LEFT JOIN tag ON question_tag.tag_id=tag.id
-                        LEFT JOIN users ON user_id = user_id
+                        LEFT JOIN users ON question.user_id = users.id
                         ORDER BY question.%(condition)s %(order)s
                         LIMIT %(limit)s""",
                          {"condition": AsIs(condition), "order": AsIs(order), "limit": AsIs(limit)})
