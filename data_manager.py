@@ -14,10 +14,13 @@ def import_data_from_db(cursor, qa, limit="ALL", condition="submission_time", or
                                 question.title,
                                 question.message,
                                 question.image,
-                                tag.name AS tag
+                                tag.name AS tag,
+                                users.user_name AS user_name,
+                                users.id AS user_id
                         FROM question
                         LEFT JOIN question_tag ON id=question_id
                         LEFT JOIN tag ON question_tag.tag_id=tag.id
+                        LEFT JOIN users ON user_id = user_id
                         ORDER BY question.%(condition)s %(order)s
                         LIMIT %(limit)s""",
                          {"condition": AsIs(condition), "order": AsIs(order), "limit": AsIs(limit)})
@@ -25,7 +28,19 @@ def import_data_from_db(cursor, qa, limit="ALL", condition="submission_time", or
         return data
     if qa == "a":
         cursor.execute("""
-                        SELECT * from answer
+                        SELECT 
+                        answer.id,
+                        answer.submission_time,
+                        answer.vote_number,
+                        answer.question_id, 
+                        answer.message,
+                        answer.image,
+                        answer.user_id,
+                        answer.accepted,
+                        users.user_name AS user_name,
+                        users.id AS user_id
+                        FROM answer
+                        LEFT OUTER JOIN users ON user_id = user_id
                         ORDER BY submission_time desc
                         """)
         data = cursor.fetchall()
