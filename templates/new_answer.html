@@ -33,6 +33,16 @@
                 {{- line }}
 {% endfor -%}{% endif -%}
         </textarea>
+        <div class="options-bar">
+            <form method="GET">
+                <label for="condition">Choose one:</label>
+                    <select name="condition">
+                        {% for user in users %}
+                            <option value={{ user }}>{{ user }}</option>
+                        {% endfor %}
+                    </select>
+            </form>
+        </div>
         <p>
             <button type="submit">
                 <img src="{{ url_for('static', filename='submit.png') }}">
