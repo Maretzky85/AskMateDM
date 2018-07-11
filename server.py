@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect
-import logic
+import logic, data_manager, datetime
 
 app = Flask(__name__)
 
@@ -149,11 +149,18 @@ def register_page():
     return render_template('register_page.html')
 
 
-@app.route("/new_user", methods=['POST'])
+@app.route("/registered", methods=['POST'])
 def new_user():
-    nick = request.form
-    return render_template("list.html", nick=nick)
-
+    login = request.form
+    name = login.get('nick')
+    registration_alert = None
+    date = str(datetime.datetime.now()) 
+    if logic.check_if_login_exists(name) == True:
+        registration_alert = "This nickname already exists. Choose another one"
+        return render_template("register_page.html", registration_alert=registration_alert)   
+    data_manager.add_user(name, date)
+    return render_template("after_reg.html", name=name)
+    
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404

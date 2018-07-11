@@ -2,7 +2,14 @@
 {% block content %}
 <h2>Hello Guest, please register your account.</h2>
 
-<form action="/new_user" method="POST">
+
+
+<form action="/registered" method="POST">
+    <div>
+        {% if registration_alert %}
+        <h3>{{ registration_alert }}</h3>
+        {% endif %}
+    </div>
     <div>
         <label for="nick">Your nickname:</label>
     </div>
