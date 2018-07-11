@@ -18,7 +18,8 @@ def show_all():
 
 @app.route("/new_question", methods=['GET'])
 def new_question():
-    return render_template('new_question.html', title="", message=[""])
+    users = logic.get_users()
+    return render_template('new_question.html', title="", message=[""], users=users)
 
 @app.route("/new_question", methods=['POST'])
 def post_new_question():

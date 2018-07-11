@@ -36,8 +36,8 @@
                 <label for="condition">Choose User:</label>
                     <select name="condition">
                             <option selected value="User">User</option>
-                        {% for user_id in question %}
-                            <option value="{{ user_id }}">{{ user_id }}</option>
+                        {% for user_id in users %}
+                            <option value="{{ user_id }}">{{ user_id.user_name }}</option>
                         {% endfor %}
                     </select>
                 </div>
