@@ -14,10 +14,13 @@ def import_data_from_db(cursor, qa, limit="ALL", condition="submission_time", or
                                 question.title,
                                 question.message,
                                 question.image,
-                                tag.name AS tag
+                                tag.name AS tag,
+                                users.user_name AS user_name,
+                                users.id AS user_id
                         FROM question
                         LEFT JOIN question_tag ON id=question_id
                         LEFT JOIN tag ON question_tag.tag_id=tag.id
+                        LEFT JOIN users ON question.user_id = users.id
                         ORDER BY question.%(condition)s %(order)s
                         LIMIT %(limit)s""",
                          {"condition": AsIs(condition), "order": AsIs(order), "limit": AsIs(limit)})
@@ -25,7 +28,19 @@ def import_data_from_db(cursor, qa, limit="ALL", condition="submission_time", or
         return data
     if qa == "a":
         cursor.execute("""
-                        SELECT * from answer
+                        SELECT 
+                        answer.id,
+                        answer.submission_time,
+                        answer.vote_number,
+                        answer.question_id, 
+                        answer.message,
+                        answer.image,
+                        answer.user_id,
+                        answer.accepted,
+                        users.user_name AS user_name,
+                        users.id AS user_id
+                        FROM answer
+                        LEFT JOIN users ON answer.user_id = users.id
                         ORDER BY submission_time desc
                         """)
         data = cursor.fetchall()
@@ -47,23 +62,36 @@ def export_data_to_db(cursor, qa, data):
 
     if qa == "q":
         cursor.execute("""
-                        INSERT into QUESTION (submission_time, view_number, vote_number, title,image, message)
-                        VALUES (%(submission_time)s, %(view_number)s,%(vote_number)s,%(title)s,%(image)s, %(message)s)
+                        INSERT into QUESTION (submission_time, view_number, vote_number, title,image, message, user_id)
+                        VALUES (%(submission_time)s,
+                        %(view_number)s,
+                        %(vote_number)s,
+                        %(title)s,
+                        %(image)s, 
+                        %(message)s, 
+                        %(user_id)s)
                         """, {"submission_time": data["submission_time"],
                         "view_number": data["view_number"],
                         "vote_number": data["vote_number"],
                         "title": data["title"],
                         "image": data["image"],
-                        "message": data["message"]})
+                        "message": data["message"],
+                        "user_id": data["user_id"]})
     if qa == "a":
         cursor.execute("""
-                        INSERT into ANSWER (submission_time, vote_number, question_id,image, message)
-                        VALUES (%(submission_time)s, %(vote_number)s,%(question_id)s,%(image)s, %(message)s)
+                        INSERT into ANSWER (submission_time, vote_number, question_id,image, message, user_id)
+                        VALUES (%(submission_time)s, 
+                        %(vote_number)s,
+                        %(question_id)s,
+                        %(image)s, 
+                        %(message)s,
+                        %(user_id)s)
                         """, {"submission_time": data["submission_time"],
                         "vote_number": data["vote_number"],
                         "question_id": data["question_id"],
                         "image": data["image"],
-                        "message": data["message"]})
+                        "message": data["message"],
+                        "user_id": data["user_id"]})
         return None
 
 
@@ -161,9 +189,8 @@ def count_views(cursor, question_id):
 @connection_handler.connection_handler
 def get_users(cursor):
     cursor.execute("""
-                SELECT id, user_name, registration_date, rank 
-                FROM users;
-                """)
+                    SELECT * FROM users
+                        """)
     data = cursor.fetchall()
     return data
     

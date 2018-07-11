@@ -31,8 +31,16 @@
                 {%- if answer_id -%}
                 {%- for line in answer["message"] -%}
                 {{- line }}
-{% endfor -%}{% endif -%}
-        </textarea>
+{% endfor -%}{% endif -%}</textarea>
+{% if users %}
+<p>
+    <select name="user_id" id="user_id">
+        {% for user in users %}
+            <option value="{{ user.id }}">{{ user.user_name }}</option>
+        {% endfor %}
+    </select>
+</p>
+{% endif %}
         <p>
             <button type="submit">
                 <img src="{{ url_for('static', filename='submit.png') }}">

@@ -13,16 +13,21 @@ def main():
 @app.route("/list")
 def show_all():
     questions = logic.get_all_data("q")
+    #for element in questions:
+    #    print(element)
     return render_template('list.html', questions=questions)
 
 
 @app.route("/new_question", methods=['GET'])
 def new_question():
-    return render_template('new_question.html', title="", message=[""])
+    users = logic.get_users()
+    return render_template('new_question.html', title="", message=[""], users = users)
 
 @app.route("/new_question", methods=['POST'])
 def post_new_question():
     form = request.form
+    for key, element in form.items():
+        print("key - {}, element - {}".format(key, element))
     if len(form["message"]) < 10 or len(form["title"]) < 5:
         return new_question()
     logic.post_new_question(form)
@@ -61,7 +66,8 @@ def delete_question(question_id):
 def add_answer(question_id, warning=""):
     id_number = question_id
     question = [logic.find_by_id("q", id_number)]
-    return render_template('new_answer.html', question_id=id_number, question=question, warning=warning)
+    users = logic.get_users()
+    return render_template('new_answer.html', question_id=id_number, question=question, warning=warning, users = users)
 
 
 @app.route("/question/<question_id>/new-answer", methods=['POST'])
@@ -69,7 +75,7 @@ def save_answer(question_id):
     form = request.form
     if len(form["message"]) == 0:
         return add_answer(question_id, "Title and message must be at least 10 signs")
-    logic.post_new_answerform.request(question_id, form)
+    logic.post_new_answer(question_id, form)
     return question(question_id)
 
 
@@ -169,11 +175,6 @@ def new_user():
         return render_template("register_page.html", registration_alert=registration_alert)   
     data_manager.add_user(name, date)
     return render_template("after_reg.html", name=name)
-
-
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('404.html'), 404
 
 
 @app.errorhandler(404)
