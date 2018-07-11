@@ -189,6 +189,7 @@ def add_user(cursor, name, date):
                 {"name": name, "date": date,})
 
 
+@connection_handler.connection_handler
 def get_answer_by_user(cursor, user_id):
     cursor.execute("""
                 SELECT *
