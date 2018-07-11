@@ -155,7 +155,7 @@ def new_user():
     name = login.get('nick')
     registration_alert = None
     date = str(datetime.datetime.now()) 
-    if logic.check_if_login_exists(name) == True:
+    if logic.check_if_login_exists(name) == True or len(name) == 0:
         registration_alert = "This nickname already exists. Choose another one"
         return render_template("register_page.html", registration_alert=registration_alert)   
     data_manager.add_user(name, date)
