@@ -173,6 +173,19 @@ def add_user(name):
     data_manager.add_user(name, date)
 
 
-def get_user_id(user_id):
-    user_id = data_manager.get_user_id(user_id)
-    return user_id
+def get_user_by_id(user_id):
+    user_data = data_manager.get_user_by_id(user_id)
+    return user_data
+
+
+def get_questions_by_user_id(user_id):
+    data = data_manager.get_question_by_user(user_id)
+    data = gen_answer_count(data)
+    data = message_splitter(data)
+    return data
+
+
+def get_answers_by_user_id(user_id):
+    data = data_manager.get_answer_by_user(user_id)
+    data = message_splitter(data)
+    return data
