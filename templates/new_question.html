@@ -30,19 +30,13 @@
                 {%- endif -%}
 
         </textarea>
-        <div class="dropdown">
-            <form method="GET">
-                <div id="myDropdown" class="dropdown-content">
-                <label for="condition">Choose User:</label>
-                    <select name="condition">
-                            <option selected value="User">User</option>
-                        {% for user_id in users %}
-                            <option value="{{ user_id }}">{{ user_id.user_name }}</option>
+                    <select name = "user_id" id = "user_id">
+                        <option selected value="User">User</option>
+                        {% for user in users %}
+                            <option value="{{ user.id }}">{{ user.user_name }}</option>
                         {% endfor %}
                     </select>
-                </div>
-            </form>
-        </div>
+
     <p>
         <button type="submit"><img src="{{ url_for('static', filename='submit.png') }}"></button>
     </p>
