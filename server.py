@@ -141,9 +141,9 @@ def sorted_condition():
 
 @app.route("/user/<user_id>")
 def user_page(user_id):
-    logic.get_user_id(user_id)
-    
-    return render_template("user_page.html", )
+    user_data = logic.get_user_id(user_id)
+    return render_template("user_page.html", users = user_data)
+
 
 @app.route("/list_users")
 def list_users():

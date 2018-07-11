@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    
+        Users list
+
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+        {% for user in users %}
+            <div class="user">
+                <p>
+                    <h1>Username: {{user.user_name}}</h1>
+                    <h2>Registration date: {{user.registration_date}}</h2>
+                    <h2>Rank:  {{user.rank}}</h2>
+                </p>
+            </div>
+        {% endfor %}
+        <p>
+            <a href="{{ url_for('main') }}"><h1>Back to main page</h1></a>
+        </p>
+    </div>  
+{% endblock %}
