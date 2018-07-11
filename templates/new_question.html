@@ -30,15 +30,13 @@
                 {%- endif -%}
 
         </textarea>
-    <p>
-        User
-    </p>
         <div class="options-bar">
             <form method="GET">
                 <label for="condition">Choose User:</label>
                     <select name="condition">
                         {% for user in users %}
-                            <option value={{user}}>{{user}}</option>
+                            <option value={{ user }}>{{ user }}</option>
+                        {% endfor %}
                     </select>
             </form>
         </div>
