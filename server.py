@@ -139,6 +139,15 @@ def sorted_condition():
     return render_template('list.html', questions = questions)
 
 
+@app.route("/user/<user_id>")
+def user_page(user_id):
+    user_data = logic.get_user_by_id(user_id)
+    questions = logic.get_questions_by_user_id(user_id)
+    answers = logic.get_answers_by_user_id(user_id)
+    print(answers)
+    return render_template("user_page.html", users = user_data, questions = questions, answers = answers)
+
+
 @app.route("/list_users")
 def list_users():
     data = logic.get_users()
@@ -160,7 +169,13 @@ def new_user():
         return render_template("register_page.html", registration_alert=registration_alert)   
     data_manager.add_user(name, date)
     return render_template("after_reg.html", name=name)
-    
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
