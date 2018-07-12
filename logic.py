@@ -111,6 +111,12 @@ def find_by_id(qa, _id):
         if item["id"] == int(_id):
             return item
 
+def get_user_id_by_question_id(question_id):
+    user_id = data_manager.find_author_by_question_id(question_id)
+
+    return user_id[0]["user_id"]
+
+
 
 def manage_vote(qa, id_, value):
     data_manager.vote_edit(qa, id_, value)

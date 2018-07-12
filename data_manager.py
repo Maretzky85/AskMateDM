@@ -246,3 +246,12 @@ def gain_reputation(cursor, id_, value):
                 """, {"value": value, "id_": id_})
     user_id = cursor.fetchall()
     return None
+
+@connection_handler.connection_handler
+def find_author_by_question_id(cursor, question_id):
+    cursor.execute("""
+                    SELECT user_id FROM question
+                    WHERE id = %(question_id)s
+                        """, {"question_id": question_id})
+    question_id = cursor.fetchall()
+    return question_id
