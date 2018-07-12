@@ -113,6 +113,12 @@ def find_by_id(qa, _id):
 
 
 def manage_vote(qa, id_, value):
+    if qa = "a":
+        user_id = get_user_id_by_answer_id(id_)
+        gain_reputation(user_id, 10)
+    if qa = "q":
+        user_id = get_user_id_by_question_id(id_)
+        gain_reputation(user_id, 5)
     data_manager.vote_edit(qa, id_, value)
     return None
 
