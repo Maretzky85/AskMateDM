@@ -189,3 +189,8 @@ def get_answers_by_user_id(user_id):
     data = data_manager.get_answer_by_user(user_id)
     data = message_splitter(data)
     return data
+
+
+def gain_reputation(id_, value):
+    data_manager.gain_reputation(id_, value)
+    return None

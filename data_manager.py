@@ -235,3 +235,14 @@ def get_user_by_id(cursor, user_id):
                         """, {"user_id": user_id})
     user_id = cursor.fetchall()
     return user_id
+
+
+@connection_handler.connection_handler
+def gain_reputation(cursor, id_, value):
+    cursor.execute("""
+                UPDATE users
+                SET rank = rank + %(value)s
+                WHERE id = %(id_)s;
+                """, {"value": value, "id_": id_})
+    user_id = cursor.fetchall()
+    return None
