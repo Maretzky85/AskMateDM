@@ -111,11 +111,35 @@ def find_by_id(qa, _id):
         if item["id"] == int(_id):
             return item
 
+def get_user_id_by_question_id(question_id):
+    user_id = data_manager.find_author_by_question_id(question_id)
+
+    return user_id[0]["user_id"]
+
+def get_user_id_by_answer_id(answer_id):
+    user_id = data_manager.find_author_by_answer_id(answer_id)
+    return user_id[0]["user_id"]
+
 
 def manage_vote(qa, id_, value):
+    if qa == "a":
+        user_id = get_user_id_by_answer_id(id_)
+        data_manager.manage_reputation(user_id, reputation_calc(qa, value))
+    if qa == "q":
+        user_id = get_user_id_by_question_id(id_)
+        data_manager.manage_reputation(user_id, reputation_calc(qa, value))
     data_manager.vote_edit(qa, id_, value)
     return None
 
+
+def reputation_calc(qa, value):
+    if value < 0:
+        return -2
+    if value > 0:
+        if qa == "a":
+            return 10
+        if qa == "q":
+            return 5
 
 def number_of_answers(question_id):
     number = data_manager.count_answer(question_id)

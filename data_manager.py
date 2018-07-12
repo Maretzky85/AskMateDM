@@ -235,3 +235,32 @@ def get_user_by_id(cursor, user_id):
                         """, {"user_id": user_id})
     user_id = cursor.fetchall()
     return user_id
+
+
+@connection_handler.connection_handler
+def manage_reputation(cursor, id_, value):
+    cursor.execute("""
+                UPDATE users
+                SET rank = rank + %(value)s
+                WHERE id = %(id_)s;
+                """, {"value": value, "id_": id_})
+    return None
+
+
+@connection_handler.connection_handler
+def find_author_by_question_id(cursor, question_id):
+    cursor.execute("""
+                    SELECT user_id FROM question
+                    WHERE id = %(question_id)s
+                        """, {"question_id": question_id})
+    question_id = cursor.fetchall()
+    return question_id
+
+@connection_handler.connection_handler
+def find_author_by_answer_id(cursor, answer_id):
+    cursor.execute("""
+                    SELECT user_id FROM answer
+                    WHERE id = %(answer_id)s
+                        """, {"answer_id": answer_id})
+    answer_id = cursor.fetchall()
+    return answer_id
