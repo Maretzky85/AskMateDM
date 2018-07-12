@@ -125,8 +125,16 @@ def update_by_id(qa, id_, data):
     if qa == "a":
         data_manager.update_by_id("a", id_, data)
     if qa == "c":
-        data["submission_time"] = str(datetime.datetime.now())[:-7]
-        data_manager.update_by_id("c", id_, data)
+        new_data = {}
+        for key, val in data.items():
+            new_data[key] = val
+        new_data["submission_time"] = str(datetime.datetime.now())[:-7]
+        if not find_by_id("c", id_)["edited_count"]:
+            new_data["edited_count"] = 1
+        else:
+            new_data["edited_count"] = find_by_id("c", id_)["edited_count"] + 1
+        data_manager.update_by_id("c", id_, new_data)
+
 
 def find_by_id(qa, _id):
     '''
@@ -144,6 +152,9 @@ def find_by_id(qa, _id):
             question["answer_number"] = number_of_answers(question["id"])
     if qa == "a":
         data = data_manager.import_data_from_db("a")
+        data = message_splitter(data)
+    if qa == "c":
+        data = data_manager.import_data_from_db("c")
         data = message_splitter(data)
     for item in data:
         if item["id"] == int(_id):

@@ -214,6 +214,19 @@ def delete_comment(comment_id):
     return redirect("/")
 
 
+@app.route("/comment/<comment_id>/edit", methods=['GET'])
+def edit_comment(comment_id):
+    comment = logic.find_by_id("c", comment_id)
+    return render_template("add_comment.html", comment=comment, comment_id=comment_id)
+
+
+@app.route("/comment/<comment_id>/edit", methods=['POST'])
+def save_edited_comment(comment_id):
+    form = request.form
+    logic.update_by_id("c", comment_id, form)
+    return redirect("/")
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404

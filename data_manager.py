@@ -156,9 +156,9 @@ def update_by_id(cursor, qa, id_, data):
     if qa == "c":
         cursor.execute("""
                         UPDATE comment
-                        SET message = %(message)s, submission_time = %(submission_time)s, edited_count = edited_count+1
+                        SET message = %(message)s, submission_time = %(submission_time)s, edited_count = %(edited_count)s
                         WHERE id = %(id_)s
-                        """, {"message": data["message"], "id_": id_ , "submission_time": data[submission_time]})
+                        """, {"message": data["message"], "id_": id_ , "submission_time": data["submission_time"], "edited_count": data["edited_count"]})
 
 
 @connection_handler.connection_handler
