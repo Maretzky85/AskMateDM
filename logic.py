@@ -120,12 +120,12 @@ def find_by_id(qa, _id):
     '''
     if qa == "q":
         data = data_manager.import_data_from_db("q")
-        data = message_splitter(data)
+        #data = message_splitter(data)
         for question in data:
             question["answer_number"] = number_of_answers(question["id"])
     if qa == "a":
         data = data_manager.import_data_from_db("a")
-        data = message_splitter(data)
+        #data = message_splitter(data)
     for item in data:
         if item["id"] == int(_id):
             return item

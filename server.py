@@ -91,13 +91,13 @@ def vote_down(question_id):
     return question(question_id)
 
 
-@app.route("/question/<question_id>/new-comment", methods=['GET'])
+@app.route("/question/<question_id>/new_comment", methods=['GET'])
 def comment_page(question_id, warning=""):
     id_number = question_id
     question = (logic.find_by_id("q", id_number)["title"]+"\n"+logic.find_by_id("q", id_number)["message"])
     return render_template("add_comment.html", question_id=id_number, question=question, warning=warning)
     
-@app.route("/question/<question_id>/new-comment", methods=['POST'])    
+@app.route("/question/<question_id>/new_comment", methods=['POST'])    
 def add_comment(question_id, warning=""):
     form = request.form
     logic.post_new_comment(question_id, form)
