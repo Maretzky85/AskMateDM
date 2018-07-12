@@ -108,6 +108,8 @@ def delete_by_id(qa, id_):
         data_manager.delete_by_id("q", id_)
     if qa == "a":
         data_manager.delete_by_id("a", id_)
+    if qa == "c":
+        data_manager.delete_by_id("c", id)
 
 
 def update_by_id(qa, id_, data):
