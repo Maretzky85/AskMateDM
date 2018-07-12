@@ -79,7 +79,10 @@
             {% for comment in comments %}
             {% if comment["question_id"] == question["id"] %}
                 <div class="comment">
-                    {{ comment["message"] }}
+                    {{ comment["message"] }} 
+                    <a href="{{ url_for('delete_comment', comment_id=comment["id"]) }}">
+                        <img width="20px" height="20px" src="{{ url_for('static', filename='Trash.png') }}">
+                    </a>
                 </div>
             {% endif %}
             {% endfor %}
