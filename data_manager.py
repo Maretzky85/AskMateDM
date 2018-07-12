@@ -255,3 +255,12 @@ def find_author_by_question_id(cursor, question_id):
                         """, {"question_id": question_id})
     question_id = cursor.fetchall()
     return question_id
+
+@connection_handler.connection_handler
+def find_author_by_answer_id(cursor, answer_id):
+    cursor.execute("""
+                    SELECT user_id FROM answer
+                    WHERE id = %(answer_id)s
+                        """, {"answer_id": answer_id})
+    answer_id = cursor.fetchall()
+    return answer_id

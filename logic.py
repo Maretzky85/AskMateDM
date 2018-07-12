@@ -116,6 +116,9 @@ def get_user_id_by_question_id(question_id):
 
     return user_id[0]["user_id"]
 
+def get_user_id_by_answer_id(answer_id):
+    user_id = data_manager.find_author_by_answer_id(answer_id)
+    return user_id[0]["user_id"]
 
 
 def manage_vote(qa, id_, value):
