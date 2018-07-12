@@ -137,6 +137,20 @@ def answer_vote_down(answer_id):
     return question(question_id)
 
 
+@app.route("/answer/<answer_id>/new_comment", methods=['GET'])
+def new_comment_to_answer(answer_id, warning=""):
+    id_number = answer_id
+    answer = [logic.find_by_id("a", id_number)]
+    return render_template("add_comment.html", answer_id=id_number, answer=answer, warning=warning)
+    
+@app.route("/answer/<answer_id>/new_comment", methods=['POST'])    
+def add_comment_to_answer(answer_id, warning=""):
+    form = request.form
+    logic.post_new_comment_to_answer(answer_id, form)
+    question_id = logic.find_by_id("a", answer_id)["question_id"]
+    return question(question_id)
+
+
 @app.route("/search", methods=['POST'])
 def search_questions():
     search_phrase = request.form.get('search_phrase')

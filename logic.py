@@ -69,19 +69,33 @@ def post_new_comment(question_id, form):
     Args:
         form - list of dicts
     '''
-    print('HURAAAAA', question_id, "milion proc",  form)
     
     new_comment = {}
     for key, entry in form.items():
-        print("key:", key)
-        print("entry:", entry)
         new_comment[key] = entry
     new_comment['question_id'] = question_id
     new_comment['answer_id'] = None
     new_comment['submission_time'] = str(datetime.datetime.now())[:-7]
     new_comment['edited_count'] = None
     new_comment['user_id'] = None
-    print (new_comment)
+    data_manager.export_data_to_db("c", new_comment)
+
+
+def post_new_comment_to_answer(answer_id, form):
+    '''
+    saves new comment to file
+    Args:
+        form - list of dicts
+    '''
+    
+    new_comment = {}
+    for key, entry in form.items():
+        new_comment[key] = entry
+    new_comment['question_id'] = None
+    new_comment['answer_id'] = answer_id
+    new_comment['submission_time'] = str(datetime.datetime.now())[:-7]
+    new_comment['edited_count'] = None
+    new_comment['user_id'] = None
     data_manager.export_data_to_db("c", new_comment)
 
 def delete_by_id(qa, id_):
