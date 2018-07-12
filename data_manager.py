@@ -64,6 +64,7 @@ def import_comments_from_db(cursor):
     return data
 
 
+
 @connection_handler.connection_handler
 def export_data_to_db(cursor, qa, data):
 
@@ -109,7 +110,8 @@ def export_data_to_db(cursor, qa, data):
                         "question_id": data["question_id"],
                         "answer_id": data["answer_id"],
                         "message": data["message"],
-                        "edited_count": data["edited_count"]})
+                        "edited_count": data["edited_count"],
+                        "user_id": data["user_id"]})
         return None
 
 
