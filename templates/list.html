@@ -21,6 +21,11 @@
     </div>
     <div class="options-bar">
         <a href="{{ url_for('list_users') }}"><h2>User list</h2></a>
+    </div>   
+    <div>
+        <form action="/register" method="GET">
+            <button type="submit">Register Here!</button>
+        </form>
     </div>
     <div class="warning-box">
         {% if warning %}
@@ -81,7 +86,7 @@
                         Answers: {{ question["answer_number"] }}
                     </p>
                     <p>
-                        Submited: {{question["submission_time"] }}
+                        Submitted: {{question["submission_time"] }} by: {{ question.user_name }}
                     </p>
                     <p>
                         Viewed: {{ question["view_number"] }} times

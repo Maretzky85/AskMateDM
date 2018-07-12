@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    
+        Users list
+
+{% endblock %}
+
+{% block content %}
+    <div class="content">
+        {% for user in users %}
+            <div class="user">
+                <p>
+                    <div>
+                        <h1>{{user.user_name}}</h1>
+                    </div>
+                </p>
+                    <div>
+                        <p>
+                            <h2>Registration date: {{user.registration_date}}</h2>
+                            <h2>Rank:  {{user.rank}}</h2>
+                    </div>
+                </p>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="content">
+    <h2>Questions:</h2>
+    </div>
+    {% for question in questions %}
+        <div class="content">
+            <a href="/question/{{question['id']}}"><h2> {{ question["title"] }}</h2></a>
+                    
+                <div class="message-box">
+                
+                        <h3>
+                            {% for line in question["message"] %}
+                                {{ line }}<br>
+                            {% endfor %}
+                        </h3>
+
+                </div>
+        
+        <div class="question-footer">
+                <p>
+                    Answers: {{ question["answer_number"] }}
+                </p>
+                <p>
+                    Submited: {{question["submission_time"] }}
+                </p>
+                <p>
+                    Viewed: {{ question["view_number"] }} times
+                </p>
+
+            {% if question["tag"] %}
+            {% if question["tag"]!=None %}
+            Tag: {{ question["tag"] }}
+            {% endif %}
+            {% endif %}
+
+    </div>
+    
+    </div>
+    {% endfor %}
+    <div class="content">
+        <h2>Answers</h2>
+    </div>
+        {% for answer in answers %}
+                
+        <div class="content">
+            <div class="message-box">
+            <a href="/question/{{answer["question_id"]}}"><h4>
+                {% for line in answer["message"] %}
+                    {{ line }}<br>
+                {% endfor %}
+            </h4></a>
+            </div>
+        </div>
+{% endfor %}
+        <p>
+            <a href="{{ url_for('main') }}"><h1>Back to main page</h1></a>
+        </p>
+{% endblock %}

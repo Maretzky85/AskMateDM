@@ -156,3 +156,36 @@ def gen_answer_count(data):
 def get_users():
     data = data_manager.get_users()
     return data
+
+
+def check_if_login_exists(name):
+    data = data_manager.get_users()
+    for item in data:
+        for key, value in item.items():
+            if value == name:
+                return True
+    return False
+
+
+def add_user(name):
+    name = name
+    date = str(datetime.datetime.now())       
+    data_manager.add_user(name, date)
+
+
+def get_user_by_id(user_id):
+    user_data = data_manager.get_user_by_id(user_id)
+    return user_data
+
+
+def get_questions_by_user_id(user_id):
+    data = data_manager.get_question_by_user(user_id)
+    data = gen_answer_count(data)
+    data = message_splitter(data)
+    return data
+
+
+def get_answers_by_user_id(user_id):
+    data = data_manager.get_answer_by_user(user_id)
+    data = message_splitter(data)
+    return data
