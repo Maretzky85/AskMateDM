@@ -83,7 +83,7 @@
             <div class="question-footer">
                 {% if not question_id %}
                     <p>
-                        Answers: {{ question["answer_number"] }}
+                        Answers: {{ question["answer_number"] }} 
                     </p>
                     <p>
                         Submitted: {{question["submission_time"] }} by: {{ question.user_name }}
@@ -122,7 +122,6 @@
                                 {{ line }}<br>
                             {% endfor %}
                         </h4>
-                        </div>
                             {% for comment in comments %}
                                 {% if comment["answer_id"] == answer["id"] %}
                                     <div class="comment">
@@ -130,6 +129,11 @@
                                     </div>
                                 {% endif %}
                             {% endfor %}
+                    </div>
+                    <div class="answer-footer">
+                        <p>
+                            Submitted: {{ answer["submission_time"]}} by: {{ answer.user_name }}
+                        </p>
                     </div>
                     {% endif %}
                 

@@ -13,8 +13,6 @@ def main():
 @app.route("/list")
 def show_all():
     questions = logic.get_all_data("q")
-    #for element in questions:
-    #    print(element)
     return render_template('list.html', questions=questions)
 
 
