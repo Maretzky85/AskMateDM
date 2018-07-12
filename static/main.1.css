@@ -2,8 +2,8 @@ body {
     font-family: verdana, arial, helvetica, sans-serif;
     font-size: 12px;
     font-weight: 100;
-    background-color: white;
-    color: black;
+    background-color: black;
+    color: white;
     margin: 50px;
     padding: 0;
 
@@ -45,15 +45,11 @@ h4{
     text-align: center;
     text-shadow: 3px 3px red;
     color: black;
-    background-color: white;
-    background-image: url(/static/unicorn.png);
-    background-repeat: no-repeat;
+    background-color: black;
 }
 
 .content {
-    background-color: rgb(224, 224, 224);
-    background-image: radial-gradient(#ffecfd, white);
-    background-repeat: no-repeat;
+    background-color: rgb(31, 31, 31);
     margin-right: 120px;
     margin-left: 120px;
     margin-top: 10px;
@@ -63,8 +59,7 @@ h4{
 }
 
 .answer {
-    background-color: rgb(205, 205, 205);
-    background-image: radial-gradient(#dbcbff, white);
+    background-color: rgb(50, 50, 50);
     margin-left: 120px;
     border-radius: 20px ;
     padding: 20px;
@@ -100,7 +95,7 @@ div.buttons > a {
 }
 
 p {
-    color: rgb(78, 78, 78);
+    color: rgb(177, 177, 177);
     font-size: 10px;
     font-weight: 100;
 }
@@ -121,8 +116,7 @@ p {
 }
 
 .comment {
-    background-color: #8F8F8F;
-    background-image: radial-gradient(#cbfff6, white);
+    background-color: #707070;
     font-size: 9px;
     display: flex;
     border-radius: 10px;
