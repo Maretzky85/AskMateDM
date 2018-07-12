@@ -19,7 +19,8 @@ def show_all():
 @app.route("/new_question", methods=['GET'])
 def new_question():
     users = logic.get_users()
-    return render_template('new_question.html', title="", message=[""], users = users)
+    return render_template('new_question.html', title="", message=[""], users=users)
+
 
 @app.route("/new_question", methods=['POST'])
 def post_new_question():
@@ -44,7 +45,7 @@ def question(question_id):
 @app.route("/question/<question_id>/edit", methods=['GET'])
 def edit_question(question_id):
     question = [logic.find_by_id("q", question_id)]
-    return render_template('new_question.html',question=question, id_=question_id)
+    return render_template('new_question.html', question=question, id_=question_id)
 
 
 @app.route("/question/<question_id>/edit", methods=['POST'])
@@ -65,7 +66,7 @@ def add_answer(question_id, warning=""):
     id_number = question_id
     question = [logic.find_by_id("q", id_number)]
     users = logic.get_users()
-    return render_template('new_answer.html', question_id=id_number, question=question, warning=warning, users = users)
+    return render_template('new_answer.html', question_id=id_number, question=question, warning=warning, users=users)
 
 
 @app.route("/question/<question_id>/new-answer", methods=['POST'])
@@ -89,6 +90,21 @@ def vote_down(question_id):
     return question(question_id)
 
 
+@app.route("/question/<question_id>/new_comment", methods=['GET'])
+def comment_page(question_id, warning=""):
+    id_number = question_id
+    question = [logic.find_by_id("q", id_number)]
+    users = logic.get_users()
+    return render_template("add_comment.html", question_id=id_number, question=question, warning=warning, users=users)
+
+
+@app.route("/question/<question_id>/new_comment", methods=['POST'])
+def add_comment(question_id, warning=""):
+    form = request.form
+    logic.post_new_comment(question_id, form)
+    return redirect("/question/{}".format(question_id))
+
+
 @app.route("/answer/<answer_id>/delete", methods=['GET'])
 def delete_answer(answer_id):
     question_id = logic.find_by_id("a", answer_id)["question_id"]
@@ -98,9 +114,9 @@ def delete_answer(answer_id):
 
 @app.route("/answer/<answer_id>/edit", methods=['GET'])
 def edit_answer(answer_id):
-    question = [logic.find_by_id("q",logic.find_by_id("a", answer_id)["question_id"])]
+    question = [logic.find_by_id("q", logic.find_by_id("a", answer_id)["question_id"])]
     answer = logic.find_by_id("a", answer_id)
-    return render_template("new_answer.html", question = question, answer = answer, answer_id=answer_id)
+    return render_template("new_answer.html", question=question, answer=answer, answer_id=answer_id)
 
 
 @app.route("/answer/<answer_id>/edit", methods=['POST'])
@@ -125,6 +141,22 @@ def answer_vote_down(answer_id):
     return question(question_id)
 
 
+@app.route("/answer/<answer_id>/new_comment", methods=['GET'])
+def new_comment_to_answer(answer_id, warning=""):
+    id_number = answer_id
+    answer = [logic.find_by_id("a", id_number)]
+    users = logic.get_users()
+    return render_template("add_comment.html", answer_id=id_number, answer=answer, warning=warning, users=users)
+
+
+@app.route("/answer/<answer_id>/new_comment", methods=['POST'])
+def add_comment_to_answer(answer_id, warning=""):
+    form = request.form
+    logic.post_new_comment_to_answer(answer_id, form)
+    question_id = logic.find_by_id("a", answer_id)["question_id"]
+    return redirect("/question/{}".format(question_id))
+
+
 @app.route("/search", methods=['POST'])
 def search_questions():
     search_phrase = request.form.get('search_phrase')
@@ -140,7 +172,7 @@ def sorted_condition():
     condition = request.args.get('condition')
     order = request.args.get('order')
     questions = logic.order_by(condition, order)
-    return render_template('list.html', questions = questions)
+    return render_template('list.html', questions=questions)
 
 
 @app.route("/user/<user_id>")
@@ -149,13 +181,14 @@ def user_page(user_id):
     questions = logic.get_questions_by_user_id(user_id)
     answers = logic.get_answers_by_user_id(user_id)
     print(answers)
-    return render_template("user_page.html", users = user_data, questions = questions, answers = answers)
+    return render_template("user_page.html", users=user_data, questions=questions, answers=answers)
 
 
 @app.route("/list_users")
 def list_users():
     data = logic.get_users()
-    return render_template('user_list.html', users = data)
+    return render_template('user_list.html', users=data)
+
 
 @app.route("/register", methods=["GET"])
 def register_page():
@@ -167,12 +200,31 @@ def new_user():
     login = request.form
     name = login.get('nick')
     registration_alert = None
-    date = str(datetime.datetime.now()) 
+    date = str(datetime.datetime.now())
     if logic.check_if_login_exists(name) == True or len(name) == 0:
         registration_alert = "This nickname already exists. Choose another one"
-        return render_template("register_page.html", registration_alert=registration_alert)   
+        return render_template("register_page.html", registration_alert=registration_alert)
     data_manager.add_user(name, date)
     return render_template("after_reg.html", name=name)
+
+
+@app.route("/comment/<comment_id>/delete", methods=['GET'])
+def delete_comment(comment_id):
+    logic.delete_by_id("c", comment_id)
+    return redirect("/")
+
+
+@app.route("/comment/<comment_id>/edit", methods=['GET'])
+def edit_comment(comment_id):
+    comment = logic.find_by_id("c", comment_id)
+    return render_template("add_comment.html", comment=comment, comment_id=comment_id)
+
+
+@app.route("/comment/<comment_id>/edit", methods=['POST'])
+def save_edited_comment(comment_id):
+    form = request.form
+    logic.update_by_id("c", comment_id, form)
+    return redirect("/")
 
 
 @app.errorhandler(404)

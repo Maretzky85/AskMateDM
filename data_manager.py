@@ -28,11 +28,11 @@ def import_data_from_db(cursor, qa, limit="ALL", condition="submission_time", or
         return data
     if qa == "a":
         cursor.execute("""
-                        SELECT 
+                        SELECT
                         answer.id,
                         answer.submission_time,
                         answer.vote_number,
-                        answer.question_id, 
+                        answer.question_id,
                         answer.message,
                         answer.image,
                         answer.user_id,
@@ -45,6 +45,13 @@ def import_data_from_db(cursor, qa, limit="ALL", condition="submission_time", or
                         """)
         data = cursor.fetchall()
         return data
+    if qa == "c":
+        cursor.execute("""
+                    SELECT * from comment
+                    ORDER BY submission_time desc
+                    """)
+        data = cursor.fetchall()
+    return data
 
 
 @connection_handler.connection_handler
@@ -67,8 +74,8 @@ def export_data_to_db(cursor, qa, data):
                         %(view_number)s,
                         %(vote_number)s,
                         %(title)s,
-                        %(image)s, 
-                        %(message)s, 
+                        %(image)s,
+                        %(message)s,
                         %(user_id)s)
                         """, {"submission_time": data["submission_time"],
                         "view_number": data["view_number"],
@@ -80,10 +87,10 @@ def export_data_to_db(cursor, qa, data):
     if qa == "a":
         cursor.execute("""
                         INSERT into ANSWER (submission_time, vote_number, question_id,image, message, user_id)
-                        VALUES (%(submission_time)s, 
+                        VALUES (%(submission_time)s,
                         %(vote_number)s,
                         %(question_id)s,
-                        %(image)s, 
+                        %(image)s,
                         %(message)s,
                         %(user_id)s)
                         """, {"submission_time": data["submission_time"],
@@ -91,6 +98,17 @@ def export_data_to_db(cursor, qa, data):
                         "question_id": data["question_id"],
                         "image": data["image"],
                         "message": data["message"],
+                        "user_id": data["user_id"]})
+        return None
+    if qa == "c":
+        cursor.execute("""
+                        INSERT into COMMENT (submission_time, question_id, answer_id, message, edited_count, user_id)
+                        VALUES (%(submission_time)s, %(question_id)s,%(answer_id)s, %(message)s, %(edited_count)s, %(user_id)s)
+                        """, {"submission_time": data["submission_time"],
+                        "question_id": data["question_id"],
+                        "answer_id": data["answer_id"],
+                        "message": data["message"],
+                        "edited_count": data["edited_count"],
                         "user_id": data["user_id"]})
         return None
 
@@ -115,7 +133,11 @@ def delete_by_id(cursor, qa, id_):
                         DELETE from ANSWER
                         WHERE id = %(id_)s
                         """, {"id_": id_})
-
+    if qa == "c":
+            cursor.execute("""
+                            DELETE from COMMENT
+                            WHERE id = %(id_)s;
+                            """, {"id_": id_})
 
 @connection_handler.connection_handler
 def update_by_id(cursor, qa, id_, data):
@@ -131,6 +153,12 @@ def update_by_id(cursor, qa, id_, data):
                         SET message = %(message)s
                         WHERE id = %(id_)s
                         """, {"message": data["message"], "id_": id_})
+    if qa == "c":
+        cursor.execute("""
+                        UPDATE comment
+                        SET message = %(message)s, submission_time = %(submission_time)s, edited_count = %(edited_count)s
+                        WHERE id = %(id_)s
+                        """, {"message": data["message"], "id_": id_ , "submission_time": data["submission_time"], "edited_count": data["edited_count"]})
 
 
 @connection_handler.connection_handler
@@ -193,7 +221,7 @@ def get_users(cursor):
                         """)
     data = cursor.fetchall()
     return data
-    
+
 
 @connection_handler.connection_handler
 def get_question_by_user(cursor, user_id):
@@ -201,9 +229,10 @@ def get_question_by_user(cursor, user_id):
                 SELECT *
                 FROM  question
                 WHERE user_id = %(user_id)s;
-                """,{"user_id": user_id})
+                """, {"user_id": user_id})
     data = cursor.fetchall()
     return data
+
 
 @connection_handler.connection_handler
 def add_user(cursor, name, date):
@@ -212,8 +241,8 @@ def add_user(cursor, name, date):
                 (user_name, registration_date, rank)
                 VALUES (%(name)s, %(date)s, 0)
                 ;
-                """, 
-                {"name": name, "date": date,})
+                """,
+                {"name": name, "date": date})
 
 
 @connection_handler.connection_handler
@@ -222,7 +251,7 @@ def get_answer_by_user(cursor, user_id):
                 SELECT *
                 FROM  answer
                 WHERE user_id = %(user_id)s;
-                """,{"user_id": user_id})
+                """, {"user_id": user_id})
     data = cursor.fetchall()
     return data
 

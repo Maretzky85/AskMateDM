@@ -1,0 +1,60 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<h2>
+    {{warning}}
+</h2>
+<div class="content">
+    <p>
+            {%- for title in question -%}
+            {{- title["title"] -}}
+            {%- endfor -%}
+    </p>
+    <p>
+            {% for message in question %}
+            {% for line in message["message"] %}
+            {{ line }}<br>
+            {% endfor %}
+            {% endfor %}
+            {% for message in answer %}
+            {% for line in message["message"] %}
+            {{ line }}<br>
+            {% endfor %}
+            {% endfor %}            
+    </p>
+</div>
+<div class="content">
+    {% if comment_id %}
+        <form action="/comment/{{ comment_id }}/edit" method="POST">
+    {% else %}
+        {% if answer_id %}
+            <form action="{{ url_for("add_comment_to_answer", answer_id = answer_id) }}" method="POST">
+        {% else %}
+            <form action="{{ url_for("add_comment", question_id = question_id)  }}" method="POST">
+        {% endif %}
+    {% endif %}
+        <p>
+            Comment
+        </p>
+        <textarea  minlength='10' id="message" name="message"rows="8" cols="80">
+                {%- if comment_id -%}
+                {%- for line in comment["message"] -%}
+                {{- line }}
+{% endfor -%}{% endif -%}</textarea>
+{% if users %}
+<p>
+    <select name="user_id" id="user_id">
+        {% for user in users %}
+            <option value="{{ user.id }}">{{ user.user_name }}</option>
+        {% endfor %}
+    </select>
+</p>
+{% endif %}
+        <p>
+            <button type="submit">
+                <img src="{{ url_for('static', filename='submit.png') }}">
+            </button>
+        </p>
+    </form>
+</div>
+{% endblock %}

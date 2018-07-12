@@ -63,6 +63,40 @@ def post_new_answer(question_id, form):
     data_manager.export_data_to_db("a", new_post)
 
 
+def post_new_comment(question_id, form):
+    '''
+    saves new comment to file
+    Args:
+        form - list of dicts
+    '''
+
+    new_comment = {}
+    for key, entry in form.items():
+        new_comment[key] = entry
+    new_comment['question_id'] = question_id
+    new_comment['answer_id'] = None
+    new_comment['submission_time'] = str(datetime.datetime.now())[:-7]
+    new_comment['edited_count'] = None
+    data_manager.export_data_to_db("c", new_comment)
+
+
+def post_new_comment_to_answer(answer_id, form):
+    '''
+    saves new comment to file
+    Args:
+        form - list of dicts
+    '''
+
+    new_comment = {}
+    for key, entry in form.items():
+        new_comment[key] = entry
+    new_comment['question_id'] = None
+    new_comment['answer_id'] = answer_id
+    new_comment['submission_time'] = str(datetime.datetime.now())[:-7]
+    new_comment['edited_count'] = None
+    data_manager.export_data_to_db("c", new_comment)
+
+
 def delete_by_id(qa, id_):
     '''
     Deletes post by id
@@ -74,6 +108,8 @@ def delete_by_id(qa, id_):
         data_manager.delete_by_id("q", id_)
     if qa == "a":
         data_manager.delete_by_id("a", id_)
+    if qa == "c":
+        data_manager.delete_by_id("c", id_)
 
 
 def update_by_id(qa, id_, data):
@@ -88,11 +124,21 @@ def update_by_id(qa, id_, data):
         data_manager.update_by_id("q", id_, data)
     if qa == "a":
         data_manager.update_by_id("a", id_, data)
+    if qa == "c":
+        new_data = {}
+        for key, val in data.items():
+            new_data[key] = val
+        new_data["submission_time"] = str(datetime.datetime.now())[:-7]
+        if not find_by_id("c", id_)["edited_count"]:
+            new_data["edited_count"] = 1
+        else:
+            new_data["edited_count"] = find_by_id("c", id_)["edited_count"] + 1
+        data_manager.update_by_id("c", id_, new_data)
 
 
 def find_by_id(qa, _id):
     '''
-        Args: 
+        Args:
         qa - str - "q" or "a", q for question, a for answer
         "q" - get all questions from database
         "a" - get all answers from database
@@ -106,6 +152,9 @@ def find_by_id(qa, _id):
             question["answer_number"] = number_of_answers(question["id"])
     if qa == "a":
         data = data_manager.import_data_from_db("a")
+        data = message_splitter(data)
+    if qa == "c":
+        data = data_manager.import_data_from_db("c")
         data = message_splitter(data)
     for item in data:
         if item["id"] == int(_id):
@@ -159,7 +208,7 @@ def get_all_ids_with_phrase(search_phrase):
 
 
 def order_by(condition, order):
-    data = data_manager.import_data_from_db("q","all", condition, order)
+    data = data_manager.import_data_from_db("q", "all", condition, order)
     data = gen_answer_count(data)
     data = message_splitter(data)
     return data
@@ -167,7 +216,7 @@ def order_by(condition, order):
 
 def message_splitter(data):
     for message in data:
-        message["message"] = message["message"].replace('\r',"").split('\n')
+        message["message"] = message["message"].replace('\r', "").split('\n')
     return data
 
 
@@ -193,7 +242,7 @@ def check_if_login_exists(name):
 
 def add_user(name):
     name = name
-    date = str(datetime.datetime.now())       
+    date = str(datetime.datetime.now())
     data_manager.add_user(name, date)
 
 
