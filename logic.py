@@ -124,7 +124,9 @@ def update_by_id(qa, id_, data):
         data_manager.update_by_id("q", id_, data)
     if qa == "a":
         data_manager.update_by_id("a", id_, data)
-
+    if qa == "c":
+        data["submission_time"] = str(datetime.datetime.now())[:-7]
+        data_manager.update_by_id("c", id_, data)
 
 def find_by_id(qa, _id):
     '''

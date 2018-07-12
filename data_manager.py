@@ -153,6 +153,12 @@ def update_by_id(cursor, qa, id_, data):
                         SET message = %(message)s
                         WHERE id = %(id_)s
                         """, {"message": data["message"], "id_": id_})
+    if qa == "c":
+        cursor.execute("""
+                        UPDATE comment
+                        SET message = %(message)s, submission_time = %(submission_time)s, edited_count = edited_count+1
+                        WHERE id = %(id_)s
+                        """, {"message": data["message"], "id_": id_ , "submission_time": data[submission_time]})
 
 
 @connection_handler.connection_handler
