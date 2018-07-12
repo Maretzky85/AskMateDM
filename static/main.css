@@ -115,11 +115,6 @@ p {
     justify-content: space-evenly
 }
 
-.answer-footer {
-    display: flex;
-    justify-content: space-evenly
-}
-
 .comment {
     background-color: #707070;
     font-size: 9px;
