@@ -77,7 +77,7 @@ def post_new_comment(question_id, form):
     new_comment['answer_id'] = None
     new_comment['submission_time'] = str(datetime.datetime.now())[:-7]
     new_comment['edited_count'] = None
-    new_comment['user_id'] = None
+    #new_comment['user_id'] = None
     data_manager.export_data_to_db("c", new_comment)
 
 
@@ -95,7 +95,8 @@ def post_new_comment_to_answer(answer_id, form):
     new_comment['answer_id'] = answer_id
     new_comment['submission_time'] = str(datetime.datetime.now())[:-7]
     new_comment['edited_count'] = None
-    new_comment['user_id'] = None
+    #new_comment['user_id'] = None
+    print(new_comment)
     data_manager.export_data_to_db("c", new_comment)
 
 def delete_by_id(qa, id_):

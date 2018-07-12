@@ -93,13 +93,14 @@ def vote_down(question_id):
 def comment_page(question_id, warning=""):
     id_number = question_id
     question = [logic.find_by_id("q", id_number)]
-    return render_template("add_comment.html", question_id=id_number, question=question, warning=warning)
+    users = logic.get_users()
+    return render_template("add_comment.html", question_id=id_number, question=question, warning=warning, users=users)
     
 @app.route("/question/<question_id>/new_comment", methods=['POST'])    
 def add_comment(question_id, warning=""):
     form = request.form
     logic.post_new_comment(question_id, form)
-    return question(question_id)
+    return redirect("/question/{}".format(question_id))
 
 @app.route("/answer/<answer_id>/delete", methods=['GET'])
 def delete_answer(answer_id):
@@ -141,14 +142,15 @@ def answer_vote_down(answer_id):
 def new_comment_to_answer(answer_id, warning=""):
     id_number = answer_id
     answer = [logic.find_by_id("a", id_number)]
-    return render_template("add_comment.html", answer_id=id_number, answer=answer, warning=warning)
+    users = logic.get_users()
+    return render_template("add_comment.html", answer_id=id_number, answer=answer, warning=warning, users=users)
     
 @app.route("/answer/<answer_id>/new_comment", methods=['POST'])    
 def add_comment_to_answer(answer_id, warning=""):
     form = request.form
     logic.post_new_comment_to_answer(answer_id, form)
     question_id = logic.find_by_id("a", answer_id)["question_id"]
-    return question(question_id)
+    return redirect("/question/{}".format(question_id))
 
 
 @app.route("/search", methods=['POST'])

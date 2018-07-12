@@ -103,8 +103,8 @@ def export_data_to_db(cursor, qa, data):
         return None
     if qa == "c":
         cursor.execute("""
-                        INSERT into COMMENT (submission_time, question_id, answer_id, message, edited_count)
-                        VALUES (%(submission_time)s, %(question_id)s,%(answer_id)s, %(message)s, %(edited_count)s)
+                        INSERT into COMMENT (submission_time, question_id, answer_id, message, edited_count, user_id)
+                        VALUES (%(submission_time)s, %(question_id)s,%(answer_id)s, %(message)s, %(edited_count)s, %(user_id)s)
                         """, {"submission_time": data["submission_time"],
                         "question_id": data["question_id"],
                         "answer_id": data["answer_id"],
