@@ -1,20 +1,47 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<head>
-    <link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='new_question.css') }}" />
-</head>
 <div class="content">
     {% if id_ %}
-    <form action="/question/{{id_}}/edit" method="POST">
+        <form action="/question/{{id_}}/edit" method="POST">
     {% else %}
-    <form action="{{ url_for('new_question') }}" method="POST">
+        <form action="{{ url_for('new_question') }}" method="POST">
     {% endif %}
-        <p>Question title</p>
-        <textarea minlength='5' id="title" name="title" rows="1" cols="80">{{ title }}</textarea>
-        <p>Question</p>
-        <textarea minlength='10' id="message" name="message" rows="8" cols="80">{{ message }}</textarea>
-        <p><button type="submit">Submit</button></p>
+
+    <p>
+        Question title
+    </p>
+        <textarea minlength='5' id="title" name="title" rows="1" cols="80">
+            {%- for title in question -%}
+            {{- title["title"] -}}
+            {%- endfor -%}
+        </textarea>
+    <p>
+        Question
+    </p>
+        <textarea minlength='10' id="message" name="message" rows="8" cols="80">
+                {%- if id_ -%}
+                {%- for message in question -%}
+                {%- for line in message["message"] -%}
+                {{- line }}
+{% endfor -%}{%- endfor -%}
+                {%- else -%}
+
+                {%- endif -%}
+
+        </textarea>
+        {% if users %}
+        <p>
+            <select name="user_id" id="user_id">
+                {% for user in users %}
+                    <option value="{{ user.id }}">{{ user.user_name }}</option>
+                {% endfor %}
+            </select>
+        </p>
+        {% endif %}
+    <p>
+        <button type="submit"><img src="{{ url_for('static', filename='submit.png') }}"></button>
+    </p>
 
     </form>
 </div>
