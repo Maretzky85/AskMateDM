@@ -244,8 +244,8 @@ def manage_reputation(cursor, id_, value):
                 SET rank = rank + %(value)s
                 WHERE id = %(id_)s;
                 """, {"value": value, "id_": id_})
-    user_id = cursor.fetchall()
     return None
+
 
 @connection_handler.connection_handler
 def find_author_by_question_id(cursor, question_id):
