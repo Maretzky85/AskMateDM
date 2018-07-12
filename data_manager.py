@@ -101,7 +101,6 @@ def export_data_to_db(cursor, qa, data):
                         "message": data["message"],
                         "user_id": data["user_id"]})
         return None
-
     if qa == "c":
         cursor.execute("""
                         INSERT into COMMENT (submission_time, question_id, answer_id, message, edited_count)
@@ -113,7 +112,6 @@ def export_data_to_db(cursor, qa, data):
                         "edited_count": data["edited_count"],
                         "user_id": data["user_id"]})
         return None
-
 
 
 @connection_handler.connection_handler
