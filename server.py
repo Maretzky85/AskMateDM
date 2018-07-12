@@ -208,6 +208,12 @@ def new_user():
     return render_template("after_reg.html", name=name)
 
 
+@app.route("/comment/<comment_id>/delete", methods=['GET'])
+def delete_comment(comment_id):
+    logic.delete_by_id("c", comment_id)
+    return redirect("/")
+
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
