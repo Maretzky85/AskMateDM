@@ -121,10 +121,10 @@ def get_user_id_by_question_id(question_id):
 def manage_vote(qa, id_, value):
     if qa = "a":
         user_id = get_user_id_by_answer_id(id_)
-        gain_reputation(user_id, 10)
+        data_manager.manage_reputation(user_id, (10*value))
     if qa = "q":
         user_id = get_user_id_by_question_id(id_)
-        gain_reputation(user_id, 5)
+        data_manager.manage_reputation(user_id, (5*value))
     data_manager.vote_edit(qa, id_, value)
     return None
 
@@ -201,8 +201,3 @@ def get_answers_by_user_id(user_id):
     data = data_manager.get_answer_by_user(user_id)
     data = message_splitter(data)
     return data
-
-
-def gain_reputation(id_, value):
-    data_manager.gain_reputation(id_, value)
-    return None

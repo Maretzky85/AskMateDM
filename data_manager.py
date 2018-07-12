@@ -238,7 +238,7 @@ def get_user_by_id(cursor, user_id):
 
 
 @connection_handler.connection_handler
-def gain_reputation(cursor, id_, value):
+def manage_reputation(cursor, id_, value):
     cursor.execute("""
                 UPDATE users
                 SET rank = rank + %(value)s
