@@ -6,12 +6,12 @@ import psycopg2.extras
 
 
 def get_connection_string():
-    # setup connection string
-    # to do this, please define these environment variables first
-    user_name = 'bdsm'
-    password = 'bdsm'
-    host = 'localhost'
-    database_name = 'bdsm'
+    config = configparser.ConfigParser()
+    config.read('db_config')
+    user_name = config['POSTGRESQL']['user_name']
+    password = config['POSTGRESQL']['password']
+    host = config['POSTGRESQL']['host']
+    database_name = config['POSTGRESQL']['database_name']
 
     env_variables_defined = user_name and password and host and database_name
 
